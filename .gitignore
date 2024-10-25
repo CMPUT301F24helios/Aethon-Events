@@ -1,0 +1,56 @@
+# Gradle files
+.gradle/
+build/
+.gradle
+
+# Local configuration file (sdk path, etc)
+local.properties
+/local.properties
+
+# Log/OS Files
+*.log
+*.swp
+*.swo
+.DS_Store
+.DS_Store
+
+# Android Studio
+.idea/
+*.iml
+.idea
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+
+# Keystore files
+*.jks
+
+# External native build folder generated in Android Studio 2.2+
+.cxx/
+.externalNativeBuild
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Studio 3.1+ serialized cache file
+*.kts
+
+# IntelliJ
+out/
+
+# Android Profiling
+captures/
+/captures
+
+# NDK
+obj/
+
+# Misc
+*.lock
+*.orig
+*.pyc
+*.pyo
+*.class

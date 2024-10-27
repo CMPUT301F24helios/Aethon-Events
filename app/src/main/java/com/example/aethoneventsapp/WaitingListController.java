@@ -6,7 +6,7 @@ package com.example.aethoneventsapp;
  */
 public class WaitingListController {
 
-    private WaitingList waitingList;
+    private final WaitingList waitingList;
 
     /**
      * Constructor for WaitingListController.

@@ -11,7 +11,7 @@ public class WaitingList {
     private String eventId;    // Identifier of the event associated with this waitlist
     private String entrantId;  // Identifier of the entrant on the waitlist
     private String status;     // Status of the entrant in the waitlist (e.g., "waiting", "selected")
-    private ArrayList<String> waitList; // The WaitingList
+    private final ArrayList<String> waitList = new ArrayList<String>(); // The WaitingList
     /**Entrant
      * Adds an entrant to the waitlist for a specific event.
      *

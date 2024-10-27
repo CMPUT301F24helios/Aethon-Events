@@ -53,4 +53,87 @@ public class WaitingList {
         // TODO: Complete this
         System.out.println("Tracking waitlist status for event: " + eventId);
     }
+
+    // Getters and Setters for each attribute
+
+    /**
+     * Gets the waitlist ID.
+     *
+     * @return the waitlist ID
+     */
+    public String getWaitlistId() {
+        return waitlistId;
+    }
+
+    /**
+     * Sets the waitlist ID.
+     *
+     * @param waitlistId the waitlist ID to set
+     */
+    public void setWaitlistId(String waitlistId) {
+        this.waitlistId = waitlistId;
+    }
+
+    /**
+     * Gets the event ID.
+     *
+     * @return the event ID
+     */
+    public String getEventId() {
+        return eventId;
+    }
+
+    /**
+     * Sets the event ID.
+     *
+     * @param eventId the event ID to set
+     */
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    /**
+     * Gets the entrant ID.
+     *
+     * @return the entrant ID
+     */
+    public String getEntrantId() {
+        return entrantId;
+    }
+
+    /**
+     * Sets the entrant ID.
+     *
+     * @param entrantId the entrant ID to set
+     */
+    public void setEntrantId(String entrantId) {
+        this.entrantId = entrantId;
+    }
+
+    /**
+     * Gets the status of the entrant.
+     *
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Sets the status of the entrant.
+     *
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * Gets the list of entrants on the waitlist.
+     *
+     * @return the waitlist
+     */
+    public ArrayList<String> getWaitList() {
+        return waitList;
+    }
 }

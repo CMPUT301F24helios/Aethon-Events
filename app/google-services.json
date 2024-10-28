@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1019763999396",
+    "project_id": "aethon-events",
+    "storage_bucket": "aethon-events.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019763999396:android:b5a0ca528a97b41229dc31",
+        "android_client_info": {
+          "package_name": "com.example.aethoneventsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc32_2oUTrO45LXV1NQgqKQ9U4sRLbFcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

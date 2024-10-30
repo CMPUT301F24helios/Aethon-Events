@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    id("com.google.gms.google-services")
 }
 
 android {
@@ -13,6 +12,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,4 +46,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 }
+
+// Apply the Google services plugin after dependencies and android config
+//apply plugin: 'com.google.gms.google-services'

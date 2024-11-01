@@ -18,11 +18,12 @@ public class Event {
     private int waitlistId;
     private int entrantId;
     private int organizerId;
+    private String imageUrl;
     private String url;
 
 
     // Constructor
-    public Event(int eventId, String name, String location, int capacity, String description, int waitlistId, int entrantId, int organizerId) {
+    public Event(int eventId, String name, String location, int capacity, String description, int waitlistId, int entrantId, int organizerId, String imageUrl, String url) {
         this.eventId = eventId;
         this.name = name;
         this.location = location;
@@ -31,10 +32,13 @@ public class Event {
         this.waitlistId = waitlistId;
         this.entrantId = entrantId;
         this.organizerId = organizerId;
+        this.imageUrl = imageUrl;
+        this.url = url;
+
     }
     public void createUrl(){
         // create a custom url for the event
-        this.url = "event/" + this.eventId;
+        this.imageUrl = "event/" + this.eventId;
     }
 
     /**

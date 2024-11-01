@@ -30,7 +30,7 @@
 
     <!-- Event Title -->
     <TextView
-        android:id="@+id/event_title"
+            android:id="@+id/event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -58,6 +58,7 @@
             app:tint="#FFFFFF" />
 
         <TextView
+            android:id="@+id/event_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -84,6 +85,7 @@
             app:tint="#FFFFFF" />
 
         <TextView
+            android:id="@+id/event_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"

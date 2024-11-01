@@ -36,30 +36,29 @@ android {
 }
 
 dependencies {
-    // Use Firebase BOM to manage Firebase library versions consistently
+    // Firebase BoM for Firestore and Database
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
-
-    // Firebase dependencies (no specific version needed as BOM handles it)
     implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-database")
-    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-database:20.0.5") // Only one Firebase Database version
 
-    // Other dependencies
-    implementation("com.squareup.picasso:picasso:2.71828")
-
-    // AndroidX and Jetpack dependencies
+    // Android libraries
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
 
-    // Testing dependencies
+    // QR code and barcode libraries (keep only one zxing-core)
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
+    implementation("androidx.multidex:multidex:2.0.1")
+    implementation("com.google.firebase:firebase-storage:20.2.0")// Use the latest version
+
+
+
+    // Test dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    // ZXing libraries for QR code scanning
-    implementation("com.google.zxing:core:3.4.1")
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 }

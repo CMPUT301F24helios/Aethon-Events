@@ -17,7 +17,7 @@ public class WaitingListView {
         System.out.println("Displaying waitlist details for event ID: " + waitlist.getEventId());
         ArrayList<String> waitlistEntries = waitlist.getWaitList();
         for (String entrantId : waitlistEntries) {
-            // TODO
+            // TODO: use the view to display the entrants
             System.out.println("Entrant ID: " + entrantId);
         }
     }
@@ -28,7 +28,7 @@ public class WaitingListView {
      * @param event the event to join the waitlist for
      */
     public void showJoinWaitlistForm(String event) {
-        // TODO
+        // TODO: use the view to display the form to join the waitlist
         System.out.println("Showing form to join waitlist for event: " + event);
     }
 
@@ -38,7 +38,7 @@ public class WaitingListView {
      * @param entrantId the entrant ID to confirm removal from
      */
     public void showUnjoinWaitlistConfirmation(String entrantId) {
-        // TODO
+        // TODO: use the view to display the form
         System.out.println("Confirm removal of entrant ID: " + entrantId + " from waitlist.");
     }
 
@@ -48,7 +48,8 @@ public class WaitingListView {
      * @param event the event for which selected entrants are displayed
      */
     public void displaySelectedEntrantsForEvent(String event) {
-        // TODO
+        // TODO: display the entrants
         System.out.println("Displaying selected entrants for event: " + event);
     }
 }
+

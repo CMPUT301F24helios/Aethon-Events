@@ -1,6 +1,18 @@
 package com.example.aethoneventsapp;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import java.io.ByteArrayOutputStream;
 import java.util.List;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * The Event class represents an event with various attributes such as name, location,
@@ -15,14 +27,16 @@ public class Event {
     private String location;
     private int capacity;
     private String description;
-    private int waitlistId;
-    private int entrantId;
-    private int organizerId;
+    private String waitlistId;
+    private String entrantId;
+    private String organizerId;
     private String url;
+    private String qrCodeBase64;
+    private String eventDate;
 
 
     // Constructor
-    public Event(int eventId, String name, String location, int capacity, String description, int waitlistId, int entrantId, int organizerId) {
+    public Event(int eventId, String name, String location, int capacity, String description, String waitlistId, String entrantId, String organizerId, String eventDate) {
         this.eventId = eventId;
         this.name = name;
         this.location = location;
@@ -31,12 +45,19 @@ public class Event {
         this.waitlistId = waitlistId;
         this.entrantId = entrantId;
         this.organizerId = organizerId;
+        this.eventDate = eventDate;
+        createUrl();
     }
     public void createUrl(){
         // create a custom url for the event
         this.url = "event/" + this.eventId;
     }
-
+    public String getUrl() {
+        return url;
+    }
+    public String getEventDate() { // Add this method
+        return eventDate;
+    }
     /**
      * Creates an event and assigns it to the specified organizer.
      *
@@ -44,10 +65,19 @@ public class Event {
      * @param organizerId  The ID of the organizer creating the event.
      */
     public void createEvent(String data, int organizerId) {
-        // Implementation to create event using data and assign to organizer
-        assignOrganizerToEvent(this.eventId);
-        assignQRcode(this.eventId);
+        // Store the event in Firebase
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("events");
+        String eventIdString = String.valueOf(this.eventId);
+        databaseReference.child(eventIdString).setValue(this)
+                .addOnSuccessListener(aVoid -> {
+                    // Event successfully created in Firebase
+//                    generateQRcode(eventIdString);
+                })
+                .addOnFailureListener(e -> {
+                    // Handle failure
+                });
     }
+
 
     /**
      * Updates the event details if the specified organizer is the organizer of the event.
@@ -63,15 +93,30 @@ public class Event {
      *
      * @param waitlistId The ID of the waitlist to assign.
      */
-    public void assignWaitlist(int waitlistId) {
+    public void assignWaitlist(String waitlistId) {
         this.waitlistId = waitlistId;
     }
 
     /**
      * Generates a QR code for the event.
      */
-    public void generateQRcode() {
-        // Implementation for QR code generation
+//    private void generateQRcode(String eventId) {
+//        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+//        try {
+//            // Generate QR code as Bitmap
+//            Bitmap bitmap = qrCodeWriter.encode(eventId, BarcodeFormat.QR_CODE, 200, 200);
+//            // Convert Bitmap to Base64 String
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+//            byte[] byteArray = byteArrayOutputStream.toByteArray();
+//            this.qrCodeBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+//            // You can now store this Base64 string in the Firebase database if needed
+//        } catch (WriterException e) {
+//            // Handle exception
+//        }
+//    }
+    public String getQrCodeBase64() {
+        return qrCodeBase64;
     }
 
     /**
@@ -194,27 +239,27 @@ public class Event {
         this.description = description;
     }
 
-    public int getWaitlistId() {
+    public String getWaitlistId() {
         return waitlistId;
     }
 
-    public void setWaitlistId(int waitlistId) {
+    public void setWaitlistId(String waitlistId) {
         this.waitlistId = waitlistId;
     }
 
-    public int getEntrantId() {
+    public String getEntrantId() {
         return entrantId;
     }
 
-    public void setEntrantId(int entrantId) {
+    public void setEntrantId(String entrantId) {
         this.entrantId = entrantId;
     }
 
-    public int getOrganizerId() {
+    public String getOrganizerId() {
         return organizerId;
     }
 
-    public void setOrganizerId(int organizerId) {
+    public void setOrganizerId(String organizerId) {
         this.organizerId = organizerId;
     }
 }

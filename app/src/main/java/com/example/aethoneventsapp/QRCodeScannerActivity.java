@@ -1,5 +1,5 @@
 package com.example.aethoneventsapp;
-
+//taken some implementation groundwork from following implementaiton avaialable online : https://www.easyonecoders.com/android/basic/QRCodeScanner
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -63,8 +63,13 @@ public class QRCodeScannerActivity extends AppCompatActivity {
                 Toast.makeText(this, "Scan cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                // Returning the scanned QR code content back to MainActivity
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("EVENT_ID", result.getContents());
+                setResult(RESULT_OK, returnIntent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
- }}
+        }
+    }
 }

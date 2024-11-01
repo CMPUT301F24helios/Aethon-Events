@@ -22,6 +22,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Add OrganizerActivity here -->
+        <activity
+            android:name=".OrganizerActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AethonEventsApp" />
+        <activity android:name=".QRCodeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="example.com" android:pathPrefix="/event" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

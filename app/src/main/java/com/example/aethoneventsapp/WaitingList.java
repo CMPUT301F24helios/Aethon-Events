@@ -1,6 +1,9 @@
 package com.example.aethoneventsapp;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * The WaitingList class represents a waitlist for an event, including details
@@ -9,9 +12,16 @@ import java.util.ArrayList;
 public class WaitingList {
     private String waitlistId; // Unique identifier for the waitlist entry
     private String eventId;    // Identifier of the event associated with this waitlist
-    private String entrantId;  // Identifier of the entrant on the waitlist
     private String status;     // Status of the entrant in the waitlist (e.g., "waiting", "selected")
-    private final ArrayList<String> waitList = new ArrayList<String>(); // The WaitingList
+    private final ArrayList<String> waitList = new ArrayList<>(); // The WaitingList
+
+
+    // Constructor
+    public WaitingList(String waitlistId, String eventId) {
+        this.waitlistId = waitlistId;
+        this.eventId = eventId;
+        this.status = "waiting";
+    }
     /**Entrant
      * Adds an entrant to the waitlist for a specific event.
      *
@@ -39,19 +49,29 @@ public class WaitingList {
      *
      * @param eventId the ID of the event for which entrants will be selected from the waitlist
      */
-    public void manageEntrantSelection(String eventId) {
-        // TODO: complete the function by adding the algorithm of selection
+    public ArrayList<String> manageEntrantSelection(String eventId,int vacancies) {
+        Random random = new Random();
+        ArrayList<String> selected = new ArrayList<>();
+        Set<Integer> usedIndices = new HashSet<>();
         System.out.println("Selecting entrants for event: " + eventId);
-    }
+        for (int i = 0; i< vacancies;i++ ){
+            int min = 0;
+            int max = waitList.size() - 1;
+            int randomNumber = 0;
 
-    /**
-     * Tracks and displays the status of the waitlist for a specific event.
-     *
-     * @param eventId the ID of the event to track the waitlist for
-     */
-    public void trackWaitlistForEvent(String eventId) {
-        // TODO: Complete this
-        System.out.println("Tracking waitlist status for event: " + eventId);
+            // Generate a unique random number not yet used
+            do {
+                randomNumber = random.nextInt((max - min) + 1) + min;
+            } while (usedIndices.contains(randomNumber));
+
+            // Add the unique number to usedIndices and to the selected list
+            usedIndices.add(randomNumber);
+            selected.add(waitList.get(randomNumber));
+        }
+
+
+        this.setStatus("selected");
+        return selected ;
     }
 
     // Getters and Setters for each attribute
@@ -92,23 +112,7 @@ public class WaitingList {
         this.eventId = eventId;
     }
 
-    /**
-     * Gets the entrant ID.
-     *
-     * @return the entrant ID
-     */
-    public String getEntrantId() {
-        return entrantId;
-    }
 
-    /**
-     * Sets the entrant ID.
-     *
-     * @param entrantId the entrant ID to set
-     */
-    public void setEntrantId(String entrantId) {
-        this.entrantId = entrantId;
-    }
 
     /**
      * Gets the status of the entrant.

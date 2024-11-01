@@ -39,12 +39,16 @@ public class DisplayActivity extends AppCompatActivity {
         eventLocation = findViewById(R.id.event_location);
         eventDate = findViewById(R.id.event_date);
         eventDescription = findViewById(R.id.event_description);
+        // Retrieve QR code content from Intent
+        String qrCodeContent = getIntent().getStringExtra("qrCodeContent");
+        updateEventDescription(qrCodeContent); // Pass the qrCodeContent instead of hard-coded ID
+
 
         // Set unique ID for the event document
-        String eventUniqueID = "SOjvCZ4onjAfCYO4poo4";
+//        String eventUniqueID = "SOjvCZ4onjAfCYO4poo4";
 
         // Call function to update event description and other details
-        updateEventDescription(eventUniqueID);
+//        updateEventDescription(qrCodeContent);
         joinWaitlistButton = findViewById(R.id.join_waitlist_button);
         // Todo add functionality to join waitlist
 //        joinWaitlistButton.setOnClickListener(v -> {

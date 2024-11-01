@@ -36,6 +36,15 @@
                 <data android:scheme="https" android:host="example.com" android:pathPrefix="/event" />
             </intent-filter>
         </activity>
+        <!-- Add QRCodeScannerActivity declaration -->
+        <activity
+            android:name=".QRCodeScannerActivity"
+            android:exported="true" />
+
+        <!-- Add DisplayActivity declaration -->
+        <activity
+            android:name=".DisplayActivity"
+            android:exported="true" />
 
     </application>
 

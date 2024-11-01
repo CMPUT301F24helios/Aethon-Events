@@ -41,6 +41,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-database:20.0.5") // Only one Firebase Database version
 
+    implementation("com.squareup.picasso:picasso:2.71828")
+
     // Android libraries
     implementation(libs.appcompat)
     implementation(libs.material)

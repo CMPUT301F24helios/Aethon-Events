@@ -62,11 +62,10 @@ public class QRCodeScannerActivity extends AppCompatActivity {
             if (result.getContents() == null) {
                 Toast.makeText(this, "Scan cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                // Returning the scanned QR code content back to MainActivity
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("EVENT_ID", result.getContents());
-                setResult(RESULT_OK, returnIntent);
+
+                Intent displayIntent = new Intent(QRCodeScannerActivity.this, DisplayActivity.class);
+                displayIntent.putExtra("qrCodeContent", result.getContents());
+                startActivity(displayIntent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

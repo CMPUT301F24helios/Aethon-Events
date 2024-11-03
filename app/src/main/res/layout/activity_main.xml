@@ -1,4 +1,4 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,64 +10,26 @@
 
     <Button
         android:id="@+id/scanner"
-        android:layout_width="270dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="QR SCANNER" />
+        android:layout_width="231dp"
+        android:layout_height="44dp"
+        android:text="QR SCANNER"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.112" />
+
     <Button
         android:id="@+id/button_organizer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ORGANIZER" />
+        android:text="ORGANIZER"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.134"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.902" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="312dp"
-        android:layout_marginTop="25dp"
-        android:textSize="30dp" />
-
-    <!-- BottomAppBar with BottomNavigationView -->
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:fabAlignmentMode="center"
-        app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="50dp"
-        app:backgroundTint="@color/white">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/menu_main" />
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <!-- FloatingActionButton anchored to BottomAppBar -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/baseline_qr_code_scanner_24"
-        app:layout_anchor="@id/bottom_app_bar"
-        app:maxImageSize="40dp" />
-
-
-    <!-- FrameLayout for fragment or other content -->
-    <FrameLayout
-        android:id="@+id/frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp" >
-
-
-    </FrameLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

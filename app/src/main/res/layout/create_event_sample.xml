@@ -25,32 +25,33 @@
 
         <!-- Image and "Change Photo" Button -->
         <ImageView
-            android:id="@+id/event_image"
+            android:id="@+id/imageViewEventImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/event1"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
+
             android:background="@drawable/rounded_bg"
             android:clipToOutline="true"/>
 
-        <TextView
-            android:id="@+id/change_photo"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/buttonUploadImage"
+            android:layout_width="149dp"
             android:layout_height="wrap_content"
-            android:text="Change Photo"
-            android:textSize="14sp"
-            android:textColor="@color/black"
             android:layout_gravity="center_horizontal"
-            android:paddingTop="8dp" />
+            android:paddingTop="8dp"
+            android:text="Change Photo"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/purple"
+            android:textSize="14sp" />
 
         <!-- Event Name Input -->
         <EditText
-            android:id="@+id/event_name"
+            android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Event Name"
-            android:text="Music Rooftop Session"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
@@ -60,13 +61,12 @@
 
         <!-- Facility Input -->
         <EditText
-            android:id="@+id/facility"
+            android:id="@+id/editTextCapacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Facility"
-            android:text="Edmonton Canada"
+            android:hint="Capacity"
             android:textColor="@color/black"
-            android:textColorHint="#BBFFFFFF"
+            android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
             android:inputType="text"
             android:padding="8dp"
@@ -74,13 +74,13 @@
 
         <!-- Category Input -->
         <EditText
-            android:id="@+id/category"
+            android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Category"
-            android:text="Musical"
+            android:hint="Description"
+
             android:textColor="@color/black"
-            android:textColorHint="#BBFFFFFF"
+            android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
             android:inputType="text"
             android:padding="8dp"
@@ -88,13 +88,12 @@
 
         <!-- Date of Event Input -->
         <EditText
-            android:id="@+id/date_of_event"
+            android:id="@+id/editTextEventDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Date of Event"
-            android:text="2024-07-02 , 7:00 PM"
+            android:hint="Event Date (e.g., YYYY-MM-DD)"
             android:textColor="@color/black"
-            android:textColorHint="#BBFFFFFF"
+            android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
             android:inputType="datetime"
             android:padding="8dp"
@@ -102,10 +101,10 @@
 
         <!-- Limit Waitlist Input -->
         <EditText
-            android:id="@+id/limit_waitlist"
+            android:id="@+id/editTextLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Limit Waitlist"
+            android:hint="Location"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
@@ -115,7 +114,7 @@
 
         <!-- Create Button -->
         <Button
-            android:id="@+id/create_button"
+            android:id="@+id/buttonSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create"

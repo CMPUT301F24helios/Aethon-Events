@@ -86,11 +86,12 @@ public class OrganizerActivity extends AppCompatActivity {
         int capacity = Integer.parseInt(editTextCapacity.getText().toString());
         String description = editTextDescription.getText().toString();
         String eventDate = editTextEventDate.getText().toString();
-        String entrantId = generateUniqueId();
-        String organizerId = generateUniqueId();
-        String waitlistId = generateUniqueId();
+        // Generate unique IDs for each type
+        String entrantId = generateUniqueId("ENTRANT");
+        String organizerId = generateUniqueId("ORGANIZER");
+        String waitlistId = generateUniqueId("WAITLIST");
 
-        Event event = new Event(eventId, name, location, capacity, description, entrantId, organizerId, waitlistId, eventDate);
+        Event event = new Event(eventId, name, location, capacity, description, waitlistId, entrantId, organizerId, eventDate);
 
         // Check if image is uploaded
         if (imageUri != null) {
@@ -175,11 +176,27 @@ public class OrganizerActivity extends AppCompatActivity {
         editTextCapacity.setText("");
         editTextDescription.setText("");
         editTextEventDate.setText("");
+        // Clear image view
+        imageViewEventImage.setImageResource(R.drawable.event1); // Reset to default image
     }
-    // Generate a unique alphanumeric ID based on current timestamp
-    private String generateUniqueId() {
-        return Long.toString(System.currentTimeMillis(), 36).toUpperCase();
+    // Generate a unique alphanumeric ID based on current timestamp and ID type
+    private String generateUniqueId(String idType) {
+        // Generate base ID using current timestamp
+        String baseId = Long.toString(System.currentTimeMillis(), 36).toUpperCase();
+
+        // Add a suffix based on idType to ensure uniqueness
+        switch (idType) {
+            case "ENTRANT":
+                return baseId + "E";
+            case "ORGANIZER":
+                return baseId + "O";
+            case "WAITLIST":
+                return baseId + "W";
+            default:
+                throw new IllegalArgumentException("Invalid ID type");
+        }
     }
+
 
     // Generate a unique numeric event ID based on current timestamp
     private int generateEventId() {

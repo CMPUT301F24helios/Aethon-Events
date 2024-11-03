@@ -75,12 +75,15 @@ public class DisplayActivity extends AppCompatActivity {
 //                        String date = documentSnapshot.getString("eventDate");  // Ensure date exists in Firestore
                         String description = documentSnapshot.getString("description");
                         String imageUrl = documentSnapshot.getString("imageUrl");
+                        // get date from the firebase as well
+                        String date = documentSnapshot.getString("eventDate");
 
                         // Update UI components
                         eventTitle.setText(title);
                         eventLocation.setText(location);
 //                        eventDate.setText(date);
                         eventDescription.setText(description);
+                        eventDate.setText(date);
 
                         // Load image using Picasso if imageUrl exists
                         if (imageUrl != null && !imageUrl.isEmpty()) {

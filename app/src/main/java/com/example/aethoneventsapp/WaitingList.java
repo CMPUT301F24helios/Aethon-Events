@@ -14,6 +14,7 @@ public class WaitingList {
     private String eventId;    // Identifier of the event associated with this waitlist
     private String status;     // Status of the entrant in the waitlist (e.g., "waiting", "selected")
     private final ArrayList<String> waitList = new ArrayList<>(); // The WaitingList
+    private ArrayList<String> selected = new ArrayList<>();
 
 
     // Constructor
@@ -139,5 +140,13 @@ public class WaitingList {
      */
     public ArrayList<String> getWaitList() {
         return waitList;
+    }
+        /**
+     * Gets the list of entrants on the selected list.
+     *
+     * @return the selected
+     */
+        public ArrayList<String> getSelected() {
+        return selected;
     }
 }

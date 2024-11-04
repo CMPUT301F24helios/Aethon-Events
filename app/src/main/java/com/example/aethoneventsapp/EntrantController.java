@@ -34,7 +34,7 @@ public class EntrantController {
      * @param event
      */
     public void processWaitlistJoin(Entrant entrant, Event event){
-        entrant.joinWaitlist(event.eventId);
+        entrant.joinWaitlist(event.getEntrantId());
     }
 
     /**
@@ -43,7 +43,7 @@ public class EntrantController {
      * @param event
      */
     public void processWaitlistLeave(Entrant entrant, Event event){
-        entrant.leaveWaitlist(event.eventId);
+        entrant.leaveWaitlist(event.getEntrantId());
     }
 
     /**
@@ -52,7 +52,7 @@ public class EntrantController {
      * @param event
      */
     public void handleInvitationAccept(Entrant entrant, Event event) {
-        entrant.acceptInvitation(event.eventId);
+        entrant.acceptInvitation(event.getEntrantId());
     }
 
     /**
@@ -61,7 +61,7 @@ public class EntrantController {
      * @param event
      */
     public void handleInvitationDecline(Entrant entrant, Event event) {
-        entrant.declineInvitation(event.eventId);
+        entrant.declineInvitation(event.getEntrantId());
     }
 
     /**

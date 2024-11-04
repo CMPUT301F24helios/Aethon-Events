@@ -8,13 +8,17 @@ public class WaitingListController {
 
     private final WaitingList waitingList;
 
+
     /**
      * Constructor for WaitingListController.
      * Initializes a new WaitingList instance for managing waitlist operations.
      */
-    public WaitingListController() {
-        this.waitingList = new WaitingList();
+    public WaitingListController(String waitlistId, String eventId) {
+        // Unique identifier for the waitlist entry
+        // Identifier of the event associated with this waitlist
+        this.waitingList = new WaitingList(waitlistId, eventId);
     }
+
 
     /**
      * Adds an entrant to the waitlist for a given event.
@@ -40,16 +44,8 @@ public class WaitingListController {
      *
      * @param eventId the ID of the event for which entrants are to be selected
      */
-    public void selectEntrantsForEvent(String eventId) {
-        waitingList.manageEntrantSelection(eventId);
-    }
-
-    /**
-     * Tracks and displays all entrants on the waitlist for a given event.
-     *
-     * @param eventId the ID of the event to track the waitlist for
-     */
-    public void trackEntrantsOnWaitlist(String eventId) {
-        waitingList.trackWaitlistForEvent(eventId);
+    public void selectEntrantsForEvent(String eventId, int vacancies) {
+        waitingList.manageEntrantSelection(eventId, vacancies);
     }
 }
+

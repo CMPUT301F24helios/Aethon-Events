@@ -10,7 +10,17 @@ public class WaitingListController {
 
 
     /**
-     * Constructor for WaitingListController.
+     * Constructor for WaitingListController with maximum waitlist size.
+     * Initializes a new WaitingList instance for managing waitlist operations.
+     */
+    public WaitingListController(String waitlistId, String eventId, int maxWaitlistSize) {
+        // Unique identifier for the waitlist entry
+        // Identifier of the event associated with this waitlist
+        this.waitingList = new WaitingList(waitlistId, eventId, maxWaitlistSize);
+    }
+
+    /**
+     * Constructor for WaitingListController with no maximum waitlist size.
      * Initializes a new WaitingList instance for managing waitlist operations.
      */
     public WaitingListController(String waitlistId, String eventId) {

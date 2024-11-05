@@ -59,21 +59,3 @@ public class WaitingListMapFeature {
         return geolocationService.verifyLocation(deviceLocation, entrant.getLocation());
     }
 }
-
-// TODO: Remove the following after the Entrant Class is added
-
-class Entrant {
-    private String name;
-    private double[] location; // Example: {latitude, longitude}
-
-    public Entrant(String name, double latitude, double longitude) {
-        this.name = name;
-        this.location = new double[]{latitude, longitude};
-    }
-    public String getName() {
-        return name;
-    }
-    public double[] getLocation() {
-        return location;
-    }
-}

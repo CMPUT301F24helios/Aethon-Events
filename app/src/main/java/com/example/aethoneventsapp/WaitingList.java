@@ -15,14 +15,25 @@ public class WaitingList {
     private String status;     // Status of the entrant in the waitlist (e.g., "waiting", "selected")
     private final ArrayList<String> waitList = new ArrayList<>(); // The WaitingList
     private ArrayList<String> selected = new ArrayList<>();
+    private int maxWaitlistSize;
 
 
-    // Constructor
+    // Constructor with waitlist max size
+    public WaitingList(String waitlistId, String eventId, int maxWaitlistSize) {
+        this.waitlistId = waitlistId;
+        this.eventId = eventId;
+        this.status = "waiting";
+        this.maxWaitlistSize = maxWaitlistSize;
+    }
+
+    // Constructor without waitlist max size
     public WaitingList(String waitlistId, String eventId) {
         this.waitlistId = waitlistId;
         this.eventId = eventId;
         this.status = "waiting";
+        this.maxWaitlistSize = 1000000;
     }
+
     /**Entrant
      * Adds an entrant to the waitlist for a specific event.
      *
@@ -31,8 +42,13 @@ public class WaitingList {
      */
     public void addEntrantToWaitlist(String eventId, String entrantId) {
         // adding entrant to the waiting list
-        waitList.add(entrantId);
-        System.out.println("Entrant " + entrantId + " added to waitlist for event " + eventId);
+        if (waitList.size() < maxWaitlistSize) {
+            waitList.add(entrantId);
+            System.out.println("Entrant " + entrantId + " added to waitlist for event " + eventId);
+        }
+        else {
+            System.out.println("Waitlist is full for event " + eventId);
+        }
     }
 
     /**

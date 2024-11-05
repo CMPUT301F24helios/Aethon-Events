@@ -35,7 +35,6 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_corners" />
 
-
     <TextView
         android:id="@+id/Event_Name"
         android:layout_width="wrap_content"
@@ -61,10 +60,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="4dp" />
 
-    <!-- Event Name -->
-
-    <!-- Facility -->
-
+    <EditText
+        android:id="@+id/event_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@android:color/white"
+        android:hint="Event Name"
+        android:text="Music Rooftop Session"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/change_photo" />
 
     <TextView
         android:id="@+id/FacilityName"
@@ -81,19 +90,20 @@
         app:layout_constraintVertical_bias="0.964" />
 
     <EditText
-        android:id="@+id/event_name"
+        android:id="@+id/facility"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@android:color/white"
-        android:hint="Event Name"
-        android:text="Music Rooftop Session"
+        android:hint="Facility"
+        android:text="Edmonton Canada"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.671"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/change_photo" />
+        app:layout_constraintTop_margin="8dp"
+        app:layout_constraintTop_toBottomOf="@id/event_name" />
 
     <TextView
         android:id="@+id/Category"
@@ -163,22 +173,44 @@
         app:layout_constraintTop_margin="8dp"
         app:layout_constraintTop_toBottomOf="@id/event_date" />
 
+    <TextView
+        android:id="@+id/Geolocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable Geolocation"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/geolocation_radio_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/limit_waitlist" />
 
-    <EditText
-        android:id="@+id/facility"
+    <RadioGroup
+        android:id="@+id/geolocation_radio_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@android:color/white"
-        android:hint="Facility"
-        android:text="Edmonton Canada"
-        android:textColor="@android:color/black"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.671"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/event_name" />
+        app:layout_constraintTop_toBottomOf="@id/Geolocation"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/enable_geolocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enable"
+            android:textColor="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/disable_geolocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disable"
+            android:textColor="@android:color/white" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/create_button"
@@ -191,6 +223,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/limit_waitlist" />
+        app:layout_constraintTop_toBottomOf="@id/geolocation_radio_group" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

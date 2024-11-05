@@ -1,9 +1,11 @@
 package com.example.aethoneventsapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.aethoneventsapp.databinding.ActivityMainBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DisplayActivity extends AppCompatActivity {
 
@@ -49,14 +54,40 @@ public class DisplayActivity extends AppCompatActivity {
 
         // Call function to update event description and other details
 //        updateEventDescription(qrCodeContent);
+        // Set up button to add entrant to Firestore waitlist
         joinWaitlistButton = findViewById(R.id.join_waitlist_button);
+        joinWaitlistButton.setOnClickListener(v -> addEntrantToWaitlist(qrCodeContent, "1234567890")); // Replace "HARD_CODED_ENTRANT_ID" with a real entrant ID if available
         // Todo add functionality to join waitlist
 //        joinWaitlistButton.setOnClickListener(v -> {
 //
 //        });
 
     }
+    /**
+     * Method to add an entrant to the waitlist in Firestore.
+     *
+     * @param eventUniqueID The unique ID of the event in Firestore.
+     * @param entrantId     The ID of the entrant to be added to the waitlist.
+     */
+    private void addEntrantToWaitlist(String eventUniqueID, String entrantId) {
+        Map<String, Object> entrantData = new HashMap<>();
+        entrantData.put("entrantId", entrantId);
+        entrantData.put("timestamp", System.currentTimeMillis()); // Optional: Add timestamp if needed
 
+        // Access the event's "WaitingList" collection and add the entrant
+        db.collection("Events")
+                .document(eventUniqueID)
+                .collection("WaitingList")
+                .document(entrantId)
+                .set(entrantData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(DisplayActivity.this, "Successfully added to waitlist!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(DisplayActivity.this, "Failed to add to waitlist.", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error adding entrant to waitlist", e);
+                });
+    }
     /**
      * Fetches event data from Firestore based on the unique event ID and updates the UI.
      *

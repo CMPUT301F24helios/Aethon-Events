@@ -39,7 +39,9 @@
         <!-- Add QRCodeScannerActivity declaration -->
         <activity
             android:name=".QRCodeScannerActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
 
         <!-- Add DisplayActivity declaration -->
         <activity

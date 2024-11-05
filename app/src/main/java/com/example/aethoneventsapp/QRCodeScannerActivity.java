@@ -2,6 +2,7 @@ package com.example.aethoneventsapp;
 //taken some implementation groundwork from following implementaiton avaialable online : https://www.easyonecoders.com/android/basic/QRCodeScanner
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +22,8 @@ public class QRCodeScannerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Force the orientation to portrait
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
@@ -66,6 +68,7 @@ public class QRCodeScannerActivity extends AppCompatActivity {
                 Intent displayIntent = new Intent(QRCodeScannerActivity.this, DisplayActivity.class);
                 displayIntent.putExtra("qrCodeContent", result.getContents());
                 startActivity(displayIntent);
+                finish();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

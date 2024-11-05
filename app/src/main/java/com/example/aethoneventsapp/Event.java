@@ -71,7 +71,7 @@ public class Event {
         databaseReference.child(eventIdString).setValue(this)
                 .addOnSuccessListener(aVoid -> {
                     // Event successfully created in Firebase
-//                    generateQRcode(eventIdString);
+                   //generateQRcode(eventIdString);
                 })
                 .addOnFailureListener(e -> {
                     // Handle failure

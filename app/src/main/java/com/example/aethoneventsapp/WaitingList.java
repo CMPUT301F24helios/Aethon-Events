@@ -1,5 +1,9 @@
 package com.example.aethoneventsapp;
 
+import android.util.Log;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -15,7 +19,7 @@ public class WaitingList {
     private String status;     // Status of the entrant in the waitlist (e.g., "waiting", "selected")
     private final ArrayList<String> waitList = new ArrayList<>(); // The WaitingList
     private ArrayList<String> selected = new ArrayList<>();
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     // Constructor
     public WaitingList(String waitlistId, String eventId) {
@@ -33,6 +37,7 @@ public class WaitingList {
         // adding entrant to the waiting list
         waitList.add(entrantId);
         System.out.println("Entrant " + entrantId + " added to waitlist for event " + eventId);
+        updateFirestore();
     }
 
     /**
@@ -43,8 +48,16 @@ public class WaitingList {
     public void removeEntrantFromWaitlist(String entrantId) {
         waitList.remove(entrantId);
         System.out.println("Removed entrant with entrant ID: " + entrantId);
+        updateFirestore();
     }
 
+    private void updateFirestore() {
+        db.collection("Events").document(eventId)
+                .collection("WaitingList").document(waitlistId)
+                .update("waitList", waitList)
+                .addOnSuccessListener(aVoid -> Log.d("Firestore", "Waitlist updated successfully!"))
+                .addOnFailureListener(e -> Log.e("Firestore", "Failed to update waitlist", e));
+    }
     /**
      * Manages selection of entrants from the waitlist for a specific event.
      *

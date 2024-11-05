@@ -92,22 +92,23 @@ public class OrganizerActivity extends AppCompatActivity {
         String waitlistId = generateUniqueId("WAITLIST");
 
         Event event = new Event(eventId, name, location, capacity, description, waitlistId, entrantId, organizerId, eventDate);
-
+        // Initialize a new WaitingList for this event
+        WaitingList waitingList = new WaitingList(waitlistId, String.valueOf(eventId));
         // Check if image is uploaded
         if (imageUri != null) {
-            uploadImage(eventId, event, imageUri); // Pass the event object here
+            uploadImage(eventId, event, imageUri, waitingList); // Pass the event object here
         } else {
-            addEventToFirestore(eventId, createEventData(event, null));
+            addEventToFirestore(eventId, createEventData(event, null),waitingList);
         }
     }
 
-    private void uploadImage(int eventId, Event event, Uri imageUri) { // Accept Event object
+    private void uploadImage(int eventId, Event event, Uri imageUri,WaitingList waitingList) { // Accept Event object
         StorageReference storageRef = storage.getReference();
         StorageReference eventImageRef = storageRef.child("event_images/" + eventId + ".jpg");
 
         eventImageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
             eventImageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                addEventToFirestore(eventId, createEventData(event, uri.toString()));
+                addEventToFirestore(eventId, createEventData(event, uri.toString()),waitingList);
             }).addOnFailureListener(e -> Log.e("Firebase", "Failed to get download URL", e));
         }).addOnFailureListener(e -> Log.e("Firebase", "Image upload failed", e));
     }
@@ -155,20 +156,26 @@ public class OrganizerActivity extends AppCompatActivity {
         return true;
     }
 
-    private void addEventToFirestore(int eventId, Map<String, Object> eventData) {
-        eventsRef.document(String.valueOf(eventId)).set(eventData);
-        eventsRef.document(String.valueOf(eventId))
-                .set(eventData)
+    private void addEventToFirestore(int eventId, Map<String, Object> eventData, WaitingList waitingList) {
+        eventsRef.document(String.valueOf(eventId)).set(eventData)
                 .addOnSuccessListener(aVoid -> {
                     Log.d("Firestore", "Event successfully added!");
-                    Toast.makeText(this, "Event submitted successfully!", Toast.LENGTH_SHORT).show();
-                    clearForm();
-                    // Navigate to QRCodeActivity and pass the eventId
-                    Intent intent = new Intent(OrganizerActivity.this, QRCodeActivity.class);
-                    intent.putExtra("eventId", eventId);
-                    startActivity(intent);
+
+                    // Add the waiting list to Firestore
+                    eventsRef.document(String.valueOf(eventId))
+                            .collection("WaitingList")
+                            .document(waitingList.getWaitlistId())
+                            .set(waitingList)
+                            .addOnSuccessListener(aVoid2 -> {
+                                Toast.makeText(this, "Event and waitlist created successfully!", Toast.LENGTH_SHORT).show();
+                                clearForm();
+                                Intent intent = new Intent(OrganizerActivity.this, QRCodeActivity.class);
+                                intent.putExtra("eventId", eventId);
+                                startActivity(intent);
+                            })
+                            .addOnFailureListener(e -> Log.e("Firestore", "Failed to add waitlist", e));
                 })
-                .addOnFailureListener(e -> Log.e("Firestore", "Error adding event", e));
+                .addOnFailureListener(e -> Log.e("Firestore", "Failed to add event", e));
     }
     private void clearForm() {
         editTextName.setText("");

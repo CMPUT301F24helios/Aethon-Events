@@ -56,14 +56,14 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:contentDescription="@string/posterimage"
-        android:src="@drawable/event_poster"
-        android:scaleType="centerCrop"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/image_border"/>
+<!--    <ImageView-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:contentDescription="@string/posterimage"-->
+<!--        android:src="@drawable/event_poster"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:background="@drawable/image_border"/>-->
 
 </LinearLayout>

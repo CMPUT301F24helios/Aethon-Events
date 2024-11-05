@@ -111,7 +111,7 @@
                 android:layout_marginTop="24dp"
                 android:text="Save"
                 android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textSize="24dp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

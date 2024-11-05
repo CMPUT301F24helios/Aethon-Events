@@ -134,4 +134,6 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="aethon_events">Aethon Events</string>
+    <string name="welcome_to">Welcome to</string>
 </resources>

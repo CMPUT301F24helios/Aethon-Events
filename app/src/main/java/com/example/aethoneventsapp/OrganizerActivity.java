@@ -91,6 +91,10 @@ public class OrganizerActivity extends AppCompatActivity {
         String organizerId = generateUniqueId("ORGANIZER");
         String waitlistId = generateUniqueId("WAITLIST");
 
+        // Store eventId and waitlistId in GlobalDataStore
+        GlobalDataStore.getInstance().setData("eventId", eventId);
+        GlobalDataStore.getInstance().setData("waitlistId", waitlistId);
+
         Event event = new Event(eventId, name, location, capacity, description, waitlistId, entrantId, organizerId, eventDate);
         // Initialize a new WaitingList for this event
         WaitingList waitingList = new WaitingList(waitlistId, String.valueOf(eventId));

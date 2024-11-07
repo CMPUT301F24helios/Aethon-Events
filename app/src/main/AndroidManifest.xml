@@ -48,6 +48,10 @@
             android:name=".DisplayActivity"
             android:exported="true" />
 
+        <!-- Add DisplayActivity declaration -->
+        <activity
+            android:name=".EventInvitationActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

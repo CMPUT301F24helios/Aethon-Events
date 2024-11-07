@@ -1,6 +1,8 @@
 package com.example.aethoneventsapp;
 
 import androidx.annotation.Nullable;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +16,9 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     Button scan_btn;
+    Button singup_btn;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,5 +39,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
             startActivity(intent);
         });
+        singup_btn = findViewById(R.id.button_signup);
+        singup_btn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, EventInvitationActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

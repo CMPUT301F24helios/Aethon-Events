@@ -47,20 +47,9 @@ public class DisplayActivity extends AppCompatActivity {
         // Retrieve QR code content from Intent
         String qrCodeContent = getIntent().getStringExtra("qrCodeContent");
         updateEventDescription(qrCodeContent); // Pass the qrCodeContent instead of hard-coded ID
-
-
-        // Set unique ID for the event document
-//        String eventUniqueID = "SOjvCZ4onjAfCYO4poo4";
-
-        // Call function to update event description and other details
-//        updateEventDescription(qrCodeContent);
         // Set up button to add entrant to Firestore waitlist
         joinWaitlistButton = findViewById(R.id.join_waitlist_button);
         joinWaitlistButton.setOnClickListener(v -> addEntrantToWaitlist(qrCodeContent, "1234567890")); // Replace "HARD_CODED_ENTRANT_ID" with a real entrant ID if available
-        // Todo add functionality to join waitlist
-//        joinWaitlistButton.setOnClickListener(v -> {
-//
-//        });
 
     }
     /**

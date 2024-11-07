@@ -102,14 +102,14 @@
 
             <!-- Save Button -->
             <Button
-                android:id="@+id/btn_save"
+                android:id="@+id/signup_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginBottom="56dp"
                 android:layout_marginTop="24dp"
-                android:text="Save"
+                android:text="Sign up"
                 android:textColor="@android:color/white"
                 android:textSize="24dp" />
         </LinearLayout>

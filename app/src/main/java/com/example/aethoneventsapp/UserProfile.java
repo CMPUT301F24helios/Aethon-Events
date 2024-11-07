@@ -1,3 +1,5 @@
+package com.example.aethoneventsapp;
+
 import android.content.Context;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
@@ -8,7 +10,7 @@ import android.provider.Settings.Secure;
 public class UserProfile {
     String name;
     String email;
-    Number phoneNumber;
+    String phoneNumber;
     Boolean isOrganizer;
     Boolean isAdmin;
     String deviceId;
@@ -26,7 +28,7 @@ public class UserProfile {
      * @param phoneNumber represents user's phone number
      * @param enableNotifications boolean representing whether a user wants notifications
      */
-    public UserProfile(Context context, String name, String email, Number phoneNumber, Boolean enableNotifications) {
+    public UserProfile(Context context, String name, String email, String phoneNumber, Boolean enableNotifications) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -63,7 +65,7 @@ public class UserProfile {
      * Set User's phone number
      * @param phoneNumber User's phone number
      */
-    public void setPhoneNumber(Number phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -126,7 +128,7 @@ public class UserProfile {
      * Get user's phone number
      * @return user's phone number
      */
-    public Number getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 

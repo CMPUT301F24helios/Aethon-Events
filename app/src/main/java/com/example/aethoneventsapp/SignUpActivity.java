@@ -37,13 +37,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        /**
-         * Checks if all fields are filled, only then creates a new user on firebase
-         */
+         // Checks if all fields are filled, only then creates a new user on firebase
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Retrieve the text from EditText fields
+                // Get user forms
                 String name = editName.getText().toString().trim();
                 String email = editEmail.getText().toString().trim();
                 String phone = editPhone.getText().toString().trim();
@@ -84,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
         userData.put("isAdmin", false);
         userData.put("deviceId", user.getDeviceId());
         userData.put("enableNotifications", user.enableNotifications);
+        // Website that creates Profile Pic Monograms using characters we give
         userData.put("profilePicture", "https://ui-avatars.com/api/?name="+user.name.charAt(0));
 
         db.collection("users")

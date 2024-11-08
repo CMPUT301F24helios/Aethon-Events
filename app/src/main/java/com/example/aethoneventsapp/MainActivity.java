@@ -45,11 +45,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
             startActivity(intent);
         });
-        signup_btn = findViewById(R.id.button_signup);
-        signup_btn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, EventInvitationActivity.class);
-            startActivity(intent);
-        });
 
         dash_btn = findViewById(R.id.dash_button);
         dash_btn.setOnClickListener(v -> {

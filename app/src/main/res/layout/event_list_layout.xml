@@ -33,8 +33,7 @@
         android:layout_weight="1"
         android:padding="8dp"
         android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:>
+        android:scrollbars="vertical">
 
     </ListView>
 

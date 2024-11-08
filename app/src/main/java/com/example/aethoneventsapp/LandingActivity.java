@@ -52,17 +52,16 @@ public class LandingActivity extends AppCompatActivity {
                             navigateToMainApp();
                         } else {
                             // Device not recognized, save it to Firestore
-                            saveNewDevice();
                             navigateToProfileSetup();
                         }
                     }
                 });
     }
 
-    private void saveNewDevice() {
-        // Create a new document with the device ID in the "devices" collection
-        db.collection("devices").add(new Device(deviceId));
-    }
+//    public void saveNewDevice() {
+//        // Create a new document with the device ID in the "devices" collection
+//        db.collection("devices").add(new Device(deviceId));
+//    }
 
     // Method to navigate to the main part of the app for recognized devices
     private void navigateToMainApp() {
@@ -72,7 +71,7 @@ public class LandingActivity extends AppCompatActivity {
 
     // Method to navigate to profile setup or onboarding for new devices
     private void navigateToProfileSetup() {
-        startActivity(new Intent(LandingActivity.this, ProfileActivity.class));
+        startActivity(new Intent(LandingActivity.this, SignUpActivity.class));
         finish();
     }
 

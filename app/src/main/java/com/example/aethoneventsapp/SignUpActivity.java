@@ -1,5 +1,6 @@
 package com.example.aethoneventsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -65,6 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 user = new UserProfile(getApplicationContext(), name, email, phone, true);
                 registerUser(user);
+                startActivity(new Intent(SignUpActivity.this, MainActivity.class));
             }
         });
     }
@@ -75,6 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private void registerUser(UserProfile user) {
         Map<String, Object> userData = new HashMap<>();
+        Map<String, Object> device = new HashMap<>();
         userData.put("name", user.name);
         userData.put("email", user.email);
         userData.put("phone", user.phoneNumber);
@@ -84,7 +87,6 @@ public class SignUpActivity extends AppCompatActivity {
         userData.put("enableNotifications", user.enableNotifications);
         // Website that creates Profile Pic Monograms using characters we give
         userData.put("profilePicture", "https://ui-avatars.com/api/?name="+user.name.charAt(0));
-
         db.collection("users")
                 .add(userData)
                 .addOnSuccessListener(documentReference -> {
@@ -93,5 +95,9 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Log.w("Firestore", "Error registering UserProfile", e);
                 });
+        device.put("deviceId", user.getDeviceId());
+        db.collection("devices").add(device);
     }
+
+
 }

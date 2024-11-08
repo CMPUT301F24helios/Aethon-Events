@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 user = new UserProfile(getApplicationContext(), name, email, phone, true);
                 registerUser(user);
-                startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
             }
         });
     }

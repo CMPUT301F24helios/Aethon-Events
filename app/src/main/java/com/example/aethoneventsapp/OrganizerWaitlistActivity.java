@@ -1,4 +1,4 @@
-package com.example.yourapp;
+package com.example.aethoneventsapp;
 
 import android.app.AlertDialog;
 import android.os.Bundle;

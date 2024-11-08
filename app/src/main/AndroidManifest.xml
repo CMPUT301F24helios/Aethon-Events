@@ -25,6 +25,10 @@
             android:name=".OrganizerActivity"
             android:exported="true"
             android:theme="@style/Theme.AethonEventsApp" />
+        <activity
+            android:name=".OrganizerWaitlistActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AethonEventsApp" />
         <activity android:name=".QRCodeActivity"
             android:exported="true">
             <intent-filter>

@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button scan_btn;
     Button singup_btn;
+    Button dash_btn;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         singup_btn = findViewById(R.id.button_signup);
         singup_btn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EventInvitationActivity.class);
+            startActivity(intent);
+        });
+
+        dash_btn = findViewById(R.id.dash_button);
+        dash_btn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, OrganizerWaitlistActivity.class);
             startActivity(intent);
         });
 

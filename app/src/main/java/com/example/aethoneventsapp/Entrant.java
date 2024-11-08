@@ -27,6 +27,15 @@ public class Entrant {
     }
 
     /**
+     * Get location
+     */
+    public double[] getLocation() {
+        double[] test = new double[] {};
+        return test;
+        // TO DO
+    }
+
+    /**
      * Getter for entrantId
      *
      * @return entrantId

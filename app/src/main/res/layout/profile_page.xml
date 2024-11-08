@@ -1,89 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/create_event_bg"
-    >
+    android:background="@drawable/create_event_bg">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="282dp"
-        android:layout_height="79dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginBottom="189dp"
         android:text="Your Profile"
         android:textColor="@android:color/white"
         android:textSize="48sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="77dp" />
+        app:layout_constraintBottom_toTopOf="@+id/edit_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewEventImage"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="514dp"
         android:background="@drawable/event1"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
         android:src="@drawable/event1"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="179dp" />
+        app:layout_constraintBottom_toTopOf="@+id/switch_org"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/edit_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="48dp"
         android:hint="Name"
         android:inputType="textPersonName"
         android:text="Name"
         android:textColor="@android:color/black"
         android:textColorHint="#80FFFFFF"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="380dp" />
+        app:layout_constraintBottom_toTopOf="@+id/edit_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/edit_phone"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="23dp"
         android:hint="Phone Number"
         android:inputType="phone"
         android:text="Phone Number"
         android:textColor="@android:color/black"
         android:textColorHint="#80FFFFFF"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="549dp" />
+        app:layout_constraintBottom_toTopOf="@+id/checkBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
     <EditText
         android:id="@+id/edit_email"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="48dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:text="Email"
         android:textColor="@android:color/black"
         android:textColorHint="#80FFFFFF"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="467dp" />
+        app:layout_constraintBottom_toTopOf="@+id/edit_phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="21dp"
         android:text="Receive Notifications"
         android:textSize="18dp"
-        tools:layout_editor_absoluteX="102dp"
-        tools:layout_editor_absoluteY="620dp" />
+        app:layout_constraintBottom_toTopOf="@+id/save_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_phone" />
 
     <Button
         android:id="@+id/save_btn"
-        android:layout_width="338dp"
-        android:layout_height="63dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="162dp"
+        android:background="@drawable/button_bg"
         android:text="Save"
         android:textSize="32dp"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="706dp"
-        android:background="@drawable/button_bg" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+
+    <Button
+        android:id="@+id/switch_org"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="67dp"
+        android:background="@drawable/button_bg"
+        android:text="Organizer Mode"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEventImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

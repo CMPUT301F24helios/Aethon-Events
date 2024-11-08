@@ -35,8 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Yes"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="@color/colorPrimary" />
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/negativeButton"
@@ -44,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="No"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="@color/colorPrimaryDark" />
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 </LinearLayout>

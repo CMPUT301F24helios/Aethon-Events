@@ -7,12 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileActivity {
+public class ProfileActivity extends AppCompatActivity {
     private EditText editName;
     private EditText editEmail;
     private EditText editPhone;

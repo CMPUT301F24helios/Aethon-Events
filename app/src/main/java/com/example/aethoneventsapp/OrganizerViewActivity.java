@@ -1,5 +1,6 @@
 package com.example.aethoneventsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -15,7 +16,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrganizerViewActivity extends AppCompatActivity {
 
@@ -23,6 +26,7 @@ public class OrganizerViewActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private List<String> eventList = new ArrayList<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private Map<String, String> eventIdMap = new HashMap<>(); // Map to store event details and their corresponding event IDs
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +34,7 @@ public class OrganizerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_organizer_view);
 
         listViewEvents = findViewById(R.id.ListViewEvents);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, eventList);
+        adapter = new ArrayAdapter<>(this, android.R.layout.activity_list_item, eventList);
         listViewEvents.setAdapter(adapter);
 
         // Get organizerId from intent
@@ -43,6 +47,21 @@ public class OrganizerViewActivity extends AppCompatActivity {
             Log.d("OrganizerViewActivity", "Organizer ID: " + organizerId);
             fetchEvents(organizerId);
         }
+
+        // Set OnItemClickListener to handle item clicks
+        listViewEvents.setOnItemClickListener((parent, view, position, id) -> {
+            String eventDetails = eventList.get(position);
+            Log.d("OrganizerViewActivity", "Selected Event Details: " + eventDetails);
+            String eventId = extractEventId(eventDetails);
+            Log.d("OrganizerViewActivity", "Event ID: " + eventId);
+            if (eventId != null) {
+                Intent intent = new Intent(OrganizerViewActivity.this, OrganizerWaitlistActivity.class);
+                intent.putExtra("eventId", eventId);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Event ID not found", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -59,8 +78,9 @@ public class OrganizerViewActivity extends AppCompatActivity {
                                     String eventName = document.getString("name");
                                     String eventDate = document.getString("eventDate");
                                     String location = document.getString("location");
+                                    String eventId = document.getLong("eventId").toString();
 
-                                    String eventDetails = eventName + " - " + eventDate + " @ " + location;
+                                    String eventDetails = eventName + " - " + eventDate + " @ " + location + " (Event ID: " + eventId + ")";;
                                     eventList.add(eventDetails);
                                 }
                                 adapter.notifyDataSetChanged();
@@ -76,6 +96,16 @@ public class OrganizerViewActivity extends AppCompatActivity {
             Log.e("OrganizerViewActivity", "Error during event fetch: ", e);
             Toast.makeText(this, "Error fetching events", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private String extractEventId(String eventDetails) {
+        // Assuming the format is "eventName - eventDate @ location (Event ID: eventId)"
+        int startIndex = eventDetails.indexOf("(Event ID: ") + 11;
+        int endIndex = eventDetails.indexOf(")", startIndex);
+        if (startIndex != -1 && endIndex != -1) {
+            return eventDetails.substring(startIndex, endIndex).trim();
+        }
+        return null;
     }
 
 }

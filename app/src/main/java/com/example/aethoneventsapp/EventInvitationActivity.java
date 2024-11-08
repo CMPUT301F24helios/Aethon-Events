@@ -33,8 +33,9 @@ public class EventInvitationActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        eventId = "730587294";
-        String entrantId = "1";  // This could be passed via an Intent or other data source
+        eventId = getIntent().getStringExtra("eventId");
+        String entrantId = getIntent().getStringExtra("entrantId");
+        
 
         fetchEventDetails(selectedListItems -> {
             Log.d("EventInvitation", "selectedListItems: " + selectedListItems);

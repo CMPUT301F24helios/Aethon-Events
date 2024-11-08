@@ -97,7 +97,7 @@
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
-            android:inputType="datetime"
+            android:inputType="none"
             android:padding="5dp"
             android:layout_marginTop="10dp" />
 
@@ -118,7 +118,8 @@
             android:id="@+id/editTextLimit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Limit Capacity"
+            android:hint="Limit Waitlist"
+            android:inputType="number"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:backgroundTint="@color/black"

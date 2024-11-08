@@ -1,5 +1,6 @@
 package com.example.aethoneventsapp;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.DatePickerDialog;
+import android.widget.DatePicker;
+import java.util.Calendar;
+
 public class OrganizerActivity extends AppCompatActivity {
 
     private EditText editTextName, editTextLocation, editTextCapacity, editTextDescription, editTextLimit, editTextEventDate;
@@ -54,6 +59,13 @@ public class OrganizerActivity extends AppCompatActivity {
         editTextCapacity = findViewById(R.id.editTextCapacity);
         editTextDescription = findViewById(R.id.editTextDescription);
         editTextEventDate = findViewById(R.id.editTextEventDate);
+        // Set OnClickListener to show DatePickerDialog - CHANGED
+        // Set the EditText as not editable so users can't type anything in it
+        editTextEventDate.setFocusable(false);
+        editTextEventDate.setClickable(true);  // Make it clickable so DatePicker can be triggered
+
+        // Set OnClickListener to show DatePickerDialog
+        editTextEventDate.setOnClickListener(v -> showDatePicker());
         imageViewEventImage = findViewById(R.id.imageViewEventImage);
         buttonSubmit = findViewById(R.id.buttonSubmit);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
@@ -62,6 +74,30 @@ public class OrganizerActivity extends AppCompatActivity {
 
         buttonUploadImage.setOnClickListener(v -> openImagePicker());
         buttonSubmit.setOnClickListener(v -> createEvent());
+    }
+
+    private void showDatePicker() {
+        // Get the current date to set as the default date
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Create DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    // Format the date as YYYY-MM-DD and set it to the EditText
+                    String date = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                    editTextEventDate.setText(date);
+                },
+                year,
+                month,
+                day
+        );
+
+        // Show the DatePickerDialog
+        datePickerDialog.show();
     }
 
     private void openImagePicker() {
@@ -93,6 +129,11 @@ public class OrganizerActivity extends AppCompatActivity {
         int capacity = Integer.parseInt(editTextCapacity.getText().toString());
         String description = editTextDescription.getText().toString();
         String eventDate = editTextEventDate.getText().toString();
+        // Update this validation to check YYYY-MM-DD format if DatePicker sets it that way
+        if (!eventDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Toast.makeText(this, "Please enter a valid date in YYYY-MM-DD format", Toast.LENGTH_SHORT).show();
+            return;
+        }
         // Generate unique IDs for each type
         String entrantId = generateUniqueId("ENTRANT");
         String organizerId = generateUniqueId("ORGANIZER");
@@ -108,7 +149,14 @@ public class OrganizerActivity extends AppCompatActivity {
         // need to add Malhar code
         Event event = new Event(eventId, name, location, capacity, description, waitlistId, entrantId, organizerId, eventDate);
         // Initialize a new WaitingList for this event
-        WaitingList waitingList = new WaitingList(waitlistId, String.valueOf(eventId));
+        // Determine if limitCapacity is provided
+        WaitingList waitingList;
+        if (editTextLimit.getText().toString().isEmpty()) {
+            waitingList = new WaitingList(waitlistId, String.valueOf(eventId));
+        } else {
+            int limitCapacity = Integer.parseInt(editTextLimit.getText().toString());
+            waitingList = new WaitingList(waitlistId, String.valueOf(eventId), limitCapacity);
+        }
         // Check if image is uploaded
         if (imageUri != null) {
             uploadImage(eventId, event, imageUri, waitingList); // Pass the event object here

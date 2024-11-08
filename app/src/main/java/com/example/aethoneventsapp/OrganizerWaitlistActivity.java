@@ -51,7 +51,14 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
         listViewWaitlist = findViewById(R.id.entrantsListView);
         poolButton = findViewById(R.id.poolButton);
         selectedList = new ArrayList<>();
-        eventId = "725174624";
+
+        // Get eventId from intent
+        eventId = getIntent().getStringExtra("eventId");
+        if (eventId == null) {
+            Log.e(TAG, "Event ID is null");
+            finish(); // Close the activity if eventId is null
+            return;
+        }
 
         fetchEventDetails();
 

@@ -1,5 +1,6 @@
 package com.example.aethoneventsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -31,6 +32,8 @@ public class DisplayActivity extends AppCompatActivity {
     private TextView eventDate;
     private TextView eventDescription;
     private Button joinWaitlistButton;
+    private Button leaveWaitlistButton;
+    private Button signupsButton;
     private FirebaseFirestore db;
 
     @Override
@@ -51,10 +54,36 @@ public class DisplayActivity extends AppCompatActivity {
         updateEventDescription(qrCodeContent); // Pass the qrCodeContent instead of hard-coded ID
         // Set up button to add entrant to Firestore waitlist
         joinWaitlistButton = findViewById(R.id.join_waitlist_button);
+        leaveWaitlistButton = findViewById(R.id.leave_waitlist_button);
+        signupsButton = findViewById(R.id.button_signup);
+        signupsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(DisplayActivity.this, EventInvitationActivity.class);
+            intent.putExtra("eventId", qrCodeContent);
+            intent.putExtra("entrantId", deviceId);
+            startActivity(intent);
+        });
 
         joinWaitlistButton.setOnClickListener(v -> addEntrantToWaitlist(qrCodeContent, deviceId)); // Replace "HARD_CODED_ENTRANT_ID" with a real entrant ID if available
+        leaveWaitlistButton.setOnClickListener(v -> removeEntrantFromWaitlist(qrCodeContent, deviceId)); // Replace "HARD_CODED_ENTRANT_ID" with a real entrant ID if available
 
     }
+
+    private void removeEntrantFromWaitlist(String eventUniqueID, String entrantId) {
+        // Access the event's "WaitingList" collection and remove the entrant
+        db.collection("Events")
+                .document(eventUniqueID)
+                .collection("WaitingList")
+                .document(entrantId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(DisplayActivity.this, "Successfully removed from waitlist!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(DisplayActivity.this, "Failed to remove from waitlist.", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error removing entrant from waitlist", e);
+                });
+    }
+
     /**
      * Method to add an entrant to the waitlist in Firestore.
      *

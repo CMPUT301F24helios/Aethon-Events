@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button signup_btn;
     Button dash_btn;
     ImageView profile_img;
+    String deviceId;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -27,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("MainActivity", "onCreate called");
         setContentView(R.layout.activity_main);
-
+        deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         Button organizerButton = findViewById(R.id.button_organizer);
         organizerButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, OrganizerActivity.class);
+            intent.putExtra("organizerId", deviceId);
             startActivity(intent);
         });
 
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Button organizerViewButton = findViewById(R.id.organizerView);
         organizerViewButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, OrganizerViewActivity.class);
-            String organizerId = "1234567890"; // Hardcoded organizer ID
+            String organizerId = deviceId; // Hardcoded organizer ID
             intent.putExtra("organizerId", organizerId);
             Log.d("MainActivity", "Organizer ID: " + organizerId);  // Check if it's passed correctly
             startActivity(intent);

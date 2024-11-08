@@ -64,6 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.w("Firestore", "Error getting document", e));
 
+
+        // Temporarily disabling all fields
         editName = findViewById(R.id.edit_name);
         editName.setEnabled(false);
 
@@ -79,13 +81,11 @@ public class ProfileActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.save_btn);
         signUpButton.setEnabled(false);
 
-
-
-
         switchOrg = findViewById(R.id.switch_org);
 
         switchOrg.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, OrganizerViewActivity.class);
+            intent.putExtra("organizerId", deviceId);
             startActivity(intent);
         });
 

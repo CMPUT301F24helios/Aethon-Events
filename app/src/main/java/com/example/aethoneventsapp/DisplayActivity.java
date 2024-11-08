@@ -1,6 +1,7 @@
 package com.example.aethoneventsapp;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ public class DisplayActivity extends AppCompatActivity {
     private TextView eventDescription;
     private Button joinWaitlistButton;
     private FirebaseFirestore db;
+    private String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +51,8 @@ public class DisplayActivity extends AppCompatActivity {
         updateEventDescription(qrCodeContent); // Pass the qrCodeContent instead of hard-coded ID
         // Set up button to add entrant to Firestore waitlist
         joinWaitlistButton = findViewById(R.id.join_waitlist_button);
-        joinWaitlistButton.setOnClickListener(v -> addEntrantToWaitlist(qrCodeContent, "1234567890")); // Replace "HARD_CODED_ENTRANT_ID" with a real entrant ID if available
+
+        joinWaitlistButton.setOnClickListener(v -> addEntrantToWaitlist(qrCodeContent, deviceId)); // Replace "HARD_CODED_ENTRANT_ID" with a real entrant ID if available
 
     }
     /**

@@ -14,50 +14,52 @@
         <!-- Title -->
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="251dp"
             android:layout_height="wrap_content"
-            android:text="Create Event"
-            android:textSize="50sp"
-            android:textColor="#FFFFFF"
-            android:fontFamily="sans-serif-medium"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="16dp" />
+            android:fontFamily="sans-serif-medium"
+            android:paddingBottom="16dp"
+            android:text="Create Event"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp" />
 
         <!-- Image and "Change Photo" Button -->
+
+        <!-- Event Name Input -->
+
         <ImageView
             android:id="@+id/imageViewEventImage"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/event1"
+            android:layout_width="153dp"
+            android:layout_height="141dp"
             android:layout_gravity="center_horizontal"
-            android:scaleType="centerCrop"
-
             android:background="@drawable/rounded_bg"
-            android:clipToOutline="true"/>
+            android:clipToOutline="true"
+
+            android:scaleType="centerCrop"
+            android:src="@drawable/event1" />
 
         <Button
             android:id="@+id/buttonUploadImage"
             android:layout_width="149dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/purple"
             android:paddingTop="8dp"
             android:text="Change Photo"
             android:textColor="#FFFFFF"
-            android:backgroundTint="@color/purple"
             android:textSize="14sp" />
 
-        <!-- Event Name Input -->
         <EditText
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Event Name"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
+            android:layout_marginTop="10dp"
             android:backgroundTint="@color/black"
+            android:hint="Event Name"
             android:inputType="text"
-            android:padding="8dp"
-            android:layout_marginTop="16dp" />
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
 
         <!-- Facility Input -->
         <EditText
@@ -69,8 +71,8 @@
             android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
             android:inputType="number"
-            android:padding="8dp"
-            android:layout_marginTop="16dp" />
+            android:padding="5dp"
+            android:layout_marginTop="10dp" />
 
         <!-- Category Input -->
         <EditText
@@ -83,8 +85,8 @@
             android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
             android:inputType="text"
-            android:padding="8dp"
-            android:layout_marginTop="16dp" />
+            android:padding="5dp"
+            android:layout_marginTop="10dp" />
 
         <!-- Date of Event Input -->
         <EditText
@@ -96,8 +98,8 @@
             android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
             android:inputType="datetime"
-            android:padding="8dp"
-            android:layout_marginTop="16dp" />
+            android:padding="5dp"
+            android:layout_marginTop="10dp" />
 
         <!-- Limit Waitlist Input -->
         <EditText
@@ -109,9 +111,57 @@
             android:textColorHint="@color/black"
             android:backgroundTint="@color/black"
             android:inputType="text"
-            android:padding="8dp"
-            android:layout_marginTop="16dp" />
+            android:padding="5dp"
+            android:layout_marginTop="10dp" />
+        <!-- Limit Waitlist Input -->
+        <EditText
+            android:id="@+id/editTextLimit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Limit Capacity"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:backgroundTint="@color/black"
+            android:padding="5dp"
+            android:layout_marginTop="10dp" />
 
+        <!-- Radio Button for geolocation needed not needed -->
+        <!-- Geolocation Radio Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Geolocation needed:"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical" />
+            <RadioGroup
+                android:id="@+id/radioGroupGeolocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp">
+
+                <RadioButton
+                    android:id="@+id/radioYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/radioNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="8dp" />
+            </RadioGroup>
+        </LinearLayout>
         <!-- Create Button -->
         <Button
             android:id="@+id/buttonSubmit"

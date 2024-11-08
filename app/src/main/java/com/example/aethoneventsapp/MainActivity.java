@@ -52,5 +52,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        Button organizerViewButton = findViewById(R.id.organizerView);
+        organizerViewButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, OrganizerViewActivity.class);
+            String organizerId = "1234567890"; // Hardcoded organizer ID
+            intent.putExtra("organizerId", organizerId);
+            Log.d("MainActivity", "Organizer ID: " + organizerId);  // Check if it's passed correctly
+            startActivity(intent);
+        });
+
     }
 }

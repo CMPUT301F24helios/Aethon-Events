@@ -55,7 +55,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
         expandableListView = findViewById(R.id.entrantsListView);
         poolButton = findViewById(R.id.poolButton);
         selectedList = new ArrayList<>();
-        eventId = "730587294";
+        eventId = "725174624";
 
         fetchEventDetails();
 
@@ -74,7 +74,15 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
                 if (document.exists()) {
                     waitlistId = document.getString("waitlistId");
                     capacity = document.getLong("capacity").intValue();
-                    initializeWaitingList();
+                    waitingList = document.toObject(WaitingList.class);
+                    Log.d(TAG, "Waitlist maxWaitlistSize: " + waitingList.getMaxWaitlistSize());
+                    initializeWaitingList(waitingList);
+
+
+
+                    Log.d(TAG, "Event details fetched successfully");
+                    Log.d(TAG, "Waitlist ID: " + waitlistId);
+                    Log.d(TAG, "Capacity: " + capacity);
                 } else {
                     Log.d(TAG, "No such document");
                 }
@@ -84,19 +92,18 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
         });
     }
 
-    private void initializeWaitingList() {
+    private void initializeWaitingList(WaitingList waitingList) {
         // Fetch the waitlist from Firestore
         db.collection("Events").document(eventId).collection("WaitingList").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                Log.d(TAG, "Waitlist fetched successfully");
                 QuerySnapshot querySnapshot = task.getResult();
-                waitingList = new WaitingList(waitlistId, eventId); // Initialize with existing waitlistId and eventId
 
                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                     String entrantId = document.getId();
                     waitingList.addEntrantToWaitlist(eventId, entrantId);
                 }
 
-                prepareListData();
                 com.example.yourapp.ExpandableListAdapter listAdapter = new com.example.yourapp.ExpandableListAdapter(this, listDataHeader, listDataChild);
             } else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -106,7 +113,9 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
 
     private void uploadSelectedListToFirestore() {
         DocumentReference eventRef = db.collection("Events").document(eventId);
+        Log.d(TAG, "Selected list size: " + selectedList.size());
         for (String entrantId : selectedList) {
+            Log.d(TAG, "Uploading entrant to SelectedList: " + entrantId);
             eventRef.collection("SelectedList").document(entrantId).set(new HashMap<String, Object>())
                     .addOnSuccessListener(aVoid -> Log.d(TAG, "Entrant added to SelectedList: " + entrantId))
                     .addOnFailureListener(e -> Log.w(TAG, "Error adding entrant to SelectedList", e));
@@ -135,8 +144,12 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Positive button clicked");
+                Log.d(TAG, "WaitistId: " + waitingList.getEventId());
+                Log.d(TAG, "Waitlist: " + waitingList.getWaitList());
                 if (waitingList != null) {
                     selectedList = waitingList.manageEntrantSelection(eventId, capacity);
+                    Log.d(TAG, "Selected list size: " + selectedList.size());
                     uploadSelectedListToFirestore();
                     // Update UI or perform further actions with selectedList
                 }

@@ -6,9 +6,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +31,14 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String deviceId;
     private UserProfile user;
+    private String notificationToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_signup);
 
+        getToken();
         editName = findViewById(R.id.edit_name);
         editEmail = findViewById(R.id.edit_email);
         editPhone = findViewById(R.id.edit_phone);
@@ -87,6 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
         userData.put("enableNotifications", user.enableNotifications);
         // Website that creates Profile Pic Monograms using characters we give
         userData.put("profilePicture", "https://ui-avatars.com/api/?name="+user.name.charAt(0));
+        userData.put("notificationToken", notificationToken);
         db.collection("users")
                 .add(userData)
                 .addOnSuccessListener(documentReference -> {
@@ -97,6 +106,32 @@ public class SignUpActivity extends AppCompatActivity {
                 });
         device.put("deviceId", user.getDeviceId());
         db.collection("devices").add(device);
+
+    }
+
+    public void getToken(){
+
+        FirebaseMessaging.getInstance().getToken()
+            .addOnCompleteListener(new OnCompleteListener<String>() {
+                @Override
+                public void onComplete(@NonNull Task<String> task) {
+                    if (!task.isSuccessful()) {
+                        Log.w("Notification Token Debugging", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    // Get new FCM registration token
+                    String token = task.getResult();
+
+                    // Log and toast
+
+                    notificationToken = token;
+                    Toast.makeText(SignUpActivity.this, notificationToken, Toast.LENGTH_SHORT).show();
+                    Log.w("AAA", notificationToken);
+                }
+            });
+        //Log.w("BBB", notificationToken);
+
     }
 
 

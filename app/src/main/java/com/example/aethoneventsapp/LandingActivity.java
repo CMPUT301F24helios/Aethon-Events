@@ -3,6 +3,7 @@ package com.example.aethoneventsapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LandingActivity extends AppCompatActivity {
 
@@ -58,11 +60,6 @@ public class LandingActivity extends AppCompatActivity {
                 });
     }
 
-//    public void saveNewDevice() {
-//        // Create a new document with the device ID in the "devices" collection
-//        db.collection("devices").add(new Device(deviceId));
-//    }
-
     // Method to navigate to the main part of the app for recognized devices
     private void navigateToMainApp() {
         startActivity(new Intent(LandingActivity.this, MainActivity.class));
@@ -75,19 +72,4 @@ public class LandingActivity extends AppCompatActivity {
         finish();
     }
 
-    // Device model class
-    public static class Device {
-        private String deviceId;
-
-        public Device() {} // Needed for Firestore
-
-        public Device(String deviceId) {
-            this.deviceId = deviceId;
-        }
-
-        public String getDeviceId() {
-            return deviceId;
-        }
-
-    }
 }

@@ -13,17 +13,19 @@
 
 
         <LinearLayout
+            android:id="@+id/linearLayout11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="66dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="126dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp">
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- Title -->
-
-            <!-- Profile Picture -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,6 +36,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="24sp" />
 
+            <!-- Profile Picture -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,13 +49,16 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="126dp"
             android:background="@drawable/rounded_white_background"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="322dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
 
             <!-- Name Input -->
             <ImageView

@@ -32,7 +32,7 @@ public class DisplayActivity extends AppCompatActivity {
     private TextView eventDescription;
     private Button joinWaitlistButton;
     private FirebaseFirestore db;
-    private String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+    String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

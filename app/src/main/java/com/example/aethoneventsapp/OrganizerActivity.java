@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,18 +24,22 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class OrganizerActivity extends AppCompatActivity {
 
-    private EditText editTextName, editTextLocation, editTextCapacity, editTextDescription, editTextEventDate;
+    private EditText editTextName, editTextLocation, editTextCapacity, editTextDescription, editTextLimit, editTextEventDate;
     private Button buttonSubmit, buttonUploadImage;
     private ImageView imageViewEventImage;
+    private RadioGroup radioGroupGeolocation;
     private Uri imageUri;
     private FirebaseFirestore db;
     private CollectionReference eventsRef;
     private FirebaseStorage storage;
+    private int limitCapacity;
+    private boolean geolocationNeeded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,8 @@ public class OrganizerActivity extends AppCompatActivity {
         imageViewEventImage = findViewById(R.id.imageViewEventImage);
         buttonSubmit = findViewById(R.id.buttonSubmit);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
+        editTextLimit = findViewById(R.id.editTextLimit);  // New field for limit capacity
+        radioGroupGeolocation = findViewById(R.id.radioGroupGeolocation);
 
         buttonUploadImage.setOnClickListener(v -> openImagePicker());
         buttonSubmit.setOnClickListener(v -> createEvent());
@@ -91,10 +98,14 @@ public class OrganizerActivity extends AppCompatActivity {
         String organizerId = generateUniqueId("ORGANIZER");
         String waitlistId = generateUniqueId("WAITLIST");
 
+        limitCapacity = Integer.parseInt(editTextLimit.getText().toString());
+        geolocationNeeded = radioGroupGeolocation.getCheckedRadioButtonId() == R.id.radioYes;
+
         // Store eventId and waitlistId in GlobalDataStore
         GlobalDataStore.getInstance().setData("eventId", eventId);
         GlobalDataStore.getInstance().setData("waitlistId", waitlistId);
 
+        // need to add Malhar code
         Event event = new Event(eventId, name, location, capacity, description, waitlistId, entrantId, organizerId, eventDate);
         // Initialize a new WaitingList for this event
         WaitingList waitingList = new WaitingList(waitlistId, String.valueOf(eventId));
@@ -129,6 +140,8 @@ public class OrganizerActivity extends AppCompatActivity {
         eventData.put("url", event.getUrl());
         eventData.put("eventDate", event.getEventDate());
         eventData.put("waitlistId", event.getWaitlistId());
+        eventData.put("limitCapacity", limitCapacity);  // Add limit capacity to Firestore
+        eventData.put("geolocationNeeded", geolocationNeeded);
 
         if (imageUrl != null) {
             eventData.put("imageUrl", imageUrl);  // Store the image URL in Firestore
@@ -187,6 +200,7 @@ public class OrganizerActivity extends AppCompatActivity {
         editTextCapacity.setText("");
         editTextDescription.setText("");
         editTextEventDate.setText("");
+        editTextLimit.setText("");
         // Clear image view
         imageViewEventImage.setImageResource(R.drawable.event1); // Reset to default image
     }

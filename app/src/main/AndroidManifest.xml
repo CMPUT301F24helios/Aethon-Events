@@ -26,6 +26,9 @@
             android:exported="true"
             android:theme="@style/Theme.AethonEventsApp" />
         <activity
+            android:name=".OrganizerViewActivity"
+            android:exported="true" />
+        <activity
             android:name=".OrganizerWaitlistActivity"
             android:exported="true"
             android:theme="@style/Theme.AethonEventsApp" />

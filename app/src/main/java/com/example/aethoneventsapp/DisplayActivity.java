@@ -32,13 +32,13 @@ public class DisplayActivity extends AppCompatActivity {
     private TextView eventDescription;
     private Button joinWaitlistButton;
     private FirebaseFirestore db;
-    String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_display);
         db = FirebaseFirestore.getInstance();
+        String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         // Initialize UI components
         eventImage = findViewById(R.id.event_image);

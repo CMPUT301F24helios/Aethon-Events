@@ -65,6 +65,8 @@
             </intent-filter>
         </service>
         <activity android:name=".MainActivity" />
+        <activity android:name=".ProfileActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

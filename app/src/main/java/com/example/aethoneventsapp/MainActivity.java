@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button signup_btn;
     Button dash_btn;
     ImageView profile_img;
+    String deviceId;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -27,13 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("MainActivity", "onCreate called");
         setContentView(R.layout.activity_main);
-
-        Button organizerButton = findViewById(R.id.button_organizer);
-        organizerButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, OrganizerActivity.class);
-            startActivity(intent);
-        });
-
+        deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         scan_btn = findViewById(R.id.scanner);
@@ -42,30 +38,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
             startActivity(intent);
         });
-        signup_btn = findViewById(R.id.button_signup);
-        signup_btn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, EventInvitationActivity.class);
-            startActivity(intent);
-        });
-
-        dash_btn = findViewById(R.id.dash_button);
-        dash_btn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, OrganizerWaitlistActivity.class);
-            startActivity(intent);
-        });
 
         profile_img = findViewById(R.id.profile_image);
         profile_img.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-            startActivity(intent);
-        });
-
-        Button organizerViewButton = findViewById(R.id.organizerView);
-        organizerViewButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, OrganizerViewActivity.class);
-            String organizerId = "1234567890"; // Hardcoded organizer ID
-            intent.putExtra("organizerId", organizerId);
-            Log.d("MainActivity", "Organizer ID: " + organizerId);  // Check if it's passed correctly
             startActivity(intent);
         });
 

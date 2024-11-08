@@ -2,8 +2,10 @@ package com.example.aethoneventsapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,6 +27,8 @@ public class OrganizerViewActivity extends AppCompatActivity {
     private ListView listViewEvents;
     private ArrayAdapter<String> adapter;
     private List<String> eventList = new ArrayList<>();
+    private Button organizerButton;
+    private String deviceId;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Map<String, String> eventIdMap = new HashMap<>(); // Map to store event details and their corresponding event IDs
 
@@ -33,8 +37,16 @@ public class OrganizerViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organizer_view);
 
+        deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        organizerButton = findViewById(R.id.button_organizer);
+        organizerButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrganizerViewActivity.this, OrganizerActivity.class);
+            intent.putExtra("organizerId", deviceId);
+            startActivity(intent);
+        });
+
         listViewEvents = findViewById(R.id.ListViewEvents);
-        adapter = new ArrayAdapter<>(this, android.R.layout.activity_list_item, eventList);
+        adapter = new ArrayAdapter<>(this, R.layout.activity_organizer_view_textview, eventList);
         listViewEvents.setAdapter(adapter);
 
         // Get organizerId from intent

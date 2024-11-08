@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -136,7 +137,7 @@ public class OrganizerActivity extends AppCompatActivity {
         }
         // Generate unique IDs for each type
         String entrantId = generateUniqueId("ENTRANT");
-        String organizerId = generateUniqueId("ORGANIZER");
+        String organizerId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         String waitlistId = generateUniqueId("WAITLIST");
 
         limitCapacity = Integer.parseInt(editTextLimit.getText().toString());

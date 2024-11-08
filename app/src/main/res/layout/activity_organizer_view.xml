@@ -14,6 +14,12 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"/>
 
+    <Button
+        android:id="@+id/button_organizer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Event" />
+
     <ListView
         android:id="@+id/ListViewEvents"
         android:layout_width="match_parent"
@@ -21,4 +27,5 @@
         android:padding="8dp"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
+
 </LinearLayout>

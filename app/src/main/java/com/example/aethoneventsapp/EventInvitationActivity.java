@@ -4,18 +4,24 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EventInvitationActivity extends AppCompatActivity {
     private Button acceptButton;
     private Button declineButton;
     private TextView statusTextView;
+    private String eventId;
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,39 +30,72 @@ public class EventInvitationActivity extends AppCompatActivity {
         acceptButton = findViewById(R.id.accept_button);
         declineButton = findViewById(R.id.decline_button);
         statusTextView = findViewById(R.id.invited_status);
-        String entrant = "1234567890";
-        // Retrieve eventId and waitlistId
-        Integer storedEventId = (Integer) GlobalDataStore.getInstance().getData("eventId"); // Retrieve as Integer
-        String eventId = storedEventId.toString(); // Convert to String if needed
 
-        String waitlistId = (String) GlobalDataStore.getInstance().getData("waitlistId"); // waitlistId is already a String        String waitlistId = (String) GlobalDataStore.getInstance().getData("waitlistId");
+        db = FirebaseFirestore.getInstance();
 
-        if (eventId != null && waitlistId != null) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("Events").document(eventId)
-                    .collection("WaitingList").document(waitlistId)
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            WaitingList waitingList = documentSnapshot.toObject(WaitingList.class);
-                            ArrayList<String> waitList = waitingList.getWaitList();
-                            if (waitList.contains(entrant)){
-                                statusTextView.setText("Invited to Event");
-                            };
-                        } else {
-                            Log.d("Firestore", "Waiting List not found");
-                        }
-                    })
-                    .addOnFailureListener(e -> Log.w("Firestore", "Error fetching Waiting List", e));
-        } else {
-            Log.w("Intent", "No WAITLIST_ID or eventId passed to EventInvitationActivity");
-        }
+        eventId = "730587294";
+        String entrantId = "1";  // This could be passed via an Intent or other data source
 
-        // Todo add functionality to accept and decline invite
-//        acceptButton.setOnClickListener(v -> {
-//
-//        });
-//        declineButton.setOnClickListener(v -> {});
+        fetchEventDetails(selectedListItems -> {
+            Log.d("EventInvitation", "selectedListItems: " + selectedListItems);
+            if (selectedListItems.contains(entrantId)) {
+                statusTextView.setText("You are invited!");
+                acceptButton.setEnabled(true);
+                declineButton.setEnabled(true);
+            } else {
+                statusTextView.setText("You are not invited.");
+            }
+        });
 
+        acceptButton.setOnClickListener(v -> acceptInvite());
+        declineButton.setOnClickListener(v -> declineInvite());
+    }
+
+    private void fetchEventDetails(OnSelectedListFetchedListener listener) {
+        db.collection("Events").document(eventId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Log.d("EventInvitation", "Event details fetched successfully");
+
+                    // Retrieve the selectedList collection
+                    db.collection("Events").document(eventId).collection("SelectedList")
+                            .get()
+                            .addOnCompleteListener(listTask -> {
+                                if (listTask.isSuccessful()) {
+                                    List<String> selectedListItems = new ArrayList<>();
+                                    for (DocumentSnapshot listDocument : listTask.getResult()) {
+                                        selectedListItems.add(listDocument.getId());
+                                    }
+                                    Log.d("EventInvitation", "selectedList fetched successfully: " + selectedListItems);
+
+                                    // Pass the selectedListItems to the callback
+                                    listener.onFetched(selectedListItems);
+
+                                } else {
+                                    Log.d("EventInvitation", "Failed to fetch selectedList", listTask.getException());
+                                }
+                            });
+
+                } else {
+                    Log.d("EventInvitation", "No such event found");
+                }
+            } else {
+                Log.d("EventInvitation", "Failed to fetch event details", task.getException());
+            }
+        });
+    }
+
+    // Define a callback interface
+    public interface OnSelectedListFetchedListener {
+        void onFetched(List<String> selectedListItems);
+    }
+
+    private void acceptInvite() {
+        Toast.makeText(this, "Invite accepted!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void declineInvite() {
+        Toast.makeText(this, "Invite declined!", Toast.LENGTH_SHORT).show();
     }
 }

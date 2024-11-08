@@ -11,13 +11,15 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
     Button scan_btn;
-    Button singup_btn;
+    Button signup_btn;
     Button dash_btn;
+    ImageView profile_img;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
             startActivity(intent);
         });
-        singup_btn = findViewById(R.id.button_signup);
-        singup_btn.setOnClickListener(v -> {
+        signup_btn = findViewById(R.id.button_signup);
+        signup_btn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EventInvitationActivity.class);
             startActivity(intent);
         });
@@ -49,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
         dash_btn = findViewById(R.id.dash_button);
         dash_btn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, OrganizerWaitlistActivity.class);
+            startActivity(intent);
+        });
+
+        profile_img = findViewById(R.id.profile_image);
+        profile_img.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
             startActivity(intent);
         });
 

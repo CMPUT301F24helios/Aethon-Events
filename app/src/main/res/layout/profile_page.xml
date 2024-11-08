@@ -1,6 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/create_event_bg"
+    >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="282dp"
+        android:layout_height="79dp"
+        android:text="Your Profile"
+        android:textColor="@android:color/white"
+        android:textSize="48sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="77dp" />
+
+    <ImageView
+        android:id="@+id/imageViewEventImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/event1"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/event1"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="179dp" />
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:textColor="@android:color/black"
+        android:textColorHint="#80FFFFFF"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="380dp" />
+
+    <EditText
+        android:id="@+id/edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        android:text="Phone Number"
+        android:textColor="@android:color/black"
+        android:textColorHint="#80FFFFFF"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="549dp" />
+
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:text="Email"
+        android:textColor="@android:color/black"
+        android:textColorHint="#80FFFFFF"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="467dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Receive Notifications"
+        android:textSize="18dp"
+        tools:layout_editor_absoluteX="102dp"
+        tools:layout_editor_absoluteY="620dp" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="338dp"
+        android:layout_height="63dp"
+        android:text="Save"
+        android:textSize="32dp"
+        tools:layout_editor_absoluteX="36dp"
+        tools:layout_editor_absoluteY="706dp"
+        android:background="@drawable/button_bg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

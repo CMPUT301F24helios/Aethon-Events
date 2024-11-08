@@ -109,6 +109,7 @@
                 android:textColor="@android:color/black"
                 android:textColorHint="#80FFFFFF" />
 
+
             <!-- Save Button -->
             <Button
                 android:id="@+id/signup_btn"

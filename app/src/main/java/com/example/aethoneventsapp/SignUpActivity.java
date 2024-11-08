@@ -2,6 +2,7 @@ package com.example.aethoneventsapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,11 +28,13 @@ public class SignUpActivity extends AppCompatActivity {
     private String deviceId;
     private UserProfile user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_signup);
 
+        deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         editName = findViewById(R.id.edit_name);
         editEmail = findViewById(R.id.edit_email);
         editPhone = findViewById(R.id.edit_phone);
@@ -38,11 +42,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-         // Checks if all fields are filled, only then creates a new user on firebase
+        Task<QuerySnapshot> query;
+        query = db.collection("users")
+                .whereEqualTo("deviceId", deviceId)
+                .get();
+        // Checks if all fields are filled, only then updates the user on firebase
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get user forms
                 String name = editName.getText().toString().trim();
                 String email = editEmail.getText().toString().trim();
                 String phone = editPhone.getText().toString().trim();

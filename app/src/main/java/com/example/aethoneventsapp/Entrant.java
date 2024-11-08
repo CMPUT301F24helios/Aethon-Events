@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Entrant {
-    private String entrantId;
-    private String deviceId;
+    private int entrantId;
+    private int deviceId;
     private String name;
     private String email;
     private String phoneNumber;
-    private List<String> registeredEvents;
-    private List<String> waitlistedEvents;
-    private List<String> pendingInvitations;
+    private List<Integer> registeredEvents;
+    private List<Integer> waitlistedEvents;
+    private List<Integer> pendingInvitations;
     private String postalCode;
 
-    public Entrant(String entrantId, String deviceId, String name, String email, String phoneNumber, String postalCode) {
+    public Entrant(int entrantId, int deviceId, String name, String email, String phoneNumber, String postalCode) {
         this.entrantId = entrantId;
         this.deviceId = deviceId;
         this.name = name;
@@ -31,7 +31,7 @@ public class Entrant {
      *
      * @return entrantId
      */
-    public String getEntrantId() {
+    public int getEntrantId() {
         return entrantId;
     }
 
@@ -40,7 +40,7 @@ public class Entrant {
      *
      * @param entrantId
      */
-    public void setEntrantId(String entrantId) {
+    public void setEntrantId(int entrantId) {
         this.entrantId = entrantId;
     }
 
@@ -49,7 +49,7 @@ public class Entrant {
      *
      * @return deviceId
      */
-    public String getDeviceId() {
+    public int getDeviceId() {
         return deviceId;
     }
 
@@ -58,7 +58,7 @@ public class Entrant {
      *
      * @param deviceId
      */
-    public void setDeviceId(String deviceId) {
+    public void setDeviceId(int deviceId) {
         this.deviceId = deviceId;
     }
 
@@ -121,7 +121,7 @@ public class Entrant {
      *
      * @return registeredEvents
      */
-    public List<String> getRegisteredEvents() {
+    public List<Integer> getRegisteredEvents() {
         return registeredEvents;
     }
 
@@ -130,7 +130,7 @@ public class Entrant {
      *
      * @param registeredEvents
      */
-    public void setRegisteredEvents(List<String> registeredEvents) {
+    public void setRegisteredEvents(List<Integer> registeredEvents) {
         this.registeredEvents = registeredEvents;
     }
 
@@ -139,7 +139,7 @@ public class Entrant {
      *
      * @return waitlistedEvents
      */
-    public List<String> getWaitlistedEvents() {
+    public List<Integer> getWaitlistedEvents() {
         return waitlistedEvents;
     }
 
@@ -148,7 +148,7 @@ public class Entrant {
      *
      * @param waitlistedEvents
      */
-    public void setWaitlistedEvents(List<String> waitlistedEvents) {
+    public void setWaitlistedEvents(List<Integer> waitlistedEvents) {
         this.waitlistedEvents = waitlistedEvents;
     }
 
@@ -157,7 +157,7 @@ public class Entrant {
      *
      * @return pendingInvitations
      */
-    public List<String> getPendingInvitations() {
+    public List<Integer> getPendingInvitations() {
         return pendingInvitations;
     }
 
@@ -165,7 +165,7 @@ public class Entrant {
      * Setter for pendingInvitations
      * @param pendingInvitations
      */
-    public void setPendingInvitations(List<String> pendingInvitations) {
+    public void setPendingInvitations(List<Integer> pendingInvitations) {
         this.pendingInvitations = pendingInvitations;
     }
 
@@ -205,7 +205,7 @@ public class Entrant {
      * Method to join the waitlist for an event
      * @param eventId
      */
-    public void joinWaitlist(String eventId) {
+    public void joinWaitlist(int eventId) {
         if (!waitlistedEvents.contains(eventId)) {
             waitlistedEvents.add(eventId);
             System.out.println("You have been added to the waitlist");
@@ -220,7 +220,7 @@ public class Entrant {
      * Method to leave the waitlist for an event
      * @param eventId
      */
-    public void leaveWaitlist(String eventId) {
+    public void leaveWaitlist(int eventId) {
         waitlistedEvents.remove(eventId);
     }
 
@@ -228,7 +228,7 @@ public class Entrant {
      * Method to register for an event
      * @param eventId
      */
-    public void acceptInvitation(String eventId) {
+    public void acceptInvitation(int eventId) {
         if (pendingInvitations.contains(eventId)) {
             registeredEvents.add(eventId);
             pendingInvitations.remove(eventId);
@@ -239,7 +239,7 @@ public class Entrant {
      * Method to decline an invitation for an event
      * @param eventId
      */
-    public void declineInvitation(String eventId) {
+    public void declineInvitation(int eventId) {
         pendingInvitations.remove(eventId);
     }
 

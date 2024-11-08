@@ -42,10 +42,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        Task<QuerySnapshot> query;
-        query = db.collection("users")
-                .whereEqualTo("deviceId", deviceId)
-                .get();
         // Checks if all fields are filled, only then updates the user on firebase
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override

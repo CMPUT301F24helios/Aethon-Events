@@ -30,15 +30,43 @@ public class ProfileActivity extends AppCompatActivity {
     private UserProfile user;
     Map<String, Object> documentData; // For storing the entire document's data
     String fieldValue = null;
-    String name;
 
+    // Profile Data
+    String name;
+    String email;
+    String phNo;
+    String profilePic;
+    Boolean userNotifSetting;
+
+//    private class ProfileData{
+//        String name;
+//        String email;
+//        String phNo;
+//        public ProfileData(String name, String email, String phNo) {
+//            this.name = name
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_page);
-        db = FirebaseFirestore.getInstance();
 
+        editName = findViewById(R.id.edit_name);
+        editName.setEnabled(false);
+
+        editEmail = findViewById(R.id.edit_email);
+        editEmail.setEnabled(false);
+
+        editPhone = findViewById(R.id.edit_phone);
+        editPhone.setEnabled(false);
+
+        notifCheck = findViewById(R.id.checkBox);
+        notifCheck.setEnabled(false);
+
+
+
+        db = FirebaseFirestore.getInstance();
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         db.collection("users")
@@ -56,7 +84,17 @@ public class ProfileActivity extends AppCompatActivity {
                         // Or store specific fields if needed
                         fieldValue = document.getString("deviceId");
                         name = document.getString("name");
-                        Log.d("Firestore", name);
+                        email = document.getString("email");
+                        phNo = document.getString("phone");
+                        profilePic = document.getString("profilePicture");
+                        userNotifSetting = document.getBoolean("enableNotifications");
+
+                        editName.setText(name);
+                        editEmail.setText(email);
+                        editPhone.setText(phNo);
+                        notifCheck.setEnabled(userNotifSetting);
+
+                        Log.d("FirestoreName", name);
                         Log.d("Firestore", "Document ID: " + document.getId() + ", Field1 Value: " + fieldValue);
                     } else {
                         Log.d("Firestore", "No matching document found.");
@@ -66,17 +104,8 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         // Temporarily disabling all fields
-        editName = findViewById(R.id.edit_name);
-        editName.setEnabled(false);
 
-        editEmail = findViewById(R.id.edit_email);
-        editEmail.setEnabled(false);
 
-        editPhone = findViewById(R.id.edit_phone);
-        editPhone.setEnabled(false);
-
-        notifCheck = findViewById(R.id.checkBox);
-        notifCheck.setEnabled(false);
 
         signUpButton = findViewById(R.id.save_btn);
         signUpButton.setEnabled(false);

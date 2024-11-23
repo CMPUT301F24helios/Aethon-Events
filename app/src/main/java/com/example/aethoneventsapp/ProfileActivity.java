@@ -53,17 +53,9 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.profile_page);
 
         editName = findViewById(R.id.edit_name);
-        editName.setEnabled(false);
-
         editEmail = findViewById(R.id.edit_email);
-        editEmail.setEnabled(false);
-
         editPhone = findViewById(R.id.edit_phone);
-        editPhone.setEnabled(false);
-
         notifCheck = findViewById(R.id.checkBox);
-        notifCheck.setEnabled(false);
-
 
 
         db = FirebaseFirestore.getInstance();
@@ -108,7 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         signUpButton = findViewById(R.id.save_btn);
-        signUpButton.setEnabled(false);
 
         switchOrg = findViewById(R.id.switch_org);
 
@@ -126,6 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String name = editName.getText().toString().trim();
                 String email = editEmail.getText().toString().trim();
                 String phone = editPhone.getText().toString().trim();
+                Boolean notifPref = notifCheck.isChecked();
 
                 if (name.isEmpty()) {
                     editName.setError("Name is required!");
@@ -144,7 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
                     editPhone.requestFocus();
                     return;
                 }
-                user = new UserProfile(getApplicationContext(), name, email, phone, true);
+                user = new UserProfile(getApplicationContext(), name, email, phone, notifPref);
                 registerUser(user);
                 startActivity(new Intent(ProfileActivity.this, MainActivity.class));
             }
@@ -156,6 +148,10 @@ public class ProfileActivity extends AppCompatActivity {
      * @param user UserProfile instance
      */
     private void registerUser(UserProfile user) {
+
+        // update: instead of adding new data, we update the fields in the old doc.
+        // TODO: optimise by not changing the (for sure)-unchanged fields.
+
         Map<String, Object> userData = new HashMap<>();
         Map<String, Object> device = new HashMap<>();
         userData.put("name", user.name);
@@ -167,16 +163,18 @@ public class ProfileActivity extends AppCompatActivity {
         userData.put("enableNotifications", user.enableNotifications);
         // Website that creates Profile Pic Monograms using characters we give
         userData.put("profilePicture", "https://ui-avatars.com/api/?name="+user.name.charAt(0));
+
         db.collection("users")
-                .add(userData)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d("Firestore", "Registering UserProfile with ID: " + documentReference.getId());
+                .whereEqualTo("deviceId", user.getDeviceId())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    String documentId = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    db.collection("users").document(documentId)
+                            .update(userData)
+                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "User data updated successfully."))
+                            .addOnFailureListener(e -> Log.w("Firestore", "Error updating user data", e));
                 })
-                .addOnFailureListener(e -> {
-                    Log.w("Firestore", "Error registering UserProfile", e);
-                });
-        device.put("deviceId", user.getDeviceId());
-        db.collection("devices").add(device);
+                .addOnFailureListener(e -> Log.w("Firestore", "Error querying users", e));
     }
 
 }

@@ -17,7 +17,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button scan_btn;
+    Button scan_btn,admin_btn;
     Button signup_btn;
     Button dash_btn;
     ImageView profile_img;
@@ -42,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         profile_img = findViewById(R.id.profile_image);
         profile_img.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
+
+        // Admin button to navigate to AdminActivity
+        admin_btn = findViewById(R.id.admin_button); // Assuming the button is added in the XML layout
+        admin_btn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
             startActivity(intent);
         });
 

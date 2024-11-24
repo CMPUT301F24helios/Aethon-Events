@@ -37,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
     String phNo;
     String profilePic;
     Boolean userNotifSetting;
+    Boolean isOrganizer;
 
 //    private class ProfileData{
 //        String name;
@@ -56,6 +57,8 @@ public class ProfileActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.edit_email);
         editPhone = findViewById(R.id.edit_phone);
         notifCheck = findViewById(R.id.checkBox);
+        signUpButton = findViewById(R.id.save_btn);
+        switchOrg = findViewById(R.id.switch_org);
 
 
         db = FirebaseFirestore.getInstance();
@@ -80,11 +83,16 @@ public class ProfileActivity extends AppCompatActivity {
                         phNo = document.getString("phone");
                         profilePic = document.getString("profilePicture");
                         userNotifSetting = document.getBoolean("enableNotifications");
+                        isOrganizer = document.getBoolean("isOrganizer");
 
                         editName.setText(name);
                         editEmail.setText(email);
                         editPhone.setText(phNo);
                         notifCheck.setEnabled(userNotifSetting);
+                        if (isOrganizer){
+                            switchOrg.setText("Switch to Organizer Mode");
+                        }
+
 
                         Log.d("FirestoreName", name);
                         Log.d("Firestore", "Document ID: " + document.getId() + ", Field1 Value: " + fieldValue);
@@ -94,14 +102,6 @@ public class ProfileActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.w("Firestore", "Error getting document", e));
 
-
-        // Temporarily disabling all fields
-
-
-
-        signUpButton = findViewById(R.id.save_btn);
-
-        switchOrg = findViewById(R.id.switch_org);
 
         switchOrg.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, OrganizerViewActivity.class);
@@ -151,6 +151,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // update: instead of adding new data, we update the fields in the old doc.
         // TODO: optimise by not changing the (for sure)-unchanged fields.
+        // TODO: updating profile picture.
 
         Map<String, Object> userData = new HashMap<>();
         Map<String, Object> device = new HashMap<>();

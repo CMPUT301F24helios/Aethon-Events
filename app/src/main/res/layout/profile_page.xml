@@ -10,35 +10,51 @@
         android:id="@+id/textView"
         android:layout_width="282dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="77dp"
-        android:layout_marginBottom="189dp"
+        android:layout_marginTop="24dp"
         android:text="Your Profile"
         android:textColor="@android:color/white"
         android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageViewEventImage"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
+        android:id="@+id/profileImage"
+        android:layout_width="172dp"
+        android:layout_height="142dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="514dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
         android:src="@drawable/baseline_camera_alt_24"
-        app:layout_constraintBottom_toTopOf="@+id/switch_org"
+        app:layout_constraintBottom_toTopOf="@+id/changePhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/changePhoto"
+        android:layout_width="149dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/purple"
+        android:paddingTop="8dp"
+        android:text="Change Photo"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
 
     <EditText
         android:id="@+id/edit_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="21dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="48dp"
         android:hint="Name"
@@ -48,8 +64,9 @@
         android:textColorHint="#80FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/edit_email"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/changePhoto" />
 
     <EditText
         android:id="@+id/edit_phone"
@@ -89,7 +106,7 @@
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
+        android:layout_marginBottom="17dp"
         android:checked="true"
         android:text="Receive Notifications"
         android:textSize="18dp"
@@ -100,32 +117,29 @@
 
     <Button
         android:id="@+id/save_btn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="162dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
         android:background="@drawable/button_bg"
         android:text="Save"
-        android:textSize="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/switch_org"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
     <Button
         android:id="@+id/switch_org"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="67dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="29dp"
         android:background="@drawable/button_bg"
         android:text="Become an Organiser!"
-        android:textSize="32dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewEventImage" />
+        app:layout_constraintTop_toBottomOf="@+id/save_btn" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

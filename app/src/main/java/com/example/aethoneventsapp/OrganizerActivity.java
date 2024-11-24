@@ -148,7 +148,11 @@ public class OrganizerActivity extends AppCompatActivity {
         GlobalDataStore.getInstance().setData("waitlistId", waitlistId);
 
         // need to add Malhar code
-        Event event = new Event(eventId, name, location, capacity, description, waitlistId, entrantId, organizerId, eventDate);
+        Event event = new Event(eventId, name, location, organizerId, eventDate);
+        event.setDescription(description);
+        event.setWaitlistId(waitlistId);
+        event.setCapacity(capacity);
+        event.setEntrantId(entrantId);
         // Initialize a new WaitingList for this event
         // Determine if limitCapacity is provided
         WaitingList waitingList;

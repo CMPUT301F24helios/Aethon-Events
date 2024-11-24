@@ -36,14 +36,11 @@ public class Event {
 
 
     // Constructor
-    public Event(int eventId, String name, String location, int capacity, String description, String waitlistId, String entrantId, String organizerId, String eventDate) {
+    public Event(int eventId, String name, String location, String organizerId, String eventDate) {
         this.eventId = eventId;
         this.name = name;
         this.location = location;
-        this.capacity = capacity;
         this.description = description;
-        this.waitlistId = waitlistId;
-        this.entrantId = entrantId;
         this.organizerId = organizerId;
         this.eventDate = eventDate;
         createUrl();
@@ -261,6 +258,10 @@ public class Event {
 
     public void setOrganizerId(String organizerId) {
         this.organizerId = organizerId;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
 

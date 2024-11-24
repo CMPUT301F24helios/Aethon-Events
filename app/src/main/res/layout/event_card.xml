@@ -6,6 +6,7 @@
     android:orientation="horizontal"
     android:background="@drawable/image_border"
     android:padding="12dp"
+    android:paddingBottom="50dp"
     android:layout_margin="8dp">
 
     <LinearLayout
@@ -15,6 +16,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id = "@+id/eventTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Resume Workshop"
@@ -29,12 +31,14 @@
             android:layout_marginTop="4dp">
 
             <ImageView
+                android:id = "@+id/eventTypeIcon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_virtual"
                 app:tint="#5C0F61" />
 
             <TextView
+                android:id = "@+id/eventTypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Virtual"
@@ -48,6 +52,7 @@
                 android:src="@drawable/ic_clock" />
 
             <TextView
+                android:id = "@+id/eventTimeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="6:00 PM"
@@ -56,14 +61,15 @@
         </LinearLayout>
     </LinearLayout>
 
-<!--    <ImageView-->
-<!--        android:layout_width="80dp"-->
-<!--        android:layout_height="80dp"-->
-<!--        android:contentDescription="@string/posterimage"-->
-<!--        android:src="@drawable/event_poster"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:background="@drawable/image_border"/>-->
+    <ImageView
+        android:id = "@+id/eventPosterImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/posterimage"
+        android:src="@drawable/event_poster"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/image_border"/>
 
 </LinearLayout>

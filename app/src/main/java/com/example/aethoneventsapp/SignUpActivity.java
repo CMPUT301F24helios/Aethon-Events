@@ -10,7 +10,6 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         editName = findViewById(R.id.edit_name);
-        editEmail = findViewById(R.id.edit_email);
+        editEmail = findViewById(R.id.edit_address);
         editPhone = findViewById(R.id.edit_phone);
         signUpButton = findViewById(R.id.signup_btn);
 

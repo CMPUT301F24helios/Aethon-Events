@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -69,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         editName = findViewById(R.id.edit_name);
         editName.setEnabled(false);
 
-        editEmail = findViewById(R.id.edit_email);
+        editEmail = findViewById(R.id.edit_address);
         editEmail.setEnabled(false);
 
         editPhone = findViewById(R.id.edit_phone);

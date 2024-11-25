@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/create_event_bg">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="282dp"
+        android:layout_height="82dp"
+        android:text="Your Facility"
+        android:textColor="@android:color/white"
+        android:textSize="48sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="77dp" />
+
+    <ImageView
+        android:id="@+id/imageViewEventImage"
+        android:layout_width="170dp"
+        android:layout_height="149dp"
+        android:layout_gravity="center_horizontal"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_camera_alt_24"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="200dp" />
+
+    <EditText
+        android:id="@+id/edit_address"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:hint="Address"
+        android:inputType="text"
+        android:text="Address"
+        android:textColor="@android:color/black"
+        android:textColorHint="#80FFFFFF"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="530dp" />
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:textColor="@android:color/black"
+        android:textColorHint="#80FFFFFF"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="437dp" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="339dp"
+        android:layout_height="82dp"
+        android:background="@drawable/button_bg"
+        android:text="Save"
+        android:textSize="32dp"
+        tools:layout_editor_absoluteX="36dp"
+        tools:layout_editor_absoluteY="670dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

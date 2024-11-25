@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     private EditText editName, editEmail, editPhone;
-    private Button signUpButton, switchOrg, changePhoto;
+    private Button signUpButton, switchOrg, changePhoto, removePhoto;
     private ImageView profileImageView;
     private CheckBox notifCheck;
     private FirebaseFirestore db;
@@ -53,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         switchOrg = findViewById(R.id.switch_org);
         changePhoto = findViewById(R.id.changePhoto);
         profileImageView = findViewById(R.id.profileImage);
+        removePhoto = findViewById(R.id.removePhoto);
 
         // Initialize Firebase instances
         db = FirebaseFirestore.getInstance();
@@ -72,10 +73,16 @@ public class ProfileActivity extends AppCompatActivity {
         // Button to change profile photo
         changePhoto.setOnClickListener(v -> openImagePicker());
 
+        //Button to remove profile photo.
+        removePhoto.setOnClickListener(v -> removeProfileImage());
+
         // Button to save user profile
         signUpButton.setOnClickListener(v -> saveUserProfile());
     }
 
+    private void removeProfileImage(){
+        //implementation of deterministically generated profile picture.
+    }
     private void fetchUserProfile() {
         db.collection("users")
                 .whereEqualTo("deviceId", deviceId)

@@ -40,14 +40,30 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="1dp"
         android:backgroundTint="@color/purple"
         android:paddingTop="8dp"
         android:text="Change Photo"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/removePhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+    <Button
+        android:id="@+id/removePhoto"
+        android:layout_width="149dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/purple"
+        android:paddingTop="8dp"
+        android:text="Remove Photo"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changePhoto" />
 
     <EditText
         android:id="@+id/edit_name"
@@ -66,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePhoto" />
+        app:layout_constraintTop_toBottomOf="@+id/removePhoto" />
 
     <EditText
         android:id="@+id/edit_phone"
@@ -94,7 +110,7 @@
         android:layout_marginBottom="48dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        android:text="Email"
+        android:text='android:id="@+id/changePhoto"         android:layout_width="149dp"         android:layout_height="wrap_content"         android:layout_gravity="center_horizontal"         android:layout_marginTop="8dp"         android:backgroundTint="@color/purple"         android:paddingTop="8dp"         android:text="Change Photo"         android:textColor="#FFFFFF"         android:textSize="14sp"'
         android:textColor="@android:color/black"
         android:textColorHint="#80FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/edit_phone"
@@ -119,10 +135,10 @@
         android:id="@+id/save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="11dp"
         android:background="@drawable/button_bg"
         android:text="Save"
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/switch_org"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

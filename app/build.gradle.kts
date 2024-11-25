@@ -42,7 +42,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database:20.0.5") // Only one Firebase Database version
 
     implementation("com.squareup.picasso:picasso:2.71828")
-
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     // Android libraries
     implementation("com.google.firebase:firebase-messaging:23.0.0")
     implementation("com.google.firebase:firebase-analytics")

@@ -24,6 +24,8 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileActivity extends AppCompatActivity {
     private EditText editName, editEmail, editPhone;
     private Button signUpButton, switchOrg, changePhoto, removePhoto;
@@ -34,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String deviceId;
     private Uri imageUri;
     private UserProfile user;
+    private CircleImageView tmp_circularView;
 
     // Profile Data
     private String name, email, phNo, profilePic;
@@ -54,6 +57,8 @@ public class ProfileActivity extends AppCompatActivity {
         changePhoto = findViewById(R.id.changePhoto);
         profileImageView = findViewById(R.id.profileImage);
         removePhoto = findViewById(R.id.removePhoto);
+
+        tmp_circularView = findViewById(R.id.circularImageView);
 
         // Initialize Firebase instances
         db = FirebaseFirestore.getInstance();
@@ -82,6 +87,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void removeProfileImage(){
         //implementation of deterministically generated profile picture.
+        String formattedName = name.replace(" ", "+");
+        profilePic = "https://ui-avatars.com/api/?name=" + formattedName +"&background=3C0753&color=ffffff&size=512";
+        Picasso.get()
+                .load(profilePic)
+                .placeholder(R.drawable.baseline_person_24) // Optional placeholder
+                .into(profileImageView);
+
     }
     private void fetchUserProfile() {
         db.collection("users")
@@ -106,7 +118,14 @@ public class ProfileActivity extends AppCompatActivity {
                         notifCheck.setChecked(userNotifSetting != null && userNotifSetting);
 
                         if (profilePic != null && !profilePic.isEmpty()) {
-                            Picasso.get().load(profilePic).into(profileImageView);
+                            Picasso.get()
+                                    .load(profilePic)
+                                    .placeholder(R.drawable.baseline_person_24) // Optional placeholder
+                                    .into(profileImageView);
+                            Picasso.get()
+                                    .load(profilePic)
+                                    .placeholder(R.drawable.baseline_person_24) // Optional placeholder
+                                    .into(tmp_circularView);
                         }
 
                         if (Boolean.TRUE.equals(isOrganizer)) {

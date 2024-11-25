@@ -19,6 +19,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circularImageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="146dp"
+        android:clickable="true"
+        android:src="@drawable/baseline_camera_alt_24"
+        app:civ_border_color="#ffffff"
+        app:civ_border_width="2dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/edit_name"
+        app:layout_constraintEnd_toStartOf="@+id/profileImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="172dp"
@@ -37,12 +56,11 @@
     <Button
         android:id="@+id/changePhoto"
         android:layout_width="149dp"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="1dp"
         android:backgroundTint="@color/purple"
-        android:paddingTop="8dp"
         android:text="Change Photo"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
@@ -54,13 +72,13 @@
     <Button
         android:id="@+id/removePhoto"
         android:layout_width="149dp"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/purple"
         android:paddingTop="8dp"
         android:text="Remove Photo"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changePhoto" />
@@ -110,7 +128,7 @@
         android:layout_marginBottom="48dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        android:text='android:id="@+id/changePhoto"         android:layout_width="149dp"         android:layout_height="wrap_content"         android:layout_gravity="center_horizontal"         android:layout_marginTop="8dp"         android:backgroundTint="@color/purple"         android:paddingTop="8dp"         android:text="Change Photo"         android:textColor="#FFFFFF"         android:textSize="14sp"'
+        android:text='Email'
         android:textColor="@android:color/black"
         android:textColorHint="#80FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/edit_phone"

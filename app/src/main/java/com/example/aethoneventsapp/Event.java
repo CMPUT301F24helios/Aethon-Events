@@ -36,7 +36,7 @@ public class Event {
 
 
     // Constructor
-    public Event(int eventId, String name, String location, int capacity, String description, String waitlistId, String entrantId, String organizerId, String eventDate) {
+    public Event(int eventId, String name, String location, int capacity, String description, String waitlistId, String entrantId, String organizerId, String eventDate, String url ) {
         this.eventId = eventId;
         this.name = name;
         this.location = location;
@@ -46,13 +46,11 @@ public class Event {
         this.entrantId = entrantId;
         this.organizerId = organizerId;
         this.eventDate = eventDate;
-        createUrl();
+        this.url = url;
     }
-    public void createUrl(){
-        // create a custom url for the event
-        this.url = "event/" + this.eventId;
-    }
-    public String getUrl() {
+
+
+    public String getImageUrl() {
         return url;
     }
     public String getEventDate() { // Add this method
@@ -261,6 +259,14 @@ public class Event {
 
     public void setOrganizerId(String organizerId) {
         this.organizerId = organizerId;
+    }
+
+    public void setEventDate(String updatedDate) {
+        this.eventDate = updatedDate;
+    }
+
+    public void setImageUrl(String updatedImageUrl) {
+        this.url = updatedImageUrl;
     }
 }
 

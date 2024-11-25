@@ -36,7 +36,6 @@ public class ProfileActivity extends AppCompatActivity {
     private String deviceId;
     private Uri imageUri;
     private UserProfile user;
-    private CircleImageView tmp_circularView;
 
     // Profile Data
     private String name, email, phNo, profilePic;
@@ -58,7 +57,6 @@ public class ProfileActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profileImage);
         removePhoto = findViewById(R.id.removePhoto);
 
-        tmp_circularView = findViewById(R.id.circularImageView);
 
         // Initialize Firebase instances
         db = FirebaseFirestore.getInstance();
@@ -122,10 +120,6 @@ public class ProfileActivity extends AppCompatActivity {
                                     .load(profilePic)
                                     .placeholder(R.drawable.baseline_person_24) // Optional placeholder
                                     .into(profileImageView);
-                            Picasso.get()
-                                    .load(profilePic)
-                                    .placeholder(R.drawable.baseline_person_24) // Optional placeholder
-                                    .into(tmp_circularView);
                         }
 
                         if (Boolean.TRUE.equals(isOrganizer)) {

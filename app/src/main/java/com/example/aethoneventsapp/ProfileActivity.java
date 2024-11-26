@@ -11,11 +11,13 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProfileActivity extends AppCompatActivity {
     private EditText editName;
@@ -86,7 +88,9 @@ public class ProfileActivity extends AppCompatActivity {
 //            Intent intent = new Intent(ProfileActivity.this, OrganizerViewActivity.class);
 //            intent.putExtra("organizerId", deviceId);
 //            startActivity(intent);
-            startActivity(new Intent(ProfileActivity.this, CreateFacilityActivity.class));
+
+            handleSwitch(deviceId);
+//            startActivity(new Intent(ProfileActivity.this, CreateFacilityActivity.class));
         });
 
         // Checks if all fields are filled, only then creates a new user on firebase
@@ -148,6 +152,23 @@ public class ProfileActivity extends AppCompatActivity {
                 });
         device.put("deviceId", user.getDeviceId());
         db.collection("devices").add(device);
+    }
+
+    private void handleSwitch(String deviceId) {
+        db.collection("facilities").document(deviceId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        boolean exists = document.exists();
+                        if (exists) {
+                            startActivity(new Intent(ProfileActivity.this, OrganizerViewActivity.class));
+                        } else {
+                            startActivity(new Intent(ProfileActivity.this, CreateFacilityActivity.class));
+                        }
+
+                    }
+                }
+        );
     }
 
 }

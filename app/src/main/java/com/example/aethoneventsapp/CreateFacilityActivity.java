@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * The Create facility activity.
+ */
 public class CreateFacilityActivity extends AppCompatActivity {
     // Facility ID = Device ID
     // Organizer ID = Device ID
@@ -97,7 +100,8 @@ public class CreateFacilityActivity extends AppCompatActivity {
         facilityData.put("description", f.getDescription());
         facilityData.put("organizerId", f.getOrganizer());
 
-
+        // setting ID of document as DeviceID. This automatically makes it unique
+        // and enforces 1 facility per user.
         db.collection("facilities").document(deviceId)
                 .set(facilityData)
                 .addOnSuccessListener(aVoid -> {

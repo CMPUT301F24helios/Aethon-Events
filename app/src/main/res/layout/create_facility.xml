@@ -9,56 +9,112 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="282dp"
-        android:layout_height="82dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginBottom="33dp"
         android:text="Your Facility"
         android:textColor="@android:color/white"
         android:textSize="48sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="77dp" />
+        app:layout_constraintBottom_toTopOf="@+id/imageViewEventImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewEventImage"
         android:layout_width="170dp"
-        android:layout_height="149dp"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="34dp"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
         android:src="@drawable/baseline_camera_alt_24"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="200dp" />
+        app:layout_constraintBottom_toTopOf="@+id/edit_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/edit_address"
-        android:layout_width="363dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Address"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="13dp"
+        android:hint="Location"
         android:inputType="text"
-        android:text="Address"
+        android:text="Location"
         android:textColor="@android:color/black"
         android:textColorHint="#80FFFFFF"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="530dp" />
+        app:layout_constraintBottom_toTopOf="@+id/edit_capacity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+
+    <EditText
+        android:id="@+id/edit_capacity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="22dp"
+        android:hint="Address"
+        android:inputType="number"
+        android:text="Capacity"
+        android:textColor="@android:color/black"
+        android:textColorHint="#80FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/edit_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_address" />
+
+    <EditText
+        android:id="@+id/edit_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="65dp"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:text="Description"
+        android:textColor="@android:color/black"
+        android:textColorHint="#80FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/submit_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_capacity" />
 
     <EditText
         android:id="@+id/edit_name"
-        android:layout_width="363dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="15dp"
         android:hint="Name"
         android:inputType="textPersonName"
         android:text="Name"
         android:textColor="@android:color/black"
         android:textColorHint="#80FFFFFF"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="437dp" />
+        app:layout_constraintBottom_toTopOf="@+id/edit_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEventImage" />
 
     <Button
-        android:id="@+id/save_btn"
-        android:layout_width="339dp"
-        android:layout_height="82dp"
+        android:id="@+id/submit_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="162dp"
         android:background="@drawable/button_bg"
-        android:text="Save"
-        android:textSize="32dp"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="670dp" />
+        android:text="Submit"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

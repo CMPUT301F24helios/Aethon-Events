@@ -77,15 +77,16 @@ public class ProfileActivity extends AppCompatActivity {
         notifCheck = findViewById(R.id.checkBox);
         notifCheck.setEnabled(false);
 
-        signUpButton = findViewById(R.id.save_btn);
+        signUpButton = findViewById(R.id.submit_btn);
         signUpButton.setEnabled(false);
 
         switchOrg = findViewById(R.id.switch_org);
 
         switchOrg.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, OrganizerViewActivity.class);
-            intent.putExtra("organizerId", deviceId);
-            startActivity(intent);
+//            Intent intent = new Intent(ProfileActivity.this, OrganizerViewActivity.class);
+//            intent.putExtra("organizerId", deviceId);
+//            startActivity(intent);
+            startActivity(new Intent(ProfileActivity.this, CreateFacilityActivity.class));
         });
 
         // Checks if all fields are filled, only then creates a new user on firebase

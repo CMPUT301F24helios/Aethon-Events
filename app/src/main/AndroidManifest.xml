@@ -57,6 +57,11 @@
         <activity
             android:name=".EventInvitationActivity"
             android:exported="true" />
+        <activity android:name=".AdminActivity"
+            android:exported="true" />
+        <activity android:name=".UserProfileActivity"
+            android:exported="true" />
+
         <service
             android:name=".AethonMessagingService"
             android:exported="false">

@@ -15,6 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Button;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.squareup.picasso.Picasso;
+
 public class MainActivity extends AppCompatActivity {
 
     Button scan_btn;
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Button dash_btn;
     ImageView profile_img;
     String deviceId;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -31,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
+        // call for notifications function.
+        handleNotifications();
 
         scan_btn = findViewById(R.id.scanner);
         scan_btn.setOnClickListener(v -> {
@@ -45,5 +53,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+    }
+
+
+    private void handleNotifications(){
+        NotificationController notificationController = new NotificationController(deviceId);
+        notificationController.makeNotifications();
     }
 }

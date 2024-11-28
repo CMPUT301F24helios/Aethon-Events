@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button scan_btn;
+    Button scan_btn,admin_btn;
     Button signup_btn;
     Button dash_btn;
     ImageView profile_img;

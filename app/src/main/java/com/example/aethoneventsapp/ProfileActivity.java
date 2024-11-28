@@ -27,9 +27,13 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private Button switchAdm;
+
     private EditText editName, editEmail, editPhone;
     private Button signUpButton, switchOrg, changePhoto, removePhoto;
     private ImageView profileImageView;
+
     private CheckBox notifCheck;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
@@ -81,6 +85,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Button to save user profile
         signUpButton.setOnClickListener(v -> saveUserProfile());
+      
+        switchAdm = findViewById(R.id.switch_adm);
+
+        switchAdm.setOnClickListener(v -> {
+                    Intent intent = new Intent(ProfileActivity.this, AdminMainActivity.class);
+                    intent.putExtra("adminId", deviceId);
+                    startActivity(intent);
+                });
     }
 
     private void removeProfileImage(){
@@ -184,11 +196,13 @@ public class ProfileActivity extends AppCompatActivity {
         StorageReference storageRef = storage.getReference();
         StorageReference profileImageRef = storageRef.child("profile_images/" + deviceId + ".jpg");
 
+
         profileImageRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> profileImageRef.getDownloadUrl()
                         .addOnSuccessListener(uri -> registerUser(user, uri.toString()))
                         .addOnFailureListener(e -> Log.e("Firebase", "Failed to get download URL", e)))
                 .addOnFailureListener(e -> Log.e("Firebase", "Image upload failed", e));
+
     }
 
     private void registerUser(UserProfile user, String profileImageUri) {

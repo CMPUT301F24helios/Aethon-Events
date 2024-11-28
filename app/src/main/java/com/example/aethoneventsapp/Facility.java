@@ -30,6 +30,8 @@ public class Facility {
         this.organizer = organizer;
     }
 
+    public Facility() {}
+
     /**
      * Gets the facility ID.
      *

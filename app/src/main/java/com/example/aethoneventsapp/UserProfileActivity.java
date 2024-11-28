@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -56,7 +57,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void removeProfilePicture() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+        String formattedName = user.getName().replace(" ", "+");
+        String profilePic = "https://ui-avatars.com/api/?name=" + formattedName +"&background=3C0753&color=ffffff&size=512";
         db.collection("users")
                 .whereEqualTo("deviceId", user.getDeviceId())
                 .get()
@@ -66,12 +68,16 @@ public class UserProfileActivity extends AppCompatActivity {
 
                         db.collection("users")
                                 .document(documentId)
-                                .update("profilePicture", "")
+                                .update("profilePicture", profilePic)
                                 .addOnSuccessListener(aVoid -> {
-                                    profileImageView.setImageResource(R.drawable.ic_profile_placeholder);
-                                    user.setProfilePicture("");  // Update local user object
-                                    Intent intent = new Intent(this, AdminUserActivity.class);
-                                    startActivity(intent);
+                                    /*profileImageView.setImageResource(R.drawable.ic_profile_placeholder);
+                                    user.setProfilePicture("");  // Update local user object*/
+                                    Picasso.get()
+                                            .load(profilePic)
+                                            .placeholder(R.drawable.baseline_person_24) // Optional placeholder
+                                            .into(profileImageView);
+
+
                                     Toast.makeText(UserProfileActivity.this,
                                             "Profile picture removed successfully.",
                                             Toast.LENGTH_SHORT).show();

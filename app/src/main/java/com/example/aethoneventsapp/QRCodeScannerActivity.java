@@ -15,7 +15,7 @@ import androidx.core.app.ActivityCompat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-public class QRCodeScannerActivity extends AppCompatActivity {
+public class QRCodeScannerActivity extends NavActivity {
 
     private static final int PERMISSION_REQUEST_CAMERA = 1;
 

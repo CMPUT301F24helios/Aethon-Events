@@ -70,7 +70,8 @@ public class UserProfileActivity extends AppCompatActivity {
                                 .addOnSuccessListener(aVoid -> {
                                     profileImageView.setImageResource(R.drawable.ic_profile_placeholder);
                                     user.setProfilePicture("");  // Update local user object
-
+                                    Intent intent = new Intent(this, AdminUserActivity.class);
+                                    startActivity(intent);
                                     Toast.makeText(UserProfileActivity.this,
                                             "Profile picture removed successfully.",
                                             Toast.LENGTH_SHORT).show();

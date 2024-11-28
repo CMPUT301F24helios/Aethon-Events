@@ -24,6 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText editPhone;
     private Button signUpButton;
     private Button switchOrg;
+    private Button switchAdm;
     private CheckBox notifCheck;
     private FirebaseFirestore db;
     private String deviceId;
@@ -88,6 +89,14 @@ public class ProfileActivity extends AppCompatActivity {
             intent.putExtra("organizerId", deviceId);
             startActivity(intent);
         });
+
+        switchAdm = findViewById(R.id.switch_adm);
+
+        switchAdm.setOnClickListener(v -> {
+                    Intent intent = new Intent(ProfileActivity.this, AdminMainActivity.class);
+                    intent.putExtra("adminId", deviceId);
+                    startActivity(intent);
+                });
 
         // Checks if all fields are filled, only then creates a new user on firebase
         signUpButton.setOnClickListener(new View.OnClickListener() {

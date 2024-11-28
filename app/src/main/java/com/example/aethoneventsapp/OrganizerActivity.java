@@ -148,7 +148,7 @@ public class OrganizerActivity extends AppCompatActivity {
         GlobalDataStore.getInstance().setData("waitlistId", waitlistId);
 
         // need to add Malhar code
-        Event event = new Event(eventId, name, location, capacity, description, waitlistId, entrantId, organizerId, eventDate);
+        Event event = new Event(eventId, name, location, capacity, description, waitlistId, entrantId, organizerId, eventDate, null);
         // Initialize a new WaitingList for this event
         // Determine if limitCapacity is provided
         WaitingList waitingList;
@@ -186,7 +186,7 @@ public class OrganizerActivity extends AppCompatActivity {
         eventData.put("entrantId", event.getEntrantId());
         eventData.put("eventId", event.getEventId());
         eventData.put("organizerId", event.getOrganizerId());
-        eventData.put("url", event.getUrl());
+        eventData.put("url", event.getImageUrl());
         eventData.put("eventDate", event.getEventDate());
         eventData.put("waitlistId", event.getWaitlistId());
         eventData.put("limitCapacity", limitCapacity);  // Add limit capacity to Firestore

@@ -88,6 +88,8 @@ public class SignUpActivity extends AppCompatActivity {
         userData.put("isAdmin", false);
         userData.put("deviceId", user.getDeviceId());
         userData.put("enableNotifications", user.enableNotifications);
+
+        // TODO: change this.
         // Website that creates Profile Pic Monograms using characters we give
         userData.put("profilePicture", "https://ui-avatars.com/api/?name="+user.name.charAt(0));
         db.collection("users")

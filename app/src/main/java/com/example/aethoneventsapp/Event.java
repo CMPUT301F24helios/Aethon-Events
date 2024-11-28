@@ -8,6 +8,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.util.List;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,7 +20,7 @@ import java.io.ByteArrayOutputStream;
  * and capacity. It provides functionality for event creation, updates, waitlist management,
  * QR code generation, and entrant handling.
  */
-public class Event {
+public class Event implements Serializable {
 
     // Attributes
     private int eventId;
@@ -47,6 +48,10 @@ public class Event {
         this.organizerId = organizerId;
         this.eventDate = eventDate;
         this.url = url;
+    }
+    // No-argument constructor required for Firebase deserialization
+    public Event() {
+        // Firebase needs this constructor
     }
 
 

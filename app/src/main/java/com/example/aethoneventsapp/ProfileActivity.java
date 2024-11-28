@@ -93,7 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
         switchAdm = findViewById(R.id.switch_adm);
 
         switchAdm.setOnClickListener(v -> {
-                    Intent intent = new Intent(ProfileActivity.this, AdminViewActivity.class);
+                    Intent intent = new Intent(ProfileActivity.this, AdminMainActivity.class);
                     intent.putExtra("adminId", deviceId);
                     startActivity(intent);
                 });

@@ -45,12 +45,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Admin button to navigate to AdminActivity
-        admin_btn = findViewById(R.id.admin_button); // Assuming the button is added in the XML layout
-        admin_btn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
-            startActivity(intent);
-        });
-
     }
 }

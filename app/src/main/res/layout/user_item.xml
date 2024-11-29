@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@android:color/white"
+    android:layout_margin="8dp"
+    android:elevation="4dp">
+
+    <!-- Left side: User Details -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="123dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingEnd="10dp">
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Napolean Bonaparte"
+            android:textColor="@color/gradientColor"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/userEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="napolean@example.com"
+            android:textColor="@color/gradientColor"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/userPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="+123 456 7890"
+            android:textColor="@color/gradientColor"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="111dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_border"
+            android:text="Delete"
+            android:textColor="@color/gradientColor" /> <!-- Optional for better button styling -->
+
+    </LinearLayout>
+
+    <!-- Right side: Profile Picture -->
+    <ImageView
+    android:id="@+id/profileImage"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/ic_profile_placeholder"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/circle_background"
+    android:padding="5dp" />
+
+    </LinearLayout>

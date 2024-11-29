@@ -1,0 +1,11 @@
+<!-- res/drawable/gradient_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/white" />  <!-- Background color of button -->
+    <stroke
+        android:color="@color/purple"
+    android:width="2dp" />  <!-- Border thickness -->
+    <corners android:radius="8dp" />  <!-- Rounded corners -->
+    <gradient
+
+    android:angle="45" />  <!-- Gradient angle -->
+</shape>

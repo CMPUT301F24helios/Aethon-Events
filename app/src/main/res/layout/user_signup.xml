@@ -61,18 +61,18 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
 
             <!-- Name Input -->
-            <ImageView
-                android:id="@+id/profile_image"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="9dp"
                 android:layout_marginTop="28dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/baseline_circle_24"
-                android:backgroundTint="#D9D9D9"
+                android:layout_marginEnd="9dp"
                 android:clickable="true"
-                android:focusable="true"
-                android:padding="32dp"
-                android:src="@drawable/baseline_camera_alt_24" />
+                android:src="@drawable/baseline_person_24"
+                app:civ_border_color="#000000"
+                app:civ_border_width="1dp" />
 
             <EditText
                 android:id="@+id/edit_name"

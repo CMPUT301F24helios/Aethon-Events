@@ -163,9 +163,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="29dp"
             android:background="@drawable/button_bg"
-            android:text="Become an Organiser!"
-            android:textColor="@color/white"
+            android:text="Organizer Mode"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -174,10 +174,9 @@
 
         <Button
             android:id="@+id/switch_adm"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_weight="1"
             android:background="@drawable/button_bg"
             android:text="Admin Mode"
             android:textSize="18sp" />

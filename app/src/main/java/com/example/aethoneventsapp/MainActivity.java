@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleNotifications(){
-        Log.d("TestingNoti", "Inside handle notifications");
+
         //NotificationController notificationController = new NotificationController(deviceId);
 
         //List<String> allMessages = notificationController.pullAndDeleteAllNotifications();
@@ -106,81 +106,84 @@ public class MainActivity extends AppCompatActivity {
                 .limit(1)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
-                    QueryDocumentSnapshot document = (QueryDocumentSnapshot) querySnapshot.getDocuments().get(0);
-                    notificationPreference = Boolean.TRUE.equals(document.getBoolean("enableNotifications"));
+                    if (querySnapshot != null && !querySnapshot.isEmpty()){
+                        QueryDocumentSnapshot document = (QueryDocumentSnapshot) querySnapshot.getDocuments().get(0);
+                        notificationPreference = Boolean.TRUE.equals(document.getBoolean("enableNotifications"));
+                        Log.d("Firestore00", "Inside notifications");
+                        if (notificationPreference) {
+                            List<String> allEvents = new ArrayList<>();
+                            AtomicInteger _id = new AtomicInteger();
 
-                    if (notificationPreference) {
-                        List<String> allEvents = new ArrayList<>();
-                        AtomicInteger _id = new AtomicInteger();
+                            db.collection("users")
+                                    .whereEqualTo("deviceId", deviceId)
+                                    .limit(1)
+                                    .get()
+                                    .addOnSuccessListener(querySnapshot1 -> {
+                                        QueryDocumentSnapshot document2 = (QueryDocumentSnapshot) querySnapshot1.getDocuments().get(0);
 
-                        db.collection("users")
-                                .whereEqualTo("deviceId", deviceId)
-                                .limit(1)
-                                .get()
-                                .addOnSuccessListener(querySnapshot1 -> {
-                                    QueryDocumentSnapshot document2 = (QueryDocumentSnapshot) querySnapshot1.getDocuments().get(0);
+                                        if (document2.contains("Events")) {
+                                            List<String> _tmp = (List<String>) document2.get("Events");
+                                            if (_tmp != null && !_tmp.isEmpty()) {
+                                                allEvents.addAll(_tmp);
 
-                                    if (document2.contains("Events")) {
-                                        List<String> _tmp = (List<String>) document2.get("Events");
-                                        if (_tmp != null && !_tmp.isEmpty()) {
-                                            allEvents.addAll(_tmp);
+                                                for (String eventId : allEvents) {
+                                                    // Fetch eventName from the event document
+                                                    db.collection("Events")
+                                                            .document(eventId)
+                                                            .get()
+                                                            .addOnSuccessListener(eventDocument -> {
+                                                                if (eventDocument.exists()) {
+                                                                    String eventName = eventDocument.getString("name");
 
-                                            for (String eventId : allEvents) {
-                                                // Fetch eventName from the event document
-                                                db.collection("Events")
-                                                        .document(eventId)
-                                                        .get()
-                                                        .addOnSuccessListener(eventDocument -> {
-                                                            if (eventDocument.exists()) {
-                                                                String eventName = eventDocument.getString("name");
+                                                                    // Fetch notifications for the device
+                                                                    db.collection("Events")
+                                                                            .document(eventId)
+                                                                            .collection("Notifications")
+                                                                            .document(deviceId)
+                                                                            .get()
+                                                                            .addOnSuccessListener(notificationDocument -> {
+                                                                                if (notificationDocument.exists()) {
+                                                                                    List<String> _tmp_messages = (List<String>) notificationDocument.get("messages");
 
-                                                                // Fetch notifications for the device
-                                                                db.collection("Events")
-                                                                        .document(eventId)
-                                                                        .collection("Notifications")
-                                                                        .document(deviceId)
-                                                                        .get()
-                                                                        .addOnSuccessListener(notificationDocument -> {
-                                                                            if (notificationDocument.exists()) {
-                                                                                List<String> _tmp_messages = (List<String>) notificationDocument.get("messages");
+                                                                                    if (_tmp_messages != null && !_tmp_messages.isEmpty()) {
+                                                                                        for (String message : _tmp_messages) {
+                                                                                            char title_code = message.charAt(0);
+                                                                                            String title = eventName + ": " + getTitle(title_code) + "\t"  ; // Include eventName in the title
+                                                                                            String body = message.substring(2);
 
-                                                                                if (_tmp_messages != null && !_tmp_messages.isEmpty()) {
-                                                                                    for (String message : _tmp_messages) {
-                                                                                        char title_code = message.charAt(0);
-                                                                                        String title = eventName + ": " + getTitle(title_code) + "\t"  ; // Include eventName in the title
-                                                                                        String body = message.substring(2);
+                                                                                            // Create a notification
+                                                                                            NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "test")
+                                                                                                    .setSmallIcon(R.drawable.baseline_notifications_active_24)
+                                                                                                    .setContentTitle(title)
+                                                                                                    .setContentText(body)
+                                                                                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-                                                                                        // Create a notification
-                                                                                        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "test")
-                                                                                                .setSmallIcon(R.drawable.baseline_notifications_active_24)
-                                                                                                .setContentTitle(title)
-                                                                                                .setContentText(body)
-                                                                                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-                                                                                        int notId = _id.addAndGet(1);
-                                                                                        notificationManager.notify(notId, builder.build());
+                                                                                            int notId = _id.addAndGet(1);
+                                                                                            notificationManager.notify(notId, builder.build());
+                                                                                        }
+                                                                                        _tmp_messages.clear();
+                                                                                        notificationDocument.getReference().update("messages", _tmp_messages)
+                                                                                                .addOnSuccessListener(aVoid -> Log.d("Firestore", "Messages updated successfully"))
+                                                                                                .addOnFailureListener(e -> Log.e("Firestore", "Failed to update messages", e));
                                                                                     }
-                                                                                    _tmp_messages.clear();
-                                                                                    notificationDocument.getReference().update("messages", _tmp_messages)
-                                                                                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "Messages updated successfully"))
-                                                                                            .addOnFailureListener(e -> Log.e("Firestore", "Failed to update messages", e));
+                                                                                } else {
+                                                                                    Log.d("Firestore", "No document found for the given deviceId.");
                                                                                 }
-                                                                            } else {
-                                                                                Log.d("Firestore", "No document found for the given deviceId.");
-                                                                            }
-                                                                        })
-                                                                        .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch notifications", e));
-                                                            } else {
-                                                                Log.d("Firestore", "Event document does not exist.");
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch event document", e));
+                                                                            })
+                                                                            .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch notifications", e));
+                                                                } else {
+                                                                    Log.d("Firestore", "Event document does not exist.");
+                                                                }
+                                                            })
+                                                            .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch event document", e));
+                                                }
                                             }
                                         }
-                                    }
-                                })
-                                .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch user profile", e));
+                                    })
+                                    .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch user profile", e));
+                        }
                     }
+
                 })
                 .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch user profile", e));
     }

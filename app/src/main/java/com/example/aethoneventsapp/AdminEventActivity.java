@@ -63,7 +63,7 @@ public class AdminEventActivity extends AppCompatActivity {
         // Initialize Back Button
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminEventActivity.this, MainActivity.class);
+            Intent intent = new Intent(AdminEventActivity.this, AdminMainActivity.class);
             startActivity(intent);
             finish(); // Optional: Finish current activity to prevent going back to it
         });

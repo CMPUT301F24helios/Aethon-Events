@@ -31,7 +31,17 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="8dp"
+        android:paddingBottom="80dp"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:text="Back to Home"
+        android:background="@drawable/button_gradient"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

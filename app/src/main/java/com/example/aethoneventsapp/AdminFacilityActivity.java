@@ -1,9 +1,11 @@
 package com.example.aethoneventsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
@@ -55,6 +57,13 @@ public class AdminFacilityActivity extends AppCompatActivity {
 
         // Fetch facilities from Firestore
         fetchFacilityFromFirestore();
+        // Initialize Back Button
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminFacilityActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish(); // Optional: Finish current activity to prevent going back to it
+        });
     }
 
     private void filterFacilities(String query) {

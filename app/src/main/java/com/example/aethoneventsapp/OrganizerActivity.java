@@ -156,6 +156,7 @@ public class OrganizerActivity extends AppCompatActivity {
         event.setWaitlistId(waitlistId);
         event.setCapacity(capacity);
         event.setEntrantId(entrantId);
+
         // Initialize a new WaitingList for this event
         // Determine if limitCapacity is provided
         WaitingList waitingList;
@@ -193,7 +194,7 @@ public class OrganizerActivity extends AppCompatActivity {
         eventData.put("entrantId", event.getEntrantId());
         eventData.put("eventId", event.getEventId());
         eventData.put("organizerId", event.getOrganizerId());
-        eventData.put("url", event.getUrl());
+        eventData.put("url", event.getImageUrl());
         eventData.put("eventDate", event.getEventDate());
         eventData.put("waitlistId", event.getWaitlistId());
         eventData.put("limitCapacity", limitCapacity);  // Add limit capacity to Firestore

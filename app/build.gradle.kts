@@ -52,8 +52,9 @@ dependencies {
     // Glide dependency for image loading
     implementation("com.github.bumptech.glide:glide:4.15.1")  // Check for the latest version on Maven
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+    implementation(libs.glide)
     implementation("com.squareup.picasso:picasso:2.71828")
-
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     // Android libraries
     implementation("com.google.firebase:firebase-messaging:23.0.0")
     implementation("com.google.firebase:firebase-analytics")
@@ -76,4 +77,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+
 }

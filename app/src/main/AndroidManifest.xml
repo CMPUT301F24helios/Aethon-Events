@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,6 +22,11 @@
         tools:targetApi="31">
         <!-- Activity declarations with appropriate android:exported -->
         <activity android:name=".SignUpActivity" />
+        <activity android:name=".AdminEventActivity" />
+        <activity android:name=".AdminFacilityActivity" />
+        <activity android:name=".AdminMainActivity" />
+        <activity android:name=".EditEventActivity" />
+
         <activity android:name=".LandingActivity"
             android:exported="true">
             <intent-filter>
@@ -70,6 +76,10 @@
         <!-- Declare mapActivity here -->
         <activity android:name=".mapActivity"
             android:exported="true"/>
+        <activity android:name=".AdminUserActivity"
+            android:exported="true" />
+        <activity android:name=".UserProfileActivity"
+            android:exported="true" />
         <service
             android:name=".AethonMessagingService"
             android:exported="false">
@@ -79,6 +89,7 @@
         </service>
 
         <activity android:name=".MainActivity" />
+        <activity android:name=".CreateFacilityActivity" />
         <activity android:name=".ProfileActivity"
             android:exported="true" />
     </application>

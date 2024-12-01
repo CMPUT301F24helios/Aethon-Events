@@ -20,6 +20,7 @@ public class ExpandableListViewActivity extends AppCompatActivity {
 
     private List<String> categories;
     private Map<String, List<String>> participants;
+    private String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class ExpandableListViewActivity extends AppCompatActivity {
         ExpandableListView expandableListView = findViewById(R.id.entrantsExpandableList);
 
         // Set adapter
-        EntrantsExpandableListAdapter adapter = new EntrantsExpandableListAdapter(this, categories, participants);
+        EntrantsExpandableListAdapter adapter = new EntrantsExpandableListAdapter(this, categories, participants, eventId);
         expandableListView.setAdapter(adapter);
 
         // Find Pool button

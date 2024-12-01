@@ -32,7 +32,7 @@ import java.util.Map;
 public class OrganizerViewActivity extends AppCompatActivity {
 
     private ListView listViewEvents;
-    private EventAdapter adapter;
+    private EventAdapterOrganizer adapter;
     private List<String> eventList = new ArrayList<>();
     private List<Event> ListOfEvents = new ArrayList<>();
     private Button organizerButton;
@@ -57,7 +57,7 @@ public class OrganizerViewActivity extends AppCompatActivity {
         });
 
         listViewEvents = findViewById(R.id.ListViewEvents);
-        adapter = new EventAdapter(this, ListOfEvents);
+        adapter = new EventAdapterOrganizer(this, ListOfEvents);
         listViewEvents.setAdapter(adapter);
 
         // Get organizerId from intent

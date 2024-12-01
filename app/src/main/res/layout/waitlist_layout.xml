@@ -11,19 +11,19 @@
         android:id="@+id/eventTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
         android:text="Music Rooftop Session"
-        android:textSize="20sp"
         android:textColor="#FFFFFF"
-        android:fontFamily="sans-serif-medium" />
+        android:textSize="34sp" />
 
     <TextView
         android:id="@+id/eventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="March 9, 7:00 PM"
-        android:textSize="14sp"
         android:textColor="#E0E0E0"
-        android:layout_marginBottom="8dp" />
+        android:textSize="20sp" />
 
 
     <ExpandableListView
@@ -40,10 +40,23 @@
 
     <Button
         android:id="@+id/poolButton"
+        android:layout_width="373dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_bg"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="Pool"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/QRButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Pool"
+        android:text="Show QR Code"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:textColor="#FFFFFF"

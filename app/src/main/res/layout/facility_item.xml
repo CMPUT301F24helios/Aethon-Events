@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@android:color/white"
+    android:layout_margin="8dp"
+    android:elevation="10dp">
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="123dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingEnd="10dp">
+
+        <TextView
+            android:id="@+id/facility_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="The Great Circus"
+            android:textColor="@color/gradientColor"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/facility_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Edmonton, Canada"
+            android:textColor="@color/gradientColor"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="111dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_border"
+            android:text="Delete"
+            android:textColor="@color/gradientColor" /> <!-- Optional for better button styling -->
+
+    </LinearLayout>
+
+
+</LinearLayout>

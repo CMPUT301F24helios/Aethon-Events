@@ -1,0 +1,52 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_profile_placeholder"
+            android:contentDescription="User Profile Picture" />
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Name"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Email"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/phoneTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Phone"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/removeProfilePictureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove Profile Picture"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+</ScrollView>

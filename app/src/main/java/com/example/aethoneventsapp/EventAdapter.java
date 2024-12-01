@@ -193,11 +193,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             OnListsFilledCallback callback) {
 
         Map<String, List<String>> lists = new HashMap<>();
-        lists.put("Waitlist", new ArrayList<>());
-        lists.put("NotificationList", new ArrayList<>());
-        lists.put("PendingList", new ArrayList<>());
-        lists.put("AcceptedList", new ArrayList<>());
-        lists.put("CancelledList", new ArrayList<>());
+        lists.put("WaitingList", new ArrayList<>());
+        lists.put("Notifications", new ArrayList<>());
+        lists.put("Pending", new ArrayList<>());
+        lists.put("Accepted", new ArrayList<>());
+        lists.put("Declined", new ArrayList<>());
 
         List<Task<QuerySnapshot>> tasks = new ArrayList<>();
 

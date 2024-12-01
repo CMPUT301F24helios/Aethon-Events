@@ -7,7 +7,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AdminUserActivity extends AppCompatActivity {
+public class AdminUserActivity extends NavActivity {
     private RecyclerView recyclerView;
     private UserAdapter adapter;
     private List<User> userList;
@@ -29,7 +31,7 @@ public class AdminUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_admin);
+        getLayoutInflater().inflate(R.layout.activity_user_admin, findViewById(R.id.container));
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setNestedScrollingEnabled(false);

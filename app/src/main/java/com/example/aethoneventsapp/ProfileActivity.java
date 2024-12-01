@@ -50,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_page);
+        getLayoutInflater().inflate(R.layout.profile_page, findViewById(R.id.container));
 
         // Initialize views
         editName = findViewById(R.id.edit_name);
@@ -90,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Button to save user profile
         signUpButton.setOnClickListener(v -> saveUserProfile());
-      
+
         switchAdm = findViewById(R.id.switch_adm);
 
         switchAdm.setOnClickListener(v -> {

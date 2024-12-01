@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EventInvitationActivity extends AppCompatActivity {
+public class EventInvitationActivity extends NavActivity {
     private Button acceptButton;
     private Button declineButton;
     private TextView statusTextView;
@@ -27,7 +27,7 @@ public class EventInvitationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up_page);
+        getLayoutInflater().inflate(R.layout.sign_up_page, findViewById(R.id.container));
 
         acceptButton = findViewById(R.id.accept_button);
         declineButton = findViewById(R.id.decline_button);

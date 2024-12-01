@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends NavActivity {
 
     private User user;
     private ImageView profileImageView;
@@ -23,7 +23,7 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        getLayoutInflater().inflate(R.layout.activity_user_profile, findViewById(R.id.container));
 
         profileImageView = findViewById(R.id.profileImageView);
         nameTextView = findViewById(R.id.nameTextView);

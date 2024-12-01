@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AdminUserActivity extends NavActivity {
+public class AdminUserActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UserAdapter adapter;
     private List<User> userList;
@@ -31,8 +31,7 @@ public class AdminUserActivity extends NavActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.activity_user_admin, findViewById(R.id.container));
-
+        setContentView(R.layout.activity_user_admin);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -64,7 +63,7 @@ public class AdminUserActivity extends NavActivity {
         // Initialize Back Button
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminUserActivity.this, MainActivity.class);
+            Intent intent = new Intent(AdminUserActivity.this, AdminMainActivity.class);
             startActivity(intent);
             finish(); // Optional: Finish current activity to prevent going back to it
         });

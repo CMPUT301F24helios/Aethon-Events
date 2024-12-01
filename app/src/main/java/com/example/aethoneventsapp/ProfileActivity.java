@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends NavActivity {
 
     private Button switchAdm;
 
@@ -94,10 +94,30 @@ public class ProfileActivity extends AppCompatActivity {
         switchAdm = findViewById(R.id.switch_adm);
 
         switchAdm.setOnClickListener(v -> {
-                    Intent intent = new Intent(ProfileActivity.this, AdminMainActivity.class);
-                    intent.putExtra("adminId", deviceId);
-                    startActivity(intent);
-                });
+            db.collection("users") // Replace "users" with your actual Firestore collection name
+                    .whereEqualTo("deviceId", deviceId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Boolean isAdmin = document.getBoolean("isAdmin");
+                                if (isAdmin != null && isAdmin) {
+                                    // User is an admin, allow access to admin page
+                                    Intent intent = new Intent(ProfileActivity.this, AdminMainActivity.class);
+                                    intent.putExtra("adminId", deviceId);
+                                    startActivity(intent);
+                                } else {
+                                    // User is not an admin, show a message
+                                    Toast.makeText(ProfileActivity.this, "Access Denied: You are not an admin.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } else {
+                            // No matching user found or error occurred
+                            Toast.makeText(ProfileActivity.this, "Error: Unable to verify admin status.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
+
     }
 
     private void removeProfileImage(){
@@ -247,7 +267,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 }
-        );
-    }
+                );
+}
 
 }

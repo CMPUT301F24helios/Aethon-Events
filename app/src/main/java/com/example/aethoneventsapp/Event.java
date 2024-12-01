@@ -56,6 +56,9 @@ public class Event implements Serializable {
         this.organizerId = organizerId;
         this.eventDate = eventDate;
     }
+    public Event(){
+
+    }
 
 
     public String getImageUrl() {

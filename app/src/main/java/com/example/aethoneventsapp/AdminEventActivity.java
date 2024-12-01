@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,13 @@ public class AdminEventActivity extends AppCompatActivity {
 
         fetchEventFromFirestore();
 
+        // Initialize Back Button
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminEventActivity.this, AdminMainActivity.class);
+            startActivity(intent);
+            finish(); // Optional: Finish current activity to prevent going back to it
+        });
     }
     private void filterEvents(String query) {
         List<Event> filteredList = new ArrayList<>();

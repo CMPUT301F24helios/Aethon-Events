@@ -1,9 +1,11 @@
 package com.example.aethoneventsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +43,8 @@ public class AdminUserActivity extends AppCompatActivity {
         EditText searchBar = findViewById(R.id.searchBar);
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -49,11 +53,21 @@ public class AdminUserActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         fetchUsersFromFirestore();
+
+        // Initialize Back Button
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminUserActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish(); // Optional: Finish current activity to prevent going back to it
+        });
     }
+
     private void filterUsers(String query) {
         List<User> filteredList = new ArrayList<>();
         for (User user : userList) {
@@ -71,6 +85,7 @@ public class AdminUserActivity extends AppCompatActivity {
 
         adapter.updateUserList(filteredList);  // Update adapter with filtered data
     }
+
     private void fetchUsersFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -108,6 +123,7 @@ public class AdminUserActivity extends AppCompatActivity {
                     .addOnFailureListener(e -> Log.e("Firestore", "Error adding dummy user", e));
         }
     }
+
     private void removeDummyUsers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference usersRef = db.collection("users");

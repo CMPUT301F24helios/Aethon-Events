@@ -47,5 +47,6 @@
             android:text="Remove Profile Picture"
             android:layout_marginTop="16dp"
             android:layout_gravity="center" />
+
     </LinearLayout>
 </ScrollView>

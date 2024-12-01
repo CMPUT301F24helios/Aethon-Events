@@ -128,7 +128,7 @@
         android:checked="true"
         android:text="Receive Notifications"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/submit_btn"
+        app:layout_constraintBottom_toTopOf="@+id/save_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_phone" />
@@ -171,7 +171,6 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/switch_org"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +190,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch_org" />
+            app:layout_constraintTop_toBottomOf="@+id/switch_org"
+            android:paddingBottom="80dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

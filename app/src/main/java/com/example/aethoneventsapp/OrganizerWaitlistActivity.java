@@ -36,7 +36,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-public class OrganizerWaitlistActivity extends AppCompatActivity {
+public class OrganizerWaitlistActivity extends NavActivity {
 
     private ListView listViewWaitlist;
     private ExpandableListView expandableListView;
@@ -66,7 +66,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.waitlist_layout);
+        getLayoutInflater().inflate(R.layout.waitlist_layout, findViewById(R.id.container));
 
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -112,6 +112,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
             finish(); // Close the activity if eventId is null
             return;
         }
+
         fetchEventDetails();
 
         poolButton.setOnClickListener(new View.OnClickListener() {
@@ -281,6 +282,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
                     .addOnFailureListener(e -> Log.w(TAG, "Error adding entrant to Pending", e));
         }
     }
+
     private void showConfirmDialog() {
         // Inflate the dialog layout
         LayoutInflater inflater = getLayoutInflater();

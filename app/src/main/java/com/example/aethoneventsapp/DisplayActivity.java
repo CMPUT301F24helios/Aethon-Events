@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DisplayActivity extends AppCompatActivity {
+public class DisplayActivity extends NavActivity {
 
 
     Button scan_btn;
@@ -43,7 +43,7 @@ public class DisplayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.event_display);
+        getLayoutInflater().inflate(R.layout.event_display, findViewById(R.id.container));
         db = FirebaseFirestore.getInstance();
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 

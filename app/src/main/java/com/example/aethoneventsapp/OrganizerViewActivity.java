@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OrganizerViewActivity extends AppCompatActivity {
+public class OrganizerViewActivity extends NavActivity {
 
     private ListView listViewEvents;
     private EventAdapterOrganizer adapter;
@@ -46,7 +46,7 @@ public class OrganizerViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_organizer_view);
+        getLayoutInflater().inflate(R.layout.activity_organizer_view, findViewById(R.id.container));
 
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         organizerButton = findViewById(R.id.button_organizer);

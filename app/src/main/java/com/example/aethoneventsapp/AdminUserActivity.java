@@ -7,7 +7,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +32,6 @@ public class AdminUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_admin);
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,7 +63,7 @@ public class AdminUserActivity extends AppCompatActivity {
         // Initialize Back Button
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminUserActivity.this, MainActivity.class);
+            Intent intent = new Intent(AdminUserActivity.this, AdminMainActivity.class);
             startActivity(intent);
             finish(); // Optional: Finish current activity to prevent going back to it
         });

@@ -13,9 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aethoneventsapp.databinding.ActivityMainBinding;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,11 +106,56 @@ public class DisplayActivity extends AppCompatActivity {
                 .set(entrantData)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(DisplayActivity.this, "Successfully added to waitlist!", Toast.LENGTH_SHORT).show();
+                    Log.d("Firestore", "Entrant added to waitlist.");
+                    // Add event to the user's Events list
+                    addEventToUserList(eventUniqueID, entrantId);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(DisplayActivity.this, "Failed to add to waitlist.", Toast.LENGTH_SHORT).show();
                     Log.e("Firestore", "Error adding entrant to waitlist", e);
                 });
+    }
+    private void addEventToUserList(String eventUniqueID, String entrantId) {
+        // Search for the user document with the matching deviceId
+        db.collection("users")
+                .whereEqualTo("deviceId", entrantId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        // Get the first matching document
+                        String userDocId = queryDocumentSnapshots.getDocuments().get(0).getId();
+
+                        // Check if the 'Events' list exists
+                        db.collection("users")
+                                .document(userDocId)
+                                .get()
+                                .addOnSuccessListener(documentSnapshot -> {
+                                    if (documentSnapshot.exists()) {
+                                        if (documentSnapshot.contains("Events")) {
+                                            // Update the existing list
+                                            db.collection("users")
+                                                    .document(userDocId)
+                                                    .update("Events", FieldValue.arrayUnion(eventUniqueID))
+                                                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "Event added to user's Events list."))
+                                                    .addOnFailureListener(e -> Log.e("Firestore", "Failed to update Events list.", e));
+                                        } else {
+                                            // Create a new 'Events' list
+                                            Map<String, Object> eventsMap = new HashMap<>();
+                                            eventsMap.put("Events", Arrays.asList(eventUniqueID));
+                                            db.collection("users")
+                                                    .document(userDocId)
+                                                    .set(eventsMap, SetOptions.merge())
+                                                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "New Events list created for user."))
+                                                    .addOnFailureListener(e -> Log.e("Firestore", "Failed to create Events list.", e));
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch user document.", e));
+                    } else {
+                        Log.e("Firestore", "No user found with the given deviceId.");
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("Firestore", "Error querying users collection.", e));
     }
     /**
      * Fetches event data from Firestore based on the unique event ID and updates the UI.

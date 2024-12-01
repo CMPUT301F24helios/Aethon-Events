@@ -71,7 +71,13 @@ public class OrganizerWaitlistActivity extends NavActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         eventsRef = db.collection("Events");
-
+        eventId = getIntent().getStringExtra("eventId");
+        Log.d(TAG, "Event ID: " + eventId);
+        if (eventId == null || eventId.isEmpty()) {
+            Log.e(TAG, "Event ID is null or empty");
+            finish(); // Close the activity if eventId is null
+            return;
+        }
         // Find TextViews
         eventTitle = findViewById(R.id.eventTitle);
         eventDate = findViewById(R.id.eventDate);
@@ -79,6 +85,29 @@ public class OrganizerWaitlistActivity extends NavActivity {
         // Find ExpandableListView
         expandableListView = findViewById(R.id.entrantsExpandableList);
 
+        // hiding the button if geolocation is disabled
+        eventsRef
+                .document(eventId)  // Use qrCodeContent as the eventId
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Get the geolocationNeeded field (boolean value)
+                        Boolean needGeo = documentSnapshot.getBoolean("geolocationNeeded");
+                        Log.e("FirestoreError", " before check");
+                    if (needGeo != null && needGeo) {
+                        Log.e("FirestoreError", "needGeo"+  needGeo.toString());
+                            // Show the MapButton
+                            MapButton.setVisibility(View.VISIBLE);  // Make the button visible
+                        } else {
+
+                            // Hide the MapButton
+                            MapButton.setVisibility(View.GONE);  // Hide the button
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirestoreError", "Error fetching event", e);
+                });
         expandableListView.setOnItemLongClickListener((parent, view, position, id) -> {
             // Get the list of entrants for the selected category
             int groupPosition = ExpandableListView.getPackedPositionGroup(id);
@@ -105,13 +134,7 @@ public class OrganizerWaitlistActivity extends NavActivity {
         declinedList = new ArrayList<>();
 
         // Get eventId from intent
-        eventId = getIntent().getStringExtra("eventId");
-        Log.d(TAG, "Event ID: " + eventId);
-        if (eventId == null || eventId.isEmpty()) {
-            Log.e(TAG, "Event ID is null or empty");
-            finish(); // Close the activity if eventId is null
-            return;
-        }
+
 
         fetchEventDetails();
 

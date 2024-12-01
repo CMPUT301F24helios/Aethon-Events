@@ -84,7 +84,7 @@ public class DisplayActivity extends NavActivity {
 
         joinWaitlistButton.setOnClickListener(v -> {
             // Check if geolocation is required
-            Log.e(TAG, "Event not found.");
+            Log.e(TAG, "Join Waitlist button clicked.");
             db.collection("Events")
                     .document(qrCodeContent)  // Use qrCodeContent as the eventId
                     .get()
@@ -95,7 +95,6 @@ public class DisplayActivity extends NavActivity {
 
                             if (needGeo != null && needGeo) {
                                 // If geolocation is required, show the confirmation dialog
-                                fetchAndHandleUserLocation( qrCodeContent, deviceId);
                                 showConfirmationDialog(qrCodeContent, deviceId);
                             } else {
                                 // If geolocation is not required, proceed with adding to the waitlist
@@ -129,30 +128,42 @@ public class DisplayActivity extends NavActivity {
                 .addOnSuccessListener(location -> {
                     if (location != null) {
                         // Extract latitude and longitude
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
+                        Double latitude = location.getLatitude();
+                        Double longitude = location.getLongitude();
                         db.collection("users")
+                                .whereEqualTo("deviceId", deviceId)  // Query the users collection where deviceId matches
                                 .get()
                                 .addOnSuccessListener(userSnapshot -> {
-                                    for (DocumentSnapshot document : userSnapshot.getDocuments()) {
-                                        String userId = document.getId(); // Get the userId (document ID)
-                                        if  (userId.equals(deviceId)) { // Ensure latitude and longitude are not null
-                                            Log.d("FirestoreWrite", "GeoPoint getting written for userId: " + userId);
-                                            GeoPoint geoPoint = new GeoPoint(latitude, longitude); // Create GeoPoint
+                                    if (!userSnapshot.isEmpty()) {  // Check if any document was found
+                                        for (DocumentSnapshot document : userSnapshot.getDocuments()) {
+                                            String docId = document.getId();  // Get the document ID
+                                            String userId = document.getString("deviceId");  // Get the deviceId from the document
 
-                                            // Write the GeoPoint to the Firestore document
-                                            Map<String, Object> data = new HashMap<>();
-                                            data.put("coordinates", geoPoint);
+                                            if (userId != null && userId.equals(deviceId)) {  // Ensure deviceId matches and not null
+                                                // Ensure latitude and longitude are valid
+                                                if (latitude != null && longitude != null) {
+                                                    GeoPoint geoPoint = new GeoPoint(latitude, longitude);  // Create GeoPoint
 
-                                            db.collection("users").document(userId)
-                                                    .set(data, SetOptions.merge()) // Use merge to preserve other fields
-                                                    .addOnSuccessListener(aVoid -> {
-                                                        Log.d("FirestoreWrite", "GeoPoint written for userId: " + userId);
-                                                    })
-                                                    .addOnFailureListener(e -> {
-                                                        Log.e("FirestoreError", "Error writing GeoPoint for userId: " + userId, e);
-                                                    });
+                                                    // Prepare data to write
+                                                    Map<String, Object> data = new HashMap<>();
+                                                    data.put("coordinates", geoPoint);
+
+                                                    // Write GeoPoint to Firestore
+                                                    db.collection("users").document(docId)
+                                                            .set(data, SetOptions.merge())  // Merge to add new field without overwriting
+                                                            .addOnSuccessListener(aVoid -> {
+                                                                Log.d("FirestoreWrite", "GeoPoint written for userId: " + userId);
+                                                            })
+                                                            .addOnFailureListener(e -> {
+                                                                Log.e("FirestoreError", "Error writing GeoPoint for userId: " + userId, e);
+                                                            });
+                                                } else {
+                                                    Log.e("FirestoreWrite", "Latitude or Longitude is null for userId: " + userId);
+                                                }
+                                            }
                                         }
+                                    } else {
+                                        Log.e("FirestoreQuery", "No user found with deviceId: " + deviceId);
                                     }
                                 })
                                 .addOnFailureListener(e -> {
@@ -195,6 +206,7 @@ public class DisplayActivity extends NavActivity {
         // Set the OnClickListener for the "Yes" button (positive button)
         positiveButton.setOnClickListener(v -> {
             // On clicking "Yes", prompt for image upload
+            fetchAndHandleUserLocation( eventId, entrantId);
             addEntrantToWaitlist(eventId, entrantId);
             alertDialog.dismiss();
         });

@@ -180,5 +180,5 @@ public class mapActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mapView != null) mapView.onSaveInstanceState(outState);
-    }
+}
 }

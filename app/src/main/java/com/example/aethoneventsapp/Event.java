@@ -37,7 +37,6 @@ public class Event implements Serializable {
 
 
     // Constructor
-    public Event(int eventId, String name, String location, String organizerId, String eventDate) {
 
     public Event(int eventId, String name, String location, int capacity, String description, String waitlistId, String entrantId, String organizerId, String eventDate, String url ) {
         this.eventId = eventId;
@@ -51,6 +50,11 @@ public class Event implements Serializable {
     // No-argument constructor required for Firebase deserialization
     public Event(int eventId, String name, String location, String organizerId, String eventDate) {
         // Firebase needs this constructor
+        this.eventId = eventId;
+        this.name = name;
+        this.location = location;
+        this.organizerId = organizerId;
+        this.eventDate = eventDate;
     }
 
 
@@ -267,6 +271,10 @@ public class Event implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+    public String getUrl() {
+        return url;
+    }
 
     public void setEventDate(String updatedDate) {
         this.eventDate = updatedDate;

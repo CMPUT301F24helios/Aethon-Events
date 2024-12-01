@@ -127,6 +127,16 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
                 showMap();
             }
         });
+        QRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle QR button click
+                Intent intent = new Intent(OrganizerWaitlistActivity.this, QRCodeActivity.class);
+                Log.d(TAG, "Event ID: " + eventId);
+                intent.putExtra("eventId", Integer.parseInt(eventId));
+                startActivity(intent);
+            }
+        });
     }
     private void showMap() {
         // Check if location permissions are granted before showing the map
@@ -142,17 +152,6 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
     private boolean checkPermissions() {
         // Check if location permissions are granted
         return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-
-        QRButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle QR button click
-                Intent intent = new Intent(OrganizerWaitlistActivity.this, QRCodeActivity.class);
-                Log.d(TAG, "Event ID: " + eventId);
-                intent.putExtra("eventId", Integer.parseInt(eventId));
-                startActivity(intent);
-            }
-        });
     }
 
     private void requestPermissions() {

@@ -83,8 +83,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_signup"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toEndOf="@+id/join_waitlist_button"
+        app:layout_constraintTop_toBottomOf="@+id/button_signup" />
 
     <Button
         android:id="@+id/join_waitlist_button"

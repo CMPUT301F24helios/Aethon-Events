@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends NavActivity {
 
-    Button scan_btn,admin_btn;
+    Button admin_btn;
     Button signup_btn;
     Button dash_btn;
     ImageView profile_img;
@@ -70,14 +70,6 @@ public class MainActivity extends NavActivity {
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         db = FirebaseFirestore.getInstance();
-
-
-        scan_btn = findViewById(R.id.scanner);
-        scan_btn.setOnClickListener(v -> {
-            // Start QR code scanner activity
-            Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
-            startActivity(intent);
-        });
 
         profile_img = findViewById(R.id.profile_image);
         profile_img.setOnClickListener(v -> {

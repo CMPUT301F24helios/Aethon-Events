@@ -30,7 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends NavActivity {
 
-    private Button switchAdm;
+    //private Button switchAdm;
 
     private EditText editName, editEmail, editPhone;
     private Button signUpButton, switchOrg, changePhoto, removePhoto;
@@ -91,32 +91,32 @@ public class ProfileActivity extends NavActivity {
         // Button to save user profile
         signUpButton.setOnClickListener(v -> saveUserProfile());
 
-        switchAdm = findViewById(R.id.switch_adm);
-
-        switchAdm.setOnClickListener(v -> {
-            db.collection("users") // Replace "users" with your actual Firestore collection name
-                    .whereEqualTo("deviceId", deviceId)
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Boolean isAdmin = document.getBoolean("isAdmin");
-                                if (isAdmin != null && isAdmin) {
-                                    // User is an admin, allow access to admin page
-                                    Intent intent = new Intent(ProfileActivity.this, AdminMainActivity.class);
-                                    intent.putExtra("adminId", deviceId);
-                                    startActivity(intent);
-                                } else {
-                                    // User is not an admin, show a message
-                                    Toast.makeText(ProfileActivity.this, "Access Denied: You are not an admin.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        } else {
-                            // No matching user found or error occurred
-                            Toast.makeText(ProfileActivity.this, "Error: Unable to verify admin status.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        });
+//        switchAdm = findViewById(R.id.switch_adm);
+//
+//        switchAdm.setOnClickListener(v -> {
+//            db.collection("users") // Replace "users" with your actual Firestore collection name
+//                    .whereEqualTo("deviceId", deviceId)
+//                    .get()
+//                    .addOnCompleteListener(task -> {
+//                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Boolean isAdmin = document.getBoolean("isAdmin");
+//                                if (isAdmin != null && isAdmin) {
+//                                    // User is an admin, allow access to admin page
+//                                    Intent intent = new Intent(ProfileActivity.this, AdminMainActivity.class);
+//                                    intent.putExtra("adminId", deviceId);
+//                                    startActivity(intent);
+//                                } else {
+//                                    // User is not an admin, show a message
+//                                    Toast.makeText(ProfileActivity.this, "Access Denied: You are not an admin.", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        } else {
+//                            // No matching user found or error occurred
+//                            Toast.makeText(ProfileActivity.this, "Error: Unable to verify admin status.", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        });
 
     }
 

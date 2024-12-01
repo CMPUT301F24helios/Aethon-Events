@@ -1,11 +1,14 @@
 package com.example.aethoneventsapp;
 
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
@@ -17,61 +20,123 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class mapActivity extends AppCompatActivity {
+
     private MapView mapView;
+    private FirebaseFirestore db;
+    private String eventId;
+    private static final String TAG = "mapActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get your MapTiler API Key
-        String key = BuildConfig.MAPTILER_API_KEY;
-        String mapId = "streets-v2";
-        String styleUrl = "https://api.maptiler.com/maps/" + mapId + "/style.json?key=" + key;
-
-        // Initialize Mapbox
+        // Initialize Mapbox and Firestore
         Mapbox.getInstance(this);
+        db = FirebaseFirestore.getInstance();
 
         // Set your layout
         setContentView(R.layout.activity_event_map);
 
         // Initialize the MapView
         mapView = findViewById(R.id.mapView);
+        Intent intent = getIntent();
 
-        // Define Edmonton locations
-        List<LatLng> coordinatesList = new ArrayList<>();
-        coordinatesList.add(new LatLng(53.5461, -113.4938));  // Edmonton City Center
-        coordinatesList.add(new LatLng(53.5232, -113.5263));  // University of Alberta
-        coordinatesList.add(new LatLng(53.5444, -113.4909));  // Rogers Place
-        coordinatesList.add(new LatLng(53.5223, -113.6244));  // West Edmonton Mall
-        coordinatesList.add(new LatLng(53.5344, -113.4138));  // Edmonton Valley Zoo
-        coordinatesList.add(new LatLng(53.5264, -113.5234));  // Old Strathcona
-        coordinatesList.add(new LatLng(53.5473, -113.5067));  // Alberta Legislature Building
+        // Retrieve the event ID passed from the previous activity
+        if (intent != null) {
+            eventId = intent.getStringExtra("eventId");
+            if (eventId != null) {
+                Log.d(TAG, "Received eventId: " + eventId);
+            } else {
+                Log.d(TAG, "No eventId was passed with the intent.");
+            }
+        }
 
         if (mapView != null) {
             mapView.onCreate(savedInstanceState);
             mapView.getMapAsync(mapboxMap -> {
+                String key = BuildConfig.MAPTILER_API_KEY;
+                String mapId = "streets-v2";
+                String styleUrl = "https://api.maptiler.com/maps/" + mapId + "/style.json?key=" + key;
+
                 mapboxMap.setStyle(new Style.Builder().fromUri(styleUrl), style -> {
-                    // Enable zoom controls
                     mapboxMap.getUiSettings().setZoomGesturesEnabled(true);
 
-                    // Center the camera on Edmonton
-                    mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                            .target(new LatLng(53.5461, -113.4938))  // Edmonton City Center
-                            .zoom(12)  // Set a zoom level
-                            .build());
+                    // Fetch and display user coordinates
+                    getCoordinates(new CoordinatesCallback() {
+                        @Override
+                        public void onResult(List<LatLng> coordinatesList) {
+                            mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                                    .target(new LatLng(53.5461, -113.4938)) // Default center: Edmonton
+                                    .zoom(12)
+                                    .build());
 
-                    // Add a marker for each location
-                    for (LatLng coordinate : coordinatesList) {
-                        mapboxMap.addMarker(new MarkerOptions()
-                                .position(coordinate)
-                                .title("Marker Title")  // Optional: customize the title
-                                .snippet("Additional Info"));  // Optional: customize additional info
-                    }
+                            // Add markers for each coordinate
+                            for (LatLng coordinate : coordinatesList) {
+                                mapboxMap.addMarker(new MarkerOptions()
+                                        .position(coordinate)
+                                        .title("User Location"));
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Log.e(TAG, "Error fetching coordinates: " + error);
+                        }
+                    });
                 });
             });
         } else {
-            Log.e("MapView", "MapView initialization failed.");
+            Log.e(TAG, "MapView initialization failed.");
         }
+    }
+
+    private void getCoordinates(CoordinatesCallback callback) {
+        // Fetch the waitlist from Firestore
+        db.collection("Events")
+                .document(eventId)
+                .collection("WaitingList")
+                .get()
+                .addOnSuccessListener(waitlistSnapshot -> {
+                    List<String> waitlist = new ArrayList<>();
+                    for (DocumentSnapshot doc : waitlistSnapshot.getDocuments()) {
+                        waitlist.add(doc.getId());
+                    }
+                    Log.d(TAG, "Waitlist: " + waitlist.toString());
+                    // Fetch user coordinates for the waitlist
+                    db.collection("users")
+                            .get()
+                            .addOnSuccessListener(userSnapshot -> {
+                                List<LatLng> coordinatesList = new ArrayList<>();
+                                for (DocumentSnapshot document : userSnapshot.getDocuments()) {
+                                    GeoPoint geoPoint = document.getGeoPoint("coordinates"); // Replace "coordinates" with actual field name
+                                    if (geoPoint != null) {
+                                        coordinatesList.add(new LatLng(
+                                                geoPoint.getLatitude(),
+                                                geoPoint.getLongitude()
+                                        ));
+                                    }
+                                }
+                                // Log the entire coordinatesList
+                                Log.d(TAG, "Coordinates List: " + coordinatesList.toString());
+
+                                callback.onResult(coordinatesList);
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e(TAG, "Failed to fetch user coordinates", e);
+                                callback.onError(e.getMessage());
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to fetch waitlist", e);
+                    callback.onError(e.getMessage());
+                });
+    }
+
+    // Callback interface for asynchronous results
+    interface CoordinatesCallback {
+        void onResult(List<LatLng> coordinatesList);
+
+        void onError(String error);
     }
 
     // Lifecycle methods to manage the MapView's state

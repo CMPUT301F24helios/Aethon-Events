@@ -97,7 +97,10 @@ public class OrganizerActivity extends AppCompatActivity {
                 day
         );
 
-        // Show the DatePickerDialog
+        // Set the minimum date to the current date
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        // Show the dialog
         datePickerDialog.show();
     }
 

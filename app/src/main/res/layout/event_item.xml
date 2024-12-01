@@ -57,21 +57,34 @@ android:elevation="4dp">
 
         <Button
             android:id="@+id/deleteButton"
-            android:layout_width="90dp"
+            android:layout_width="80dp"
             android:layout_height="43dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/gradient_border"
             android:text="Delete"
-            android:textColor="@color/gradientColor" />
+            android:textColor="@color/gradientColor"
+            android:textSize="10sp"/>
 
         <Button
             android:id="@+id/editButton"
-            android:layout_width="90dp"
+            android:layout_width="70dp"
             android:layout_height="43dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/gradient_border"
             android:text="Edit"
-            android:textColor="@color/gradientColor" />
+            android:textColor="@color/gradientColor"
+            android:textSize="10sp"/>
+
+
+        <Button
+            android:id="@+id/deleteQrButton"
+            android:layout_width="112dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gradient_border"
+            android:text="Delete Qr Code"
+            android:textColor="@color/gradientColor"
+            android:textSize="9sp"/>
 </LinearLayout>
 
 </LinearLayout>

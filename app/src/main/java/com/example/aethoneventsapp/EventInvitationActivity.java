@@ -9,10 +9,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EventInvitationActivity extends AppCompatActivity {
@@ -93,10 +95,60 @@ public class EventInvitationActivity extends AppCompatActivity {
     }
 
     private void acceptInvite() {
-        Toast.makeText(this, "Invite accepted!", Toast.LENGTH_SHORT).show();
+        String entrantId = getIntent().getStringExtra("entrantId");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference acceptedDocRef = db.collection("Events").document(eventId).collection("Accepted").document(entrantId);
+        DocumentReference pendingDocRef = db.collection("Events").document(eventId).collection("Pending").document(entrantId);
+
+        // Add the entrant to the "Accepted" collection
+        acceptedDocRef.set(new HashMap<String, Object>())
+                .addOnSuccessListener(aVoid -> {
+                    // Remove the entrant from the "Pending" collection
+                    pendingDocRef.delete()
+                            .addOnSuccessListener(aVoid1 -> {
+                                Toast.makeText(this, "Invite accepted!", Toast.LENGTH_SHORT).show();
+                                // Optionally, disable buttons or update UI
+                                acceptButton.setEnabled(false);
+                                declineButton.setEnabled(false);
+                                statusTextView.setText("You have accepted the invitation.");
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Failed to remove from Pending list.", Toast.LENGTH_SHORT).show();
+                                Log.w("EventInvitation", "Error removing entrant from Pending list", e);
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to accept invite.", Toast.LENGTH_SHORT).show();
+                    Log.w("EventInvitation", "Error adding entrant to Accepted list", e);
+                });
     }
 
     private void declineInvite() {
-        Toast.makeText(this, "Invite declined!", Toast.LENGTH_SHORT).show();
+        String entrantId = getIntent().getStringExtra("entrantId");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference declinedDocRef = db.collection("Events").document(eventId).collection("Declined").document(entrantId);
+        DocumentReference pendingDocRef = db.collection("Events").document(eventId).collection("Pending").document(entrantId);
+
+        // Add the entrant to the "Declined" collection
+        declinedDocRef.set(new HashMap<String, Object>())
+                .addOnSuccessListener(aVoid -> {
+                    // Remove the entrant from the "Pending" collection
+                    pendingDocRef.delete()
+                            .addOnSuccessListener(aVoid1 -> {
+                                Toast.makeText(this, "Invite declined!", Toast.LENGTH_SHORT).show();
+                                // Optionally, disable buttons or update UI
+                                acceptButton.setEnabled(false);
+                                declineButton.setEnabled(false);
+                                statusTextView.setText("You have declined the invitation.");
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Failed to remove from Pending list.", Toast.LENGTH_SHORT).show();
+                                Log.w("EventInvitation", "Error removing entrant from Pending list", e);
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to decline invite.", Toast.LENGTH_SHORT).show();
+                    Log.w("EventInvitation", "Error adding entrant to Declined list", e);
+                });
     }
 }

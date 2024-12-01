@@ -1,14 +1,17 @@
 package com.example.aethoneventsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
@@ -32,6 +36,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
     private ExpandableListView expandableListView;
     private ArrayAdapter<String> adapter;
     private Button poolButton;
+    private Button QRButton;
     private List<String> selectedList;
     private WaitingList waitingList;
     private List<String> pendingList;
@@ -46,6 +51,8 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
     private List<String> categories;
     private Map<String, List<String>> participants;
     private static final String TAG = "OrganizerWaitlistActivity";
+    private TextView eventTitle;
+    private TextView eventDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +63,32 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         eventsRef = db.collection("Events");
 
+        // Find TextViews
+        eventTitle = findViewById(R.id.eventTitle);
+        eventDate = findViewById(R.id.eventDate);
+
         // Find ExpandableListView
         expandableListView = findViewById(R.id.entrantsExpandableList);
+
+        expandableListView.setOnItemLongClickListener((parent, view, position, id) -> {
+            // Get the list of entrants for the selected category
+            int groupPosition = ExpandableListView.getPackedPositionGroup(id);
+            String category = categories.get(groupPosition);
+            List<String> entrantsList = participants.get(category);
+            Log.d(TAG, "Entrants for category " + category + ": " + entrantsList);
+            if (entrantsList.size() > 0) {
+                showCustomMessageDialog(entrantsList, category);
+            }
+            else {
+                Toast.makeText(OrganizerWaitlistActivity.this, "No entrants found for this category", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        });
 
 
 
         poolButton = findViewById(R.id.poolButton);
+        QRButton = findViewById(R.id.QRButton);
         selectedList = new ArrayList<>();
         pendingList = new ArrayList<>();
         acceptedList = new ArrayList<>();
@@ -83,6 +110,16 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
                 showConfirmDialog();
             }
         });
+
+        QRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle QR button click
+                Intent intent = new Intent(OrganizerWaitlistActivity.this, QRCodeActivity.class);
+                intent.putExtra("eventId", eventId);
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateUIWithEntrants(List<String> categories, Map<String, List<String>> participants) {
@@ -91,7 +128,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
         this.participants = participants;
 
         // Set up the ExpandableListAdapter
-        EntrantsExpandableListAdapter adapter = new EntrantsExpandableListAdapter(this, categories, participants);
+        EntrantsExpandableListAdapter adapter = new EntrantsExpandableListAdapter(this, categories, participants, eventId);
         expandableListView.setAdapter(adapter);
     }
     private void fetchEventDetails() {
@@ -99,9 +136,14 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
+                    String title = document.getString("name");
+                    String date = document.getString("eventDate");
                     waitlistId = document.getString("waitlistId");
                     capacity = document.getLong("capacity").intValue();
                     waitingList = new WaitingList(waitlistId, eventId); // Initialize with existing waitlistId and eventId
+                    // Update UI with event details
+                    eventTitle.setText(title);
+                    eventDate.setText(date);
                     initializeEntrantsLists();
                 } else {
                     Log.d(TAG, "No such document");
@@ -132,20 +174,8 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
                             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                                 if ("WaitingList".equals(updatedCategory)) {
                                     String documentId = document.getId(); // Document ID
-                                    List<String> waitlist = (List<String>) document.get("waitlist"); // Retrieve the "waitlist" field
-
-                                    if (waitlist != null) {
-                                        Log.d(TAG, "Waitlist for document " + documentId + ": " + waitlist);
-                                        // Process the waitlist as needed
-                                        for (String entrantID : waitlist) {
-                                            waitingList.addEntrantToWaitlist(eventId, entrantID);
-                                            entrantsList.add(entrantID);
-                                            Log.d(TAG, "Entrant ID: " + entrantID);
-                                            // Add entrant to your local lists or UI updates
-                                        }
-                                    } else {
-                                        Log.d(TAG, "No waitlist found for document " + documentId);
-                                    }
+                                    waitingList.addEntrantToWaitlist(eventId, documentId);
+                                    entrantsList.add(documentId);
                                 }
                                     else {
                                     String entrantId = document.getId();
@@ -176,7 +206,8 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
                                 EntrantsExpandableListAdapter adapter = new EntrantsExpandableListAdapter(
                                         this,
                                         categories,
-                                        participants
+                                        participants,
+                                        eventId
                                 );
                                 expandableListView.setAdapter(adapter);
                             }
@@ -186,6 +217,23 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
                     });
         }
     }
+
+    private void clearWaitlist() {
+        db.collection("Events").document(eventId).collection("WaitingList").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        WriteBatch batch = db.batch();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            batch.delete(document.getReference());
+                        }
+                        batch.commit().addOnSuccessListener(aVoid -> Log.d(TAG, "Waitlist cleared"))
+                                .addOnFailureListener(e -> Log.w(TAG, "Error clearing waitlist", e));
+                    } else {
+                        Log.w(TAG, "Error getting waitlist documents", task.getException());
+                    }
+                });
+    }
+
     private void uploadSelectedListToFirestore() {
         DocumentReference eventRef = db.collection("Events").document(eventId);
         for (String entrantId : selectedList) {
@@ -222,6 +270,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
                 if (waitingList != null) {
                     selectedList = waitingList.manageEntrantSelection(eventId, capacity);
                     uploadSelectedListToFirestore();
+                    clearWaitlist();
                     // Update UI or perform further actions with selectedList
                 }
                 alertDialog.dismiss();
@@ -239,4 +288,112 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
         // Show the dialog
         alertDialog.show();
     }
+
+    private void showCustomMessageDialog(List<String> entrantsList, String category) {
+        // Inflate the dialog layout
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_notif, null);
+
+        // Create the AlertDialog
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(dialogView);
+
+        // Get the dialog elements
+        TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+        TextView dialogMessage = dialogView.findViewById(R.id.dialogMessage);
+        EditText customMessageInput = dialogView.findViewById(R.id.customMessageInput);
+        Button sendButton = dialogView.findViewById(R.id.sendButton);
+        Button cancelButton = dialogView.findViewById(R.id.cancelButton);
+
+        // Set up the dialog
+        AlertDialog alertDialog = dialogBuilder.create();
+
+        // Set the send button click listener
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String customMessage = customMessageInput.getText().toString().trim();
+                if (!customMessage.isEmpty()) {
+                    sendCustomMessageToEntrants(entrantsList, customMessage, category);
+                    Toast.makeText(OrganizerWaitlistActivity.this, "Message sent successfully", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                } else {
+                    customMessageInput.setError("Message cannot be empty");
+                }
+            }
+        });
+
+        // Set the negative button click listener
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        // Show the dialog
+        alertDialog.show();
+    }
+
+    private void sendCustomMessageToEntrants(List<String> entrantsList, String message, String category) {
+        CollectionReference notificationsRef = db.collection("Events").document(eventId).collection("Notifications");
+
+        // Determine the prefix based on the category
+        String prefix;
+        switch (category) {
+            case "Accepted":
+                prefix = "A-";
+                break;
+            case "Declined":
+                prefix = "D-";
+                break;
+            case "Pending":
+                prefix = "P-";
+                break;
+            case "Waitlist":
+            case "WaitingList":
+                prefix = "W-";
+                break;
+            default:
+                prefix = "";
+                break;
+        }
+
+        // Add the prefix to the message
+        String prefixedMessage = prefix + message;
+
+        for (String entrantId : entrantsList) {
+            DocumentReference entrantDocRef = notificationsRef.document(entrantId);
+            entrantDocRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // Document exists, append to the messages list
+                        List<String> messages = (List<String>) document.get("messages");
+                        if (messages == null) {
+                            messages = new ArrayList<>();
+                        }
+                        messages.add(prefixedMessage);
+                        entrantDocRef.update("messages", messages)
+                                .addOnSuccessListener(aVoid -> Log.d(TAG, "Message appended for entrant: " + entrantId))
+                                .addOnFailureListener(e -> Log.w(TAG, "Error appending message for entrant", e));
+                    } else {
+                        // Document does not exist, create a new document with the messages list
+                        Map<String, Object> data = new HashMap<>();
+                        List<String> messages = new ArrayList<>();
+                        messages.add(prefixedMessage);
+                        data.put("messages", messages);
+                        entrantDocRef.set(data)
+                                .addOnSuccessListener(aVoid -> Log.d(TAG, "Message created for entrant: " + entrantId))
+                                .addOnFailureListener(e -> Log.w(TAG, "Error creating message for entrant", e));
+                    }
+                } else {
+                    Log.w(TAG, "Error getting entrant document", task.getException());
+                }
+            });
+        }
+    }
+
+
+
 }

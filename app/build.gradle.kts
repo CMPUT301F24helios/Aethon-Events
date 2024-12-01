@@ -8,6 +8,8 @@ android {
     compileSdk = 34
 
     defaultConfig {
+
+
         applicationId = "com.example.aethoneventsapp"
         minSdk = 24
         targetSdk = 34
@@ -15,6 +17,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "MAPTILER_API_KEY", "\"HjlQ4E4vEEbxno9Yzmb0\"")
     }
 
     buildTypes {
@@ -31,18 +34,27 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }
 
 dependencies {
+    // map
+    implementation ("org.maplibre.gl:android-sdk:10.0.2")
+
     // Firebase BoM for Firestore and Database
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-firestore")
+    implementation ("com.google.android.gms:play-services-maps:17.0.1")  // or latest version
+    implementation ("com.google.firebase:firebase-firestore:24.4.0") // Make sure this is also added for Firebase
     implementation("com.google.firebase:firebase-database:20.0.5") // Only one Firebase Database version
-
+    // Glide dependency for image loading
+    implementation("com.github.bumptech.glide:glide:4.15.1")  // Check for the latest version on Maven
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+    implementation(libs.glide)
     implementation("com.squareup.picasso:picasso:2.71828")
-
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     // Android libraries
     implementation("com.google.firebase:firebase-messaging:23.0.0")
     implementation("com.google.firebase:firebase-analytics")

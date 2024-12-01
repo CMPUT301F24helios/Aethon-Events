@@ -8,6 +8,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.util.List;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,7 +20,7 @@ import java.io.ByteArrayOutputStream;
  * and capacity. It provides functionality for event creation, updates, waitlist management,
  * QR code generation, and entrant handling.
  */
-public class Event {
+public class Event implements Serializable {
 
     // Attributes
     private int eventId;
@@ -36,23 +37,24 @@ public class Event {
 
 
     // Constructor
-    public Event(int eventId, String name, String location, int capacity, String description, String waitlistId, String entrantId, String organizerId, String eventDate) {
+    public Event(int eventId, String name, String location, String organizerId, String eventDate) {
+
+    public Event(int eventId, String name, String location, int capacity, String description, String waitlistId, String entrantId, String organizerId, String eventDate, String url ) {
         this.eventId = eventId;
         this.name = name;
         this.location = location;
-        this.capacity = capacity;
         this.description = description;
-        this.waitlistId = waitlistId;
-        this.entrantId = entrantId;
         this.organizerId = organizerId;
         this.eventDate = eventDate;
-        createUrl();
+        this.url = url;
     }
-    public void createUrl(){
-        // create a custom url for the event
-        this.url = "event/" + this.eventId;
+    // No-argument constructor required for Firebase deserialization
+    public Event(int eventId, String name, String location, String organizerId, String eventDate) {
+        // Firebase needs this constructor
     }
-    public String getUrl() {
+
+
+    public String getImageUrl() {
         return url;
     }
     public String getEventDate() { // Add this method
@@ -261,6 +263,17 @@ public class Event {
 
     public void setOrganizerId(String organizerId) {
         this.organizerId = organizerId;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+
+    public void setEventDate(String updatedDate) {
+        this.eventDate = updatedDate;
+    }
+
+    public void setImageUrl(String updatedImageUrl) {
+        this.url = updatedImageUrl;
     }
 }
 

@@ -1,21 +1,28 @@
 package com.example.aethoneventsapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,10 +32,14 @@ import java.util.Map;
 public class OrganizerViewActivity extends AppCompatActivity {
 
     private ListView listViewEvents;
-    private ArrayAdapter<String> adapter;
+    private EventAdapterOrganizer adapter;
     private List<String> eventList = new ArrayList<>();
+    private List<Event> ListOfEvents = new ArrayList<>();
     private Button organizerButton;
     private String deviceId;
+    private String eventIdToUpload;
+    private int eventIndexToUpload;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Map<String, String> eventIdMap = new HashMap<>(); // Map to store event details and their corresponding event IDs
 
@@ -46,7 +57,7 @@ public class OrganizerViewActivity extends AppCompatActivity {
         });
 
         listViewEvents = findViewById(R.id.ListViewEvents);
-        adapter = new ArrayAdapter<>(this, R.layout.activity_organizer_view_textview, eventList);
+        adapter = new EventAdapterOrganizer(this, ListOfEvents);
         listViewEvents.setAdapter(adapter);
 
         // Get organizerId from intent
@@ -75,8 +86,130 @@ public class OrganizerViewActivity extends AppCompatActivity {
             }
         });
 
+        // Set OnItemLongClickListener to handle long-click events
+        listViewEvents.setOnItemLongClickListener((parent, view, position, id) -> {
+            String eventDetails = eventList.get(position);
+            String eventId = extractEventId(eventDetails);
+            eventIdToUpload = eventId;
+            eventIndexToUpload = position;
+            if (eventId != null) {
+                Log.d("OrganizerViewActivity", "Long-clicked on Event ID: " + eventId);
+
+                // Show the confirmation dialog
+                showConfirmationDialog(eventId);
+                return true; // Indicate that the long-click was handled
+            } else {
+                Toast.makeText(this, "Event ID not found for long click", Toast.LENGTH_SHORT).show();
+                return false; // Not handled if Event ID is null
+            }
+        });
     }
 
+    private void showConfirmationDialog(String eventId) {
+        // Inflate the dialog layout
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
+
+        // Create the AlertDialog
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(dialogView);
+
+        // Access the TextViews and change the text dynamically
+        TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+        TextView dialogMessage = dialogView.findViewById(R.id.dialogMessage);
+
+        // Set custom text for the dialog title and message
+        dialogTitle.setText("Confirm Image Upload");
+        dialogMessage.setText("Are you sure you want to update the image for the event?");
+
+
+        // Access the buttons defined in the layout
+        Button positiveButton = dialogView.findViewById(R.id.positiveButton);
+        Button negativeButton = dialogView.findViewById(R.id.negativeButton);
+        // Create the dialog
+        AlertDialog alertDialog = dialogBuilder.create();
+
+        // Set the OnClickListener for the "Yes" button (positive button)
+        positiveButton.setOnClickListener(v -> {
+            // On clicking "Yes", prompt for image upload
+            openImagePicker();
+            alertDialog.dismiss();
+        });
+
+
+        // Set the OnClickListener for the "No" button (negative button)
+        negativeButton.setOnClickListener(v -> {
+            // On clicking "No", dismiss the dialog
+            alertDialog.dismiss();
+        });
+        // Show the dialog
+        alertDialog.show();
+    }
+
+    private void openImagePicker() {
+        // Open the image picker to allow the user to select an image
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            // Get the image URI from the result
+            Uri imageUri = data.getData();
+            if (imageUri != null) {
+                // Upload the image to Firebase
+                uploadImageToFirebase(imageUri);
+            }
+        }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        // Create a reference to Firebase Storage
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
+        // Create a unique path for the image
+        StorageReference imageRef = storageRef.child("event_images/" + System.currentTimeMillis() + ".jpg");
+
+        // Upload the image to Firebase Storage
+        imageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Get the download URL of the image
+                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String imageUrl = uri.toString();
+                        // Now, update the Firestore document with the new image URL
+                        updateEventImageUrl(imageUrl );
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(OrganizerViewActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void updateEventImageUrl(String imageUrl) {
+        // Update the event document with the new image URL
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Events")
+                .document(eventIdToUpload)
+                .update("imageUrl", imageUrl)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(OrganizerViewActivity.this, "Image updated successfully!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(OrganizerViewActivity.this, "Failed to update event image", Toast.LENGTH_SHORT).show();
+                });
+        // updating the id of the event in the url
+        Event event = ListOfEvents.get(eventIndexToUpload);
+        event.setUrl(imageUrl);
+        ListOfEvents.set(eventIndexToUpload, event);
+        eventIndexToUpload = -1;
+        eventIdToUpload = "";
+        adapter.notifyDataSetChanged();
+
+    }
     private void fetchEvents(String organizerId) {
         try {
             db.collection("Events")
@@ -91,7 +224,10 @@ public class OrganizerViewActivity extends AppCompatActivity {
                                     String eventDate = document.getString("eventDate");
                                     String location = document.getString("location");
                                     String eventId = document.getLong("eventId").toString();
-
+                                    String url = document.getString("imageUrl");
+                                    Event event = new Event(Integer.parseInt(eventId), eventName,location, organizerId, eventDate);
+                                    event.setUrl(url);
+                                    ListOfEvents.add(event);
                                     String eventDetails = eventName + " - " + eventDate + " @ " + location + " (Event ID: " + eventId + ")";;
                                     eventList.add(eventDetails);
                                 }
@@ -108,6 +244,7 @@ public class OrganizerViewActivity extends AppCompatActivity {
             Log.e("OrganizerViewActivity", "Error during event fetch: ", e);
             Toast.makeText(this, "Error fetching events", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private String extractEventId(String eventDetails) {

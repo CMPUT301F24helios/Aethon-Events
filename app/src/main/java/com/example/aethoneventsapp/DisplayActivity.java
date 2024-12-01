@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aethoneventsapp.databinding.ActivityMainBinding;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.squareup.picasso.Picasso;
@@ -95,26 +96,56 @@ public class DisplayActivity extends AppCompatActivity {
      * @param entrantId     The ID of the entrant to be added to the waitlist.
      */
     private void addEntrantToWaitlist(String eventUniqueID, String entrantId) {
-        Map<String, Object> entrantData = new HashMap<>();
-        entrantData.put("entrantId", entrantId);
-        entrantData.put("timestamp", System.currentTimeMillis()); // Optional: Add timestamp if needed
+        // Access the event's document to retrieve the limitCapacity
+        db.collection("Events").document(eventUniqueID).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Long limitCapacity = document.getLong("limitCapacity");
+                    if (limitCapacity != null) {
+                        // Check the current size of the waitlist
+                        db.collection("Events").document(eventUniqueID).collection("WaitingList").get()
+                                .addOnCompleteListener(waitlistTask -> {
+                                    if (waitlistTask.isSuccessful()) {
+                                        int currentWaitlistSize = waitlistTask.getResult().size();
+                                        if (currentWaitlistSize < limitCapacity) {
+                                            // Add the entrant to the waitlist
+                                            Map<String, Object> entrantData = new HashMap<>();
+                                            entrantData.put("entrantId", entrantId);
+                                            entrantData.put("timestamp", System.currentTimeMillis()); // Optional: Add timestamp if needed
 
-        // Access the event's "WaitingList" collection and add the entrant
-        db.collection("Events")
-                .document(eventUniqueID)
-                .collection("WaitingList")
-                .document(entrantId)
-                .set(entrantData)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(DisplayActivity.this, "Successfully added to waitlist!", Toast.LENGTH_SHORT).show();
-                    Log.d("Firestore", "Entrant added to waitlist.");
-                    // Add event to the user's Events list
-                    addEventToUserList(eventUniqueID, entrantId);
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(DisplayActivity.this, "Failed to add to waitlist.", Toast.LENGTH_SHORT).show();
-                    Log.e("Firestore", "Error adding entrant to waitlist", e);
-                });
+                                            db.collection("Events")
+                                                    .document(eventUniqueID)
+                                                    .collection("WaitingList")
+                                                    .document(entrantId)
+                                                    .set(entrantData)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        Toast.makeText(DisplayActivity.this, "Successfully added to waitlist!", Toast.LENGTH_SHORT).show();
+                                                        addEventToUserList(eventUniqueID, entrantId);
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Toast.makeText(DisplayActivity.this, "Failed to add to waitlist.", Toast.LENGTH_SHORT).show();
+                                                        Log.e("Firestore", "Error adding entrant to waitlist", e);
+                                                    });
+                                        } else {
+                                            Toast.makeText(DisplayActivity.this, "Waitlist is full. Cannot add entrant.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(DisplayActivity.this, "Failed to check waitlist size.", Toast.LENGTH_SHORT).show();
+                                        Log.e("Firestore", "Error checking waitlist size", waitlistTask.getException());
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(DisplayActivity.this, "Event limit capacity not found.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(DisplayActivity.this, "Event not found.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(DisplayActivity.this, "Failed to retrieve event details.", Toast.LENGTH_SHORT).show();
+                Log.e("Firestore", "Error retrieving event details", task.getException());
+            }
+        });
     }
     private void removeEventToUserList(String eventUniqueID, String entrantId) {
         // Search for the user document with the matching deviceId

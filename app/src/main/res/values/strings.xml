@@ -6,6 +6,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="open_nav">Open navigation drawer</string>
+    <string name="close_nav">Close navigation drawer</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -138,4 +140,5 @@
     <string name="welcome_to">Welcome to</string>
     <string name="aethon">Aethon</string>
     <string name="events">Events</string>
+    <string name="posterimage" />
 </resources>

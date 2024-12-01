@@ -238,7 +238,9 @@ public class ProfileActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         boolean exists = document.exists();
                         if (exists) {
-                            startActivity(new Intent(ProfileActivity.this, OrganizerViewActivity.class));
+                            Intent orgMode = new Intent(ProfileActivity.this, OrganizerViewActivity.class);
+                            orgMode.putExtra("organizerId", deviceId);
+                            startActivity(orgMode);
                         } else {
                             startActivity(new Intent(ProfileActivity.this, CreateFacilityActivity.class));
                         }

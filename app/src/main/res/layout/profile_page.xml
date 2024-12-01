@@ -10,12 +10,12 @@
         android:id="@+id/textView"
         android:layout_width="282dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="44dp"
         android:text="Your Profile"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="48sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,15 +40,14 @@
 
     <android.widget.Button
         android:id="@+id/changePhoto"
-        android:layout_width="149dp"
+        android:layout_width="156dp"
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="1dp"
-        android:backgroundTint="@color/purple"
+        android:backgroundTint="#910A67"
+        android:password="false"
         android:text="Change Photo"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/removePhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,10 +56,9 @@
     <android.widget.Button
         android:id="@+id/removePhoto"
         android:layout_width="149dp"
-        android:layout_height="38dp"
+        android:layout_height="26dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/gradient_background"
-        android:paddingTop="8dp"
+        android:background="#910A67"
         android:text="Remove Photo"
         android:textColor="#FFFFFF"
         android:textSize="13sp"
@@ -75,7 +73,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="21dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="24dp"
         android:hint="Name"
         android:inputType="textPersonName"
         android:text="Name"
@@ -110,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="24dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:text='Email'
@@ -118,6 +116,7 @@
         android:textColorHint="#80FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/edit_phone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
@@ -125,7 +124,7 @@
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
+        android:layout_marginBottom="32dp"
         android:checked="true"
         android:text="Receive Notifications"
         android:textSize="18dp"
@@ -138,51 +137,63 @@
         android:id="@+id/save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_bg"
         android:text="Save"
-        android:textSize="20dp"
-        android:textColor="@color/white"
         android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/switch_org"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox">
+        app:layout_constraintTop_toBottomOf="@+id/checkBox"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <android.widget.Button
             android:id="@+id/switch_org"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="29dp"
+            android:layout_marginTop="90dp"
             android:background="@drawable/button_bg"
             android:text="Organizer Mode"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/switch_org"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/save_btn" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/switch_adm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/button_bg"
             android:text="Admin Mode"
-            android:textSize="18sp" />
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textDirection="firstStrongRtl"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_org" />
 
-    </LinearLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

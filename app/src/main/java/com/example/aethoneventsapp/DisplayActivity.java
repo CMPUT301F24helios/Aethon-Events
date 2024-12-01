@@ -80,6 +80,7 @@ public class DisplayActivity extends AppCompatActivity {
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(DisplayActivity.this, "Successfully removed from waitlist!", Toast.LENGTH_SHORT).show();
+                    removeEventToUserList(eventUniqueID, entrantId);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(DisplayActivity.this, "Failed to remove from waitlist.", Toast.LENGTH_SHORT).show();
@@ -115,6 +116,40 @@ public class DisplayActivity extends AppCompatActivity {
                     Log.e("Firestore", "Error adding entrant to waitlist", e);
                 });
     }
+    private void removeEventToUserList(String eventUniqueID, String entrantId) {
+        // Search for the user document with the matching deviceId
+        db.collection("users")
+                .whereEqualTo("deviceId", entrantId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        // Get the first matching document
+                        String userDocId = queryDocumentSnapshots.getDocuments().get(0).getId();
+
+                        // Check if the 'Events' list exists
+                        db.collection("users")
+                                .document(userDocId)
+                                .get()
+                                .addOnSuccessListener(documentSnapshot -> {
+                                    if (documentSnapshot.exists() && documentSnapshot.contains("Events")) {
+                                        // Update the existing list by removing the event
+                                        db.collection("users")
+                                                .document(userDocId)
+                                                .update("Events", FieldValue.arrayRemove(eventUniqueID))
+                                                .addOnSuccessListener(aVoid -> Log.d("Firestore", "Event removed from user's Events list."))
+                                                .addOnFailureListener(e -> Log.e("Firestore", "Failed to remove event from Events list.", e));
+                                    } else {
+                                        Log.d("Firestore", "User document exists but 'Events' list does not contain the event.");
+                                    }
+                                })
+                                .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch user document.", e));
+                    } else {
+                        Log.e("Firestore", "No user found with the given deviceId.");
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("Firestore", "Error querying users collection.", e));
+    }
+
     private void addEventToUserList(String eventUniqueID, String entrantId) {
         // Search for the user document with the matching deviceId
         db.collection("users")

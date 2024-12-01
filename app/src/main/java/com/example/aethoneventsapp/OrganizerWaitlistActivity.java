@@ -116,7 +116,8 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Handle QR button click
                 Intent intent = new Intent(OrganizerWaitlistActivity.this, QRCodeActivity.class);
-                intent.putExtra("eventId", eventId);
+                Log.d(TAG, "Event ID: " + eventId);
+                intent.putExtra("eventId", Integer.parseInt(eventId));
                 startActivity(intent);
             }
         });

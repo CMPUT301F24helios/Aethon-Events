@@ -1,6 +1,7 @@
 package com.example.aethoneventsapp;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.aethoneventsapp.R;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,13 +32,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 public class OrganizerWaitlistActivity extends AppCompatActivity {
 
     private ListView listViewWaitlist;
     private ExpandableListView expandableListView;
     private ArrayAdapter<String> adapter;
     private Button poolButton;
+
+    private Button MapButton;
+
     private Button QRButton;
     private List<String> selectedList;
     private WaitingList waitingList;
@@ -88,6 +97,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
 
 
         poolButton = findViewById(R.id.poolButton);
+        MapButton = findViewById(R.id.MapButton);
         QRButton = findViewById(R.id.QRButton);
         selectedList = new ArrayList<>();
         pendingList = new ArrayList<>();
@@ -111,6 +121,28 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
             }
         });
 
+        MapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMap();
+            }
+        });
+    }
+    private void showMap() {
+        // Check if location permissions are granted before showing the map
+        if (checkPermissions()) {
+            // Start MapActivity
+            Intent mapIntent = new Intent(OrganizerWaitlistActivity.this, mapActivity.class);
+            mapIntent.putExtra("eventId", eventId); // Pass eventId if needed
+            startActivity(mapIntent);
+        } else {
+            requestPermissions(); // Request necessary permissions if not granted
+        }
+    }
+    private boolean checkPermissions() {
+        // Check if location permissions are granted
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
         QRButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +155,10 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
         });
     }
 
+    private void requestPermissions() {
+        // Request location permissions if not granted
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+    }
     private void updateUIWithEntrants(List<String> categories, Map<String, List<String>> participants) {
         // Assign fetched categories and participants to the global variables
         this.categories = categories;

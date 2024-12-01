@@ -39,7 +39,7 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     private void checkDeviceRecognition() {
-        db.collection("users") // Replace "users" with your actual Firestore collection name
+        db.collection("users")
                 .whereEqualTo("deviceId", deviceId)
                 .get()
                 .addOnCompleteListener(task -> {

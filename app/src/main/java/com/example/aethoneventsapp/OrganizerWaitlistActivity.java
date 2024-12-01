@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OrganizerWaitlistActivity extends AppCompatActivity {
+public class OrganizerWaitlistActivity extends NavActivity {
 
     private ListView listViewWaitlist;
     private ArrayAdapter<String> adapter;
@@ -42,7 +42,7 @@ public class OrganizerWaitlistActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.waitlist_layout);
+        getLayoutInflater().inflate(R.layout.waitlist_layout, findViewById(R.id.container));
 
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();

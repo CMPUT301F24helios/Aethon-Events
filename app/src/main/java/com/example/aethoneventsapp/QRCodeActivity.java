@@ -31,7 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class QRCodeActivity extends AppCompatActivity {
+public class QRCodeActivity extends NavActivity {
 
     private ImageView imageViewQRCode;
     private Button share;
@@ -40,7 +40,7 @@ public class QRCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr_code);
+        getLayoutInflater().inflate(R.layout.activity_qr_code, findViewById(R.id.container));
 
         imageViewQRCode = findViewById(R.id.imageViewQRCode);
 

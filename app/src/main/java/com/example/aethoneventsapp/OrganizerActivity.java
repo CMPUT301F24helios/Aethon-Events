@@ -34,7 +34,7 @@ import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 import java.util.Calendar;
 
-public class OrganizerActivity extends AppCompatActivity {
+public class OrganizerActivity extends NavActivity {
 
     private EditText editTextName, editTextLocation, editTextCapacity, editTextDescription, editTextLimit, editTextEventDate;
     private Button buttonSubmit, buttonUploadImage;
@@ -50,7 +50,7 @@ public class OrganizerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_organizer);
+        getLayoutInflater().inflate(R.layout.activity_organizer, findViewById(R.id.container));
 
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();

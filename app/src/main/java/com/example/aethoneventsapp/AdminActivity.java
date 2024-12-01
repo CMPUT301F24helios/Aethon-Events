@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminActivity extends NavActivity {
     private RecyclerView recyclerView;
     private UserAdapter adapter;
     private List<User> userList;
@@ -28,7 +28,7 @@ public class AdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
+        getLayoutInflater().inflate(R.layout.activity_admin, findViewById(R.id.container));
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setNestedScrollingEnabled(false);

@@ -3,6 +3,7 @@ package com.example.aethoneventsapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,30 +39,28 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     private void checkDeviceRecognition() {
-        // Reference to the "devices" collection
-        CollectionReference devicesCollection = db.collection("devices");
-
-        // Query to check if the device ID already exists in the Firestore collection
-        devicesCollection.whereEqualTo("deviceId", deviceId).get()
+        db.collection("users")
+                .whereEqualTo("deviceId", deviceId)
+                .get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            // Device is recognized
-                            Toast.makeText(LandingActivity.this, "Welcome back!", Toast.LENGTH_SHORT).show();
-                            navigateToMainApp();
-                        } else {
-                            // Device not recognized, save it to Firestore
-                            navigateToProfileSetup();
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Boolean isAdmin = document.getBoolean("isAdmin");
+                            if (isAdmin != null && isAdmin) {
+                                // User is an admin, navigate to admin page
+                                navigateToAdminMode();
+                            } else {
+                                // User is not an admin, go to Main App
+                                navigateToMainApp();
+                            }
                         }
+                    } else {
+                        // No matching user found or error occurred
+                        navigateToProfileSetup();
+
                     }
                 });
     }
-
-//    public void saveNewDevice() {
-//        // Create a new document with the device ID in the "devices" collection
-//        db.collection("devices").add(new Device(deviceId));
-//    }
 
     // Method to navigate to the main part of the app for recognized devices
     private void navigateToMainApp() {
@@ -75,19 +74,9 @@ public class LandingActivity extends AppCompatActivity {
         finish();
     }
 
-    // Device model class
-    public static class Device {
-        private String deviceId;
-
-        public Device() {} // Needed for Firestore
-
-        public Device(String deviceId) {
-            this.deviceId = deviceId;
-        }
-
-        public String getDeviceId() {
-            return deviceId;
-        }
-
+    private void navigateToAdminMode(){
+        startActivity(new Intent(LandingActivity.this, AdminMainActivity.class));
+        finish();
     }
+
 }

@@ -42,7 +42,8 @@ android {
 dependencies {
     // map
     implementation ("org.maplibre.gl:android-sdk:10.0.2")
-
+    // location services
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     // Firebase BoM for Firestore and Database
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-firestore")

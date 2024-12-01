@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
-public class UserProfileActivity extends NavActivity {
+public class UserProfileActivity extends AppCompatActivity {
 
     private User user;
     private ImageView profileImageView;
@@ -23,7 +23,7 @@ public class UserProfileActivity extends NavActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.activity_user_profile, findViewById(R.id.container));
+        setContentView(R.layout.activity_user_profile);
 
         profileImageView = findViewById(R.id.profileImageView);
         nameTextView = findViewById(R.id.nameTextView);
@@ -53,6 +53,13 @@ public class UserProfileActivity extends NavActivity {
             // Handle Remove Profile Picture
             removeProfilePictureButton.setOnClickListener(v -> removeProfilePicture());
         }
+
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent backIntent = new Intent(UserProfileActivity.this, AdminMainActivity.class);
+            startActivity(backIntent);
+            finish(); // Optional: Finish current activity to prevent going back to it
+        });
     }
 
     private void removeProfilePicture() {

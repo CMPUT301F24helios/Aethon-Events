@@ -10,94 +10,94 @@ android:layout_margin="8dp"
 android:elevation="4dp">
 
 
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="120dp"
-    android:layout_weight="1"
-    android:orientation="vertical"
-    android:paddingEnd="10dp">
-
-    <TextView
-        android:id="@+id/event_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Napolean Bonaparte"
-        android:textColor="@color/gradientColor"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/event_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="12 June 2004"
-        android:textColor="@color/gradientColor"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/event_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Edmonton, Canada"
-        android:textColor="@color/gradientColor"
-        android:textSize="14sp" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_width="283dp"
+        android:layout_height="120dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        >
+        <TextView
+            android:id="@+id/event_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Napolean Bonaparte"
+            android:textColor="@color/darker_purple"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="80dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/gradient_border"
-            android:text="Delete"
-            android:textColor="@color/gradientColor"
-            android:textSize="10sp"/>
+        <TextView
+            android:id="@+id/event_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="12 June 2004"
+            android:textColor="@color/purple"
+            android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/editButton"
-            android:layout_width="70dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/gradient_border"
-            android:text="Edit"
-            android:textColor="@color/gradientColor"
-            android:textSize="10sp"/>
+        <TextView
+            android:id="@+id/event_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Edmonton, Canada"
+            android:textColor="@color/purple"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            >
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="80dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/gradient_border"
+                android:text="Delete"
+                android:textColor="@color/dark_purple"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/editButton"
+                android:layout_width="70dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/gradient_border"
+                android:text="Edit"
+                android:textColor="@color/gradientColor"
+                android:textSize="10sp" />
 
 
-        <Button
-            android:id="@+id/deleteQrButton"
-            android:layout_width="112dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/gradient_border"
-            android:text="Delete Qr Code"
-            android:textColor="@color/gradientColor"
-            android:textSize="9sp"/>
-</LinearLayout>
+            <Button
+                android:id="@+id/deleteQrButton"
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/gradient_border"
+                android:text="Delete QR"
+                android:textColor="@color/gradientColor"
+                android:textSize="9sp" />
+        </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
 
 <!-- Right side: Profile Picture -->
-<ImageView
-    android:id="@+id/event_image"
-    android:layout_width="70dp"
-    android:layout_height="70dp"
-    android:scaleType="centerCrop"
-    android:src="@drawable/event_poster"
-    android:layout_gravity="center_vertical"
-    android:background="@drawable/circle_background"
-    android:padding="5dp" />
+    <ImageView
+        android:id="@+id/event_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/circle_background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/event_poster" />
 
 </LinearLayout>

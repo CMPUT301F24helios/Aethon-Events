@@ -58,7 +58,12 @@ public class EditEventActivity extends AppCompatActivity {
         }
 
         removeImageBtn.setOnClickListener(v -> removeEventPicture(eventObject));
-
+        Button backButton = findViewById(R.id.eventBackButton);
+        backButton.setOnClickListener(v -> {
+            // go back to admin view activity
+            Intent intent = new Intent(this, AdminMainActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void removeEventPicture(Event event) {

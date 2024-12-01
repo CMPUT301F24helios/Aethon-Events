@@ -24,7 +24,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="The Great Circus"
-            android:textColor="@color/gradientColor"
+            android:textColor="@color/darker_purple"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Edmonton, Canada"
-            android:textColor="@color/gradientColor"
+            android:textColor="@color/purple"
             android:textSize="14sp" />
 
         <Button
@@ -46,7 +46,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/gradient_border"
             android:text="Delete"
-            android:textColor="@color/gradientColor" /> <!-- Optional for better button styling -->
+            android:textColor="@color/purple" /> <!-- Optional for better button styling -->
 
     </LinearLayout>
 

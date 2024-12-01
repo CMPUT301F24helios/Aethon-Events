@@ -14,11 +14,11 @@ import com.bumptech.glide.Glide;
 import android.content.Context;
 
 
-public class EventAdapter extends ArrayAdapter<Event> {
+public class EventAdapterOrganizer extends ArrayAdapter<Event> {
     private final Context context;
     private final List<Event> events;
 
-    public EventAdapter(Context context, List<Event> events) {
+    public EventAdapterOrganizer(Context context, List<Event> events) {
         super(context, 0, events);
         this.context = context;
         this.events = events;

@@ -1,0 +1,57 @@
+<!-- res/layout/dialog_confirm_submission.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send a Message"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif-medium" />
+
+    <TextView
+        android:id="@+id/dialogMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A custom message to notify the entrants of this list"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/customMessageInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your message here"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:background="@android:drawable/edit_text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Send"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</LinearLayout>

@@ -25,8 +25,9 @@
         android:textColor="#E0E0E0"
         android:textSize="20sp" />
 
-    <ListView
-        android:id="@+id/entrantsListView"
+
+    <ExpandableListView
+        android:id="@+id/entrantsExpandableList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
@@ -49,6 +50,18 @@
         android:text="Pool"
         android:textColor="#FFFFFF"
         android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/QRButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Show QR Code"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/button_gradient"
+        android:layout_marginBottom="16dp" />
 
 
 </LinearLayout>

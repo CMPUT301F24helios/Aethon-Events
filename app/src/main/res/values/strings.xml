@@ -140,4 +140,5 @@
     <string name="welcome_to">Welcome to</string>
     <string name="aethon">Aethon</string>
     <string name="events">Events</string>
+    <string name="posterimage" />
 </resources>

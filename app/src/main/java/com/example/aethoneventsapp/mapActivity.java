@@ -66,8 +66,8 @@ public class mapActivity extends AppCompatActivity {
                         @Override
                         public void onResult(List<LatLng> coordinatesList) {
                             mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                                    .target(new LatLng(53.5461, -113.4938)) // Default center: Edmonton
-                                    .zoom(12)
+                                    .target( coordinatesList.get(0)) // Default center: Edmonton
+                                    .zoom(10)
                                     .build());
 
                             // Add markers for each coordinate
@@ -89,7 +89,6 @@ public class mapActivity extends AppCompatActivity {
             Log.e(TAG, "MapView initialization failed.");
         }
     }
-
     private void getCoordinates(CoordinatesCallback callback) {
         // Fetch the waitlist from Firestore
         db.collection("Events")
@@ -108,13 +107,20 @@ public class mapActivity extends AppCompatActivity {
                             .addOnSuccessListener(userSnapshot -> {
                                 List<LatLng> coordinatesList = new ArrayList<>();
                                 for (DocumentSnapshot document : userSnapshot.getDocuments()) {
-                                    GeoPoint geoPoint = document.getGeoPoint("coordinates"); // Replace "coordinates" with actual field name
-                                    if (geoPoint != null) {
-                                        coordinatesList.add(new LatLng(
-                                                geoPoint.getLatitude(),
-                                                geoPoint.getLongitude()
-                                        ));
+                                    String userId = document.getString("deviceId");
+                                    if (waitlist.contains(userId)){
+                                        GeoPoint geoPoint = document.getGeoPoint("coordinates"); // Replace "coordinates" with actual field name
+                                        if (geoPoint != null) {
+                                            LatLng latLng = new LatLng(
+                                                    geoPoint.getLatitude(),
+                                                    geoPoint.getLongitude()
+                                            );
+                                            coordinatesList.add(latLng);
+                                            // Print each coordinate
+                                            Log.d(TAG, "User Coordinate: " + latLng);
+                                        }
                                     }
+
                                 }
                                 // Log the entire coordinatesList
                                 Log.d(TAG, "Coordinates List: " + coordinatesList.toString());
@@ -131,7 +137,6 @@ public class mapActivity extends AppCompatActivity {
                     callback.onError(e.getMessage());
                 });
     }
-
     // Callback interface for asynchronous results
     interface CoordinatesCallback {
         void onResult(List<LatLng> coordinatesList);
@@ -180,5 +185,5 @@ public class mapActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mapView != null) mapView.onSaveInstanceState(outState);
-}
+    }
 }

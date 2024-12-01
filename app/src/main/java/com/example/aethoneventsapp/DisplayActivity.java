@@ -1,16 +1,21 @@
 package com.example.aethoneventsapp;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.aethoneventsapp.databinding.ActivityMainBinding;
 import com.google.firebase.firestore.FieldValue;
@@ -22,7 +27,16 @@ import com.squareup.picasso.Picasso;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.GeoPoint;
 public class DisplayActivity extends NavActivity {
 
 
@@ -39,7 +53,8 @@ public class DisplayActivity extends NavActivity {
     private Button leaveWaitlistButton;
     private Button signupsButton;
     private FirebaseFirestore db;
-
+    private static final String TAG = "DisplayActivity";
+    private static final int LOCATION_REQUEST_CODE = 1001; // Arbitrary value for request code
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +82,141 @@ public class DisplayActivity extends NavActivity {
             startActivity(intent);
         });
 
-        joinWaitlistButton.setOnClickListener(v -> addEntrantToWaitlist(qrCodeContent, deviceId)); // Replace "HARD_CODED_ENTRANT_ID" with a real entrant ID if available
+        joinWaitlistButton.setOnClickListener(v -> {
+            // Check if geolocation is required
+            Log.e(TAG, "Join Waitlist button clicked.");
+            db.collection("Events")
+                    .document(qrCodeContent)  // Use qrCodeContent as the eventId
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Get the geolocationNeeded field (boolean value)
+                            Boolean needGeo = documentSnapshot.getBoolean("geolocationNeeded");
+
+                            if (needGeo != null && needGeo) {
+                                // If geolocation is required, show the confirmation dialog
+                                showConfirmationDialog(qrCodeContent, deviceId);
+                            } else {
+                                // If geolocation is not required, proceed with adding to the waitlist
+                                addEntrantToWaitlist(qrCodeContent, deviceId);
+                            }
+                        } else {
+                            Log.e(TAG, "Event not found.");
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Error fetching event data", e);
+                    });
+        });
         leaveWaitlistButton.setOnClickListener(v -> removeEntrantFromWaitlist(qrCodeContent, deviceId)); // Replace "HARD_CODED_ENTRANT_ID" with a real entrant ID if available
 
+    }
+    private void fetchAndHandleUserLocation(String qrCodeContent, String deviceId) {
+        // Check if location permissions are granted
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Request permissions
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+            return;
+        }
+
+        // Initialize the location client
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // Fetch the last known location
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(location -> {
+                    if (location != null) {
+                        // Extract latitude and longitude
+                        Double latitude = location.getLatitude();
+                        Double longitude = location.getLongitude();
+                        db.collection("users")
+                                .whereEqualTo("deviceId", deviceId)  // Query the users collection where deviceId matches
+                                .get()
+                                .addOnSuccessListener(userSnapshot -> {
+                                    if (!userSnapshot.isEmpty()) {  // Check if any document was found
+                                        for (DocumentSnapshot document : userSnapshot.getDocuments()) {
+                                            String docId = document.getId();  // Get the document ID
+                                            String userId = document.getString("deviceId");  // Get the deviceId from the document
+
+                                            if (userId != null && userId.equals(deviceId)) {  // Ensure deviceId matches and not null
+                                                // Ensure latitude and longitude are valid
+                                                if (latitude != null && longitude != null) {
+                                                    GeoPoint geoPoint = new GeoPoint(latitude, longitude);  // Create GeoPoint
+
+                                                    // Prepare data to write
+                                                    Map<String, Object> data = new HashMap<>();
+                                                    data.put("coordinates", geoPoint);
+
+                                                    // Write GeoPoint to Firestore
+                                                    db.collection("users").document(docId)
+                                                            .set(data, SetOptions.merge())  // Merge to add new field without overwriting
+                                                            .addOnSuccessListener(aVoid -> {
+                                                                Log.d("FirestoreWrite", "GeoPoint written for userId: " + userId);
+                                                            })
+                                                            .addOnFailureListener(e -> {
+                                                                Log.e("FirestoreError", "Error writing GeoPoint for userId: " + userId, e);
+                                                            });
+                                                } else {
+                                                    Log.e("FirestoreWrite", "Latitude or Longitude is null for userId: " + userId);
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Log.e("FirestoreQuery", "No user found with deviceId: " + deviceId);
+                                    }
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("FirestoreError", "Error fetching users", e);
+                                });
+                        Log.d(TAG, "User's Location: Latitude = " + latitude + ", Longitude = " + longitude);
+
+                    } else {
+                        Log.e(TAG, "Location is null. Ensure location services are enabled.");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to get location", e);
+                });
+    }
+    private void showConfirmationDialog(String eventId,String entrantId) {
+        // Inflate the dialog layout
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
+
+        // Create the AlertDialog
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(dialogView);
+
+        // Access the TextViews and change the text dynamically
+        TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+        TextView dialogMessage = dialogView.findViewById(R.id.dialogMessage);
+
+        // Set custom text for the dialog title and message
+        dialogTitle.setText("This event requires your location");
+        dialogMessage.setText("Are you sure you want to continue?");
+
+
+        // Access the buttons defined in the layout
+        Button positiveButton = dialogView.findViewById(R.id.positiveButton);
+        Button negativeButton = dialogView.findViewById(R.id.negativeButton);
+        // Create the dialog
+        AlertDialog alertDialog = dialogBuilder.create();
+
+        // Set the OnClickListener for the "Yes" button (positive button)
+        positiveButton.setOnClickListener(v -> {
+            // On clicking "Yes", prompt for image upload
+            fetchAndHandleUserLocation( eventId, entrantId);
+            addEntrantToWaitlist(eventId, entrantId);
+            alertDialog.dismiss();
+        });
+        // Set the OnClickListener for the "No" button (negative button)
+        negativeButton.setOnClickListener(v -> {
+            // On clicking "No", dismiss the dialog
+            alertDialog.dismiss();
+        });
+        // Show the dialog
+        alertDialog.show();
     }
 
     private void removeEntrantFromWaitlist(String eventUniqueID, String entrantId) {

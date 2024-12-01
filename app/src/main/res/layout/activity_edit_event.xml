@@ -48,5 +48,13 @@ android:layout_height="match_parent">
         android:text="Remove Event Picture"
         android:layout_marginTop="16dp"
         android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/eventBackButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Back to Home"
+        android:textColor="#FFFFFF" />
 </LinearLayout>
 </ScrollView>

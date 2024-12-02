@@ -58,7 +58,7 @@ public class OrganizerTestCase {
 
         // Fill in event details
         onView(withId(R.id.editTextName))
-                .perform(ViewActions.typeText("Dance Paneer"), ViewActions.closeSoftKeyboard());
+                .perform(ViewActions.typeText("Dance Event Test"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.editTextLocation))
                 .perform(ViewActions.typeText("Edmonton, Canada"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.editTextDescription))

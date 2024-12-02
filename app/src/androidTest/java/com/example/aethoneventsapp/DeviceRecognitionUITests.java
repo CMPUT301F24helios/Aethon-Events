@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 
 /**
  * Instrumented test, that checks the the Landing Activity to ensure proper main page navigation.
+ * Tests User Story US 01.07.01 given we know that firebase calls are mimicked as expected.
  */
 
 @RunWith(AndroidJUnit4.class)

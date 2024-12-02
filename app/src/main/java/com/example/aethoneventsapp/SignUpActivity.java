@@ -44,11 +44,11 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.user_signup);
 
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        editName = findViewById(R.id.edit_name);
-        editEmail = findViewById(R.id.edit_address);
-        editPhone = findViewById(R.id.edit_phone);
+        editName = findViewById(R.id.add_name);
+        editEmail = findViewById(R.id.add_address);
+        editPhone = findViewById(R.id.add_phone);
         signUpButton = findViewById(R.id.signup_btn);
-        profilePic = findViewById(R.id.profileImage);
+        profilePic = findViewById(R.id.addProfileImage);
 
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();

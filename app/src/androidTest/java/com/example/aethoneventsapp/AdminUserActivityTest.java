@@ -64,12 +64,10 @@ public class AdminUserActivityTest {
 
 
     @Test
-    public void testNavigationAndRemoveProfilePicture() throws InterruptedException {
+    public void testNavigationAndRemoveProfilePicture() {
         // Simulate clicking on the first item in the RecyclerView
         onView(withId(R.id.recyclerView)) // Replace with the RecyclerView ID or specific child view inside the item
                 .perform(click());
-        // Wait for UI transition to complete
-        Thread.sleep(500); // Wait for animations to finish (adjust time if needed)
 
         // Verify user profile details are displayed
         onView(withId(R.id.nameTextView)).check(matches(isDisplayed()));
@@ -80,7 +78,7 @@ public class AdminUserActivityTest {
         onView(withId(R.id.removeProfilePictureButton)).perform(click());
 
         // Verify the profile picture has been updated to the default
-        // Replace defaultProfilePictureId with the resource ID for the default profile picture
+        // Replace `defaultProfilePictureId` with the resource ID for the default profile picture
         onView(withId(R.id.profileImageView))
                 .check(matches(isDisplayed()));
     }
@@ -110,5 +108,6 @@ public class AdminUserActivityTest {
                     viewHolder.itemView.performClick();
                 }
             }
-};}
+        };
+    }
 }

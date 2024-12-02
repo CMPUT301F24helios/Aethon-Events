@@ -31,7 +31,22 @@ import org.junit.runner.RunWith;
 public class SignUpActivityTests {
 
     @Rule
-    public ActivityScenarioRule<SignUpActivity> scenario = new ActivityScenarioRule<SignUpActivity>(SignUpActivity.class);
+    public ActivityScenarioRule<SignUpActivity> scenarioSignUp =
+            new ActivityScenarioRule<SignUpActivity>(SignUpActivity.class);
+    
+    @Rule
+    public ActivityScenarioRule<ProfileActivity> scenarioProfilePage = 
+            new ActivityScenarioRule<ProfileActivity>(ProfileActivity.class);
+
+    @Before
+    public void setUp(){
+        Intents.init();
+    }
+
+    @After
+    public void tearDown(){
+        Intents.release();
+    }
 
     @Test
     public void signUpTests(){
@@ -53,7 +68,49 @@ public class SignUpActivityTests {
 
     @Test
     public void signUpButtonTest(){
+
+        onView(withId(R.id.edit_name)).perform(click());
+        onView(withId(R.id.edit_name)).perform(ViewActions.typeText("John Doe"));
+
+        onView(withId(R.id.edit_address)).perform(click());
+        onView(withId(R.id.edit_address)).perform(ViewActions.typeText("john@doe.com"));
+
+        onView(withId(R.id.edit_phone)).perform(click());
+        onView(withId(R.id.edit_phone)).perform(ViewActions.typeText("780-420-6969"));
+
         onView(withId(R.id.signup_btn)).perform(click());
+
+        // Assuming that the code mocks the firebase call perfectly(which it does :))
+        // i.e creates a user with the given details.
+        // We check if we switched to the MainActivity.
         Intents.intended(hasComponent(MainActivity.class.getName()));
     }
+    
+    
+    @Test
+    public void testProfilePictureUpload(){
+        
+    }
+    
+    @Test
+    public void testDeterministicallyGeneratedProfilePicture(){
+
+    }
+
+    @Test
+    public void updateProfileInformation(){
+
+    }
+
+    @Test
+    public void deviceIdentification(){
+
+    }
+
+    @Test
+    public void removeProfilePic(){
+
+    }
+
+
 }

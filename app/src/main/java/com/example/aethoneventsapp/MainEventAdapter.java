@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,16 @@ public class MainEventAdapter extends ArrayAdapter<Event> {
         TextView eventDate = convertView.findViewById(R.id.event_date);
         TextView eventLocation = convertView.findViewById(R.id.event_location);
         ImageView eventImage = convertView.findViewById(R.id.event_image);
+        Button delete = convertView.findViewById(R.id.deleteButton);
+        Button edit = convertView.findViewById(R.id.editButton);
+        Button deleteQr = convertView.findViewById(R.id.deleteQrButton);
+
+        delete.setEnabled(false);
+        delete.setVisibility(View.GONE);
+        edit.setEnabled(false);
+        edit.setVisibility(View.GONE);
+        deleteQr.setEnabled(false);
+        deleteQr.setVisibility(View.GONE);
 
         Picasso.get()
                 .load(event.getImageUrl())

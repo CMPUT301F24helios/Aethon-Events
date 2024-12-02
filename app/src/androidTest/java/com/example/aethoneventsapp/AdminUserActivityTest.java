@@ -66,7 +66,7 @@ public class AdminUserActivityTest {
     @Test
     public void testNavigationAndRemoveProfilePicture() {
         // Simulate clicking on the first item in the RecyclerView
-        onView(withId(R.id.recyclerView)) // Replace with the RecyclerView ID or specific child view inside the item
+        onView(RecyclerViewMatcher.withRecyclerView(R.id.recyclerView).atPosition(0)) // Click the first item
                 .perform(click());
 
         // Verify user profile details are displayed
@@ -78,10 +78,9 @@ public class AdminUserActivityTest {
         onView(withId(R.id.removeProfilePictureButton)).perform(click());
 
         // Verify the profile picture has been updated to the default
-        // Replace `defaultProfilePictureId` with the resource ID for the default profile picture
-        onView(withId(R.id.profileImageView))
-                .check(matches(isDisplayed()));
+        onView(withId(R.id.profileImageView)).check(matches(isDisplayed()));
     }
+
     public static ViewAction clickChildViewWithId(final int recyclerViewId, final int position) {
         return new ViewAction() {
             @Override

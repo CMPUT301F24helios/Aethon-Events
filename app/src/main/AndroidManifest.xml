@@ -36,6 +36,8 @@
         </activity>
 
         <!-- Other Activities -->
+        <!-- Declare NavActivity -->
+        <activity android:name=".NavActivity" android:exported="true" />
         <activity
             android:name=".OrganizerActivity"
             android:exported="true"

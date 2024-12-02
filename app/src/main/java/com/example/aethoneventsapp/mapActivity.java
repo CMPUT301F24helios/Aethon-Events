@@ -77,7 +77,7 @@ public class mapActivity extends AppCompatActivity {
                                 for (LatLng coordinate : coordinatesList) {
                                     mapboxMap.addMarker(new MarkerOptions()
                                             .position(coordinate)
-                                            .title("User Location"));
+                                             .title("User Location"));
                                 }
                             } else {
                                 // Notify the user when the list is empty

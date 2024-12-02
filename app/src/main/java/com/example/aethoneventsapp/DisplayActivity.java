@@ -167,7 +167,7 @@ public class DisplayActivity extends NavActivity {
                                     }
                                 })
                                 .addOnFailureListener(e -> {
-                                    Log.e("FirestoreError", "Error fetching users", e);
+                                     Log.e("FirestoreError", "Error fetching users", e);
                                 });
                         Log.d(TAG, "User's Location: Latitude = " + latitude + ", Longitude = " + longitude);
 

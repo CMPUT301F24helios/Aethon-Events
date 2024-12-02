@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder>  {
-    private List<Event> eventList;
+    public static List<Event> eventList;
     private Context context;
     private OnEditButtonClickListener editButtonClickListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();

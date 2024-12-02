@@ -21,7 +21,7 @@ import java.util.List;
 
 public class AdminFacilityActivity extends AppCompatActivity {
     private RecyclerView recyclerViewFacilities;
-    private List<Facility> facilityList = new ArrayList<>();
+    public List<Facility> facilityList = new ArrayList<>();
     private FacilityAdapter adapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private EditText searchBar;

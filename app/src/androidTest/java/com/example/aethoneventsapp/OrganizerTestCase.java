@@ -27,6 +27,8 @@ import org.junit.runner.RunWith;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 
+import com.google.common.base.Verify;
+
 
 @RunWith(AndroidJUnit4.class)
 public class OrganizerTestCase {
@@ -56,7 +58,7 @@ public class OrganizerTestCase {
 
         // Fill in event details
         onView(withId(R.id.editTextName))
-                .perform(ViewActions.typeText("Dance Rooftop Session"), ViewActions.closeSoftKeyboard());
+                .perform(ViewActions.typeText("Dance Paneer"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.editTextLocation))
                 .perform(ViewActions.typeText("Edmonton, Canada"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.editTextDescription))
@@ -80,60 +82,15 @@ public class OrganizerTestCase {
         onView(withId(R.id.buttonSubmit))
                 .perform(ViewActions.click());
 
+        Thread.sleep(2000);
+
+        // Verify QR Code is displayed
+        onView(withId(R.id.imageViewQRCode))
+                .check(ViewAssertions.matches(isDisplayed()));
+
+        Espresso.pressBack();
         Espresso.pressBack();
 
-
-        onView(withText("Dance Rooftop Session")).perform(ViewActions.longClick());
-        onView(withText("No")).perform(ViewActions.click()); // dont upload
-        Thread.sleep(2000);
-        onView(withText("Dance Rooftop Session")).perform(ViewActions.click());
-        Thread.sleep(2000);
-
-//        // Verify QR Code is displayed
-//        onView(withId(R.id.imageViewQRCode))
-//                .check(ViewAssertions.matches(isDisplayed()));
-
     }
 
-    @Test
-    public void testViewEntrants() throws InterruptedException {
-//        Performing the test for the following User Stories:
-//            1. US 02.02.01
-//            2. US 02.02.02
-//            3. US 02.04.02
-//            4. US 02.06.02
-//            5. US 02.06.01
-        // check long click to update photo
-
-
-//        // go back to organizer view activity
-//        onView(withId(R.id.navigation_profile)).perform(ViewActions.click());
-//        onView(withId(R.id.switch_org)).perform(ViewActions.click());
-
-        onView(withText("Dance Rooftop Session")).perform(ViewActions.longClick());
-        onView(withText("No")).perform(ViewActions.click()); // dont upload
-        Thread.sleep(2000);
-        onView(withText("Dance Rooftop Session")).perform(ViewActions.click());
-        Thread.sleep(2000);
-
-//        // Check if map object is visible when generate map button is pressed
-//        onView(withId(R.id.MapButton)).perform(ViewActions.click());
-//        onView(withId(R.id.mapView)).check(ViewAssertions.matches(isDisplayed()));
-//        pressBack(); // go to the waitlist page
-//        // Click on 'Pool' to view entrants
-//        onView(withId(R.id.poolButton))
-//                .perform(ViewActions.click());
-//        // Click on waitlist
-//        onView(withText("Waitlist"))
-//                .perform(ViewActions.click());
-//        // Click on Pending
-//        onView(withText("Pending"))
-//                .perform(ViewActions.click());
-//        // Click on Accepted
-//        onView(withText("Accepted"))
-//                .perform(ViewActions.click());
-//        // Click on Declined
-//        onView(withText("Declined"))
-//                .perform(ViewActions.click());
-    }
 }

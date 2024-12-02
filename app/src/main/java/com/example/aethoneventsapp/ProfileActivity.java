@@ -224,12 +224,15 @@ public class ProfileActivity extends NavActivity {
     }
 
     private void handleSwitch(String deviceId) {
+        Log.d("Firestore", "handleSwitch called");
+        Log.d("Firestore", "deviceId: " + deviceId);
         db.collection("facilities").document(deviceId).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         boolean exists = document.exists();
                         if (exists) {
+                            Log.d("Firestore", "Facility exists");
                             Intent orgMode = new Intent(ProfileActivity.this, OrganizerViewActivity.class);
                             orgMode.putExtra("organizerId", deviceId);
                             startActivity(orgMode);
@@ -238,6 +241,8 @@ public class ProfileActivity extends NavActivity {
                         }
 
                     }
+                    else {
+                        Log.d("Firestore", "Facility does not exist");}
                 }
                 );
 }

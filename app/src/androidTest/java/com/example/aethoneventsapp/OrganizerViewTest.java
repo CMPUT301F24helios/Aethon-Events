@@ -9,6 +9,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -22,34 +24,73 @@ import org.junit.runner.RunWith;
 public class OrganizerViewTest {
 
     @Rule
-    public ActivityScenarioRule<OrganizerViewActivity> activityRule = new ActivityScenarioRule<OrganizerViewActivity>(OrganizerViewActivity.class);
+    public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
 
     @Test
-    public void testCreateEvent() {
-        onView(withId(R.id.button_organizer)).perform(click());
-        onView(withId(R.id.editTextName)).perform(typeText("Test Event"));
-        onView(withId(R.id.editTextLocation)).perform(typeText("Test Location"));
-        onView(withId(R.id.editTextCapacity)).perform(typeText("100"));
-        onView(withId(R.id.editTextLimit)).perform(typeText("50"));
-        onView(withId(R.id.editTextDescription)).perform(typeText("Test Description"));
-        onView(withId(R.id.radioYes)).perform(click());
-        onView(withId(R.id.editTextEventDate)).perform(click());
-        onView(withText("OK")).perform(click());
-        onView(withId(R.id.buttonSubmit)).perform(click());
-        // go back to organizer view
-        onView(withId(R.id.button_organizer)).perform(click());
-    }
+    public void testViewEntrants() throws InterruptedException {
+//        Performing the test for the following User Stories:
+//            1. US 02.02.01
+//            2. US 02.02.02
+//            3. US 02.04.02
+//            4. US 02.06.02
+//            5. US 02.06.01
+        // check long click to update photo
 
-    @Test
-    public void testViewEvents() {
-        onView(withId(R.id.button_organizer)).perform(click());
-        onView(withId(R.id.ListViewEvents)).check(matches(isDisplayed()));
+//        // go back to organizer view activity
+        onView(withId(R.id.navigation_profile)).perform(ViewActions.click());
+        onView(withId(R.id.switch_org)).perform(ViewActions.click());
 
-        // test long clicking each event
-        onView(withId(R.id.ListViewEvents)).perform(longClick());
-        onView(withText("Confirm Image Upload")).check(matches(isDisplayed()));
-        onView(withText("Are you sure you want to update the image for the event?")).check(matches(isDisplayed()));
-        onView(withText("No")).perform(click());
-        onView(withId(R.id.ListViewEvents)).check(matches(isDisplayed()));
+        onView(withText("Dance Rooftop")).perform(ViewActions.longClick());
+        onView(withText("No")).perform(ViewActions.click()); // dont upload
+
+        onView(withText("Dance Rooftop")).perform(ViewActions.click());
+
+        Thread.sleep(2000);
+
+        onView(withText("WaitingList")).perform(ViewActions.click()); // Expand listview
+
+        onView(withText("Pending")).perform(ViewActions.click()); // Expand listview
+
+        onView(withText("Accepted")).perform(ViewActions.click()); // Expand listview
+
+        onView(withText("Declined")).perform(ViewActions.click()); // Expand listview
+
+        Thread.sleep(2000);
+
+        onView(withText("Pending")).perform((ViewActions.longClick()));
+
+        onView(withId(R.id.customMessageInput)).perform((ViewActions.typeText("Test Message")));
+        onView(withId(R.id.sendButton)).perform(ViewActions.click());
+
+        onView(withId(R.id.poolButton)).perform(ViewActions.click());
+        onView(withText("Yes")).perform(ViewActions.click());
+
+        onView(withId(R.id.QRButton)).perform(ViewActions.click());
+        Espresso.pressBack();
+
+        onView(withId(R.id.MapButton)).perform(ViewActions.click());
+
+
+
+
+//        // Check if map object is visible when generate map button is pressed
+//        onView(withId(R.id.MapButton)).perform(ViewActions.click());
+//        onView(withId(R.id.mapView)).check(ViewAssertions.matches(isDisplayed()));
+//        pressBack(); // go to the waitlist page
+//        // Click on 'Pool' to view entrants
+//        onView(withId(R.id.poolButton))
+//                .perform(ViewActions.click());
+//        // Click on waitlist
+//        onView(withText("Waitlist"))
+//                .perform(ViewActions.click());
+//        // Click on Pending
+//        onView(withText("Pending"))
+//                .perform(ViewActions.click());
+//        // Click on Accepted
+//        onView(withText("Accepted"))
+//                .perform(ViewActions.click());
+//        // Click on Declined
+//        onView(withText("Declined"))
+//                .perform(ViewActions.click());
     }
 }

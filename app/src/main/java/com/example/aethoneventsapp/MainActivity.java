@@ -261,6 +261,7 @@ public class MainActivity extends NavActivity {
                                     document.getString("organizerId"),
                                     document.getString("eventDate")
                             );
+                            event.setImageUrl(document.getString("imageUrl"));
                             entrantEvents.add(event);
                         }
 

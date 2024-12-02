@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class MainEventAdapter extends ArrayAdapter<Event> {
@@ -36,6 +38,10 @@ public class MainEventAdapter extends ArrayAdapter<Event> {
         TextView eventLocation = convertView.findViewById(R.id.event_location);
         ImageView eventImage = convertView.findViewById(R.id.event_image);
 
+        Picasso.get()
+                .load(event.getImageUrl())
+                .placeholder(R.drawable.aethon_color_ghoda_flipped) // Optional placeholder
+                .into(eventImage);
         eventName.setText(event.getName());
         eventDate.setText(event.getEventDate());
         eventLocation.setText(event.getLocation());

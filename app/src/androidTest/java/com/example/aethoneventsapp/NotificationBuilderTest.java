@@ -12,6 +12,20 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/*
+* This test checks the functionality of the Notification Builder code
+* snippet that can be seen in Main.
+* It is not possible to check the Main Activity code directly as it is strongly
+* coupled within various Firebase Firestore calls.
+*
+* User Stories checked:
+*
+* US 01.04.01 and US 01.04.02 - these are checked as they are just different types of notification
+*                               build extras from the same code
+* US 01.04.03 - the main activity will send notifications only if the profile page indicates so
+*               this is handled by a simple if statement in MainActivity
+*
+* */
 public class NotificationBuilderTest {
 
     private Context context;
@@ -25,6 +39,7 @@ public class NotificationBuilderTest {
     @Test
     public void testNotificationBuilderCreatesCorrectNotification() {
         // Arrange: Define expected values
+        // Hardcoded Test Values
         String channelId = "test_channel";
         String expectedTitle = "Test Notification";
         String expectedText = "This is a test notification.";
@@ -43,5 +58,6 @@ public class NotificationBuilderTest {
         assertEquals("Title should match", expectedTitle, extras.getString(Notification.EXTRA_TITLE));
         assertEquals("Text should match", expectedText, extras.getString(Notification.EXTRA_TEXT));
         assertNotNull("Small icon should not be null", notification.getSmallIcon());
+
     }
 }

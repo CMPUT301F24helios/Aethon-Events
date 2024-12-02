@@ -141,7 +141,7 @@ public class ProfileActivity extends NavActivity {
                 .addOnFailureListener(e -> Log.e("Firestore", "Failed to fetch user profile", e));
     }
 
-    private void saveUserProfile() {
+    void saveUserProfile() {
         String name = editName.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
         String phone = editPhone.getText().toString().trim();

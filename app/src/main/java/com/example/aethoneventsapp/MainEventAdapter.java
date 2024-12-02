@@ -16,9 +16,8 @@ public class MainEventAdapter extends ArrayAdapter<Event> {
     private Context context;
     private List<Event> events;
 
-    // Constructor to initialize context and list of events
     public MainEventAdapter(Context context, List<Event> events) {
-        super(context, R.layout.event_item, events);  // event_item layout is used for each item
+        super(context, R.layout.event_item, events);
         this.context = context;
         this.events = events;
     }
@@ -26,26 +25,21 @@ public class MainEventAdapter extends ArrayAdapter<Event> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Reuse the existing view if it's available, otherwise inflate a new view
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.event_item, parent, false);
         }
 
-        // Get the current event from the list
         Event event = events.get(position);
 
-        // Get references to the views in the layout (event_item.xml)
         TextView eventName = convertView.findViewById(R.id.event_name);
         TextView eventDate = convertView.findViewById(R.id.event_date);
         TextView eventLocation = convertView.findViewById(R.id.event_location);
         ImageView eventImage = convertView.findViewById(R.id.event_image);
 
-        // Set the event details to the respective views
         eventName.setText(event.getName());
         eventDate.setText(event.getEventDate());
         eventLocation.setText(event.getLocation());
-
-        // Return the view to display
+        
         return convertView;
     }
 }

@@ -212,21 +212,17 @@ public class MainActivity extends NavActivity {
     }
 
     private void fetchUserEvents() {
-        // Fetch the user's document based on their deviceId
         db.collection("users").whereEqualTo("deviceId", deviceId)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            // Get the user's document
                             QueryDocumentSnapshot document = (QueryDocumentSnapshot) querySnapshot.getDocuments().get(0);
 
-                            // Get the list of event IDs from the user's document
                             List<String> eventIds = (List<String>) document.get("Events");
 
                             if (eventIds != null && !eventIds.isEmpty()) {
-                                // Fetch events using the event IDs
                                 fetchEvents(eventIds);
                             } else {
                                 Toast.makeText(MainActivity.this, "No events found for this user.", Toast.LENGTH_SHORT).show();
@@ -242,35 +238,32 @@ public class MainActivity extends NavActivity {
     }
 
     private void fetchEvents(List<String> eventIds) {
-        // Convert eventIds (String) to Long (assuming eventId is stored as a Long in Firestore)
         List<Long> eventIdsAsLong = new ArrayList<>();
         for (String id : eventIds) {
             try {
-                eventIdsAsLong.add(Long.parseLong(id));  // Convert string ID to long
+                eventIdsAsLong.add(Long.parseLong(id));
             } catch (NumberFormatException e) {
                 Log.e("MainActivity", "Invalid event ID format: " + id);
             }
         }
 
-        // Query the events collection for documents matching the eventId
         db.collection("Events")
                 .whereIn("eventId", eventIdsAsLong)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        entrantEvents.clear();  // Clear the list before adding new events
+                        entrantEvents.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Event event = new Event(
-                                    document.getLong("eventId").intValue(),  // Convert long to int
+                                    document.getLong("eventId").intValue(),
                                     document.getString("name"),
                                     document.getString("location"),
                                     document.getString("organizerId"),
                                     document.getString("eventDate")
                             );
-                            entrantEvents.add(event);  // Add each event to the list
+                            entrantEvents.add(event);
                         }
 
-                        // Notify the adapter to refresh the ListView
                         adapter.notifyDataSetChanged();
                     } else {
                         Log.e("MainActivity", "Error fetching events: ", task.getException());

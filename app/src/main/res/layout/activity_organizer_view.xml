@@ -13,19 +13,39 @@
         android:text="Organizer Dashboard"
         android:textColor="#FFFFFF"
         android:textSize="20sp"/>
-
-    <Button
-        android:id="@+id/button_organizer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Event" />
-
-    <ListView
-        android:id="@+id/ListViewEvents"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="561dp"
-        android:clipToPadding="false"
-        android:padding="8dp"
-        android:scrollbars="vertical" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <Button
+            android:id="@+id/button_organizer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Event" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/facility_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Facility" />
+    </LinearLayout>
+        <ListView
+            android:id="@+id/ListViewEvents"
+            android:layout_width="match_parent"
+            android:layout_height="152dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            android:scrollbars="vertical" />
+
+
 
 </LinearLayout>

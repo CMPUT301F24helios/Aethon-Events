@@ -29,7 +29,7 @@ public class CreateFacilityActivity extends AppCompatActivity {
     private EditText editCapacity;
     private EditText editDescription;
     private Button submitButton;
-
+    private String organizerId;
     private FirebaseFirestore db;
     private String deviceId;
 
@@ -46,10 +46,15 @@ public class CreateFacilityActivity extends AppCompatActivity {
         submitButton = findViewById(R.id.submit_btn);
 
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.e("CreateFacilityActivity", "organiser id"+ deviceId.toString());
+        Log.e("CreateFacilityActivity", " b4 In fetch data");
+        fetchFacilityData(deviceId);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String name = editName.getText().toString().trim();
                 String location = editLocation.getText().toString().trim();
                 int capacity;
@@ -60,6 +65,7 @@ public class CreateFacilityActivity extends AppCompatActivity {
                 }
 
                 String description = editDescription.getText().toString().trim();
+
 
                 if (name.isEmpty()) {
                     editName.setError("Facility Name is required!");
@@ -90,7 +96,36 @@ public class CreateFacilityActivity extends AppCompatActivity {
             }
         });
     }
+    private void fetchFacilityData(String organizerId) {
+        // Query Firestore to get the facility data for the given organizerId
+        Log.e("CreateFacilityActivity", "In fetch data");
+        Log.e("CreateFacilityActivity", "organiser id"+ organizerId.toString());
+        db.collection("facilities")
+                .document(organizerId) // Assuming the document ID is the organizerId
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Retrieve the facility data from the document snapshot
+                        String facilityName = documentSnapshot.getString("name");
+                        String location = documentSnapshot.getString("location");
+                        Long capacity = documentSnapshot.getLong("capacity");
+                        String description = documentSnapshot.getString("description");
 
+                        // Display the facility data in the TextViews (or EditTexts)
+                        editName.setText(facilityName);
+                        editLocation.setText(location);
+                        editCapacity.setText(String.valueOf(capacity));
+                        editDescription.setText(description);
+                    } else {
+                        Log.e("CreateFacilityActivity", "Facility not found for organizerId: " + organizerId);
+                        Toast.makeText(CreateFacilityActivity.this, "No facility data found", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firestore", "Error fetching facility data", e);
+                    Toast.makeText(CreateFacilityActivity.this, "Failed to retrieve data", Toast.LENGTH_SHORT).show();
+                });
+    }
     private void registerFacility(Facility f) {
         Map<String, Object> facilityData = new HashMap<>();
         facilityData.put("facilityId", f.getFacilityId());

@@ -22,7 +22,7 @@
     <ImageView
         android:id="@+id/event_image"
         android:layout_width="450dp"
-        android:layout_height="326dp"
+        android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-10dp"
         android:background="@drawable/rounded_bg"
@@ -41,7 +41,7 @@
         android:layout_height="101dp"
         android:layout_below="@id/event_image"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="21dp"
         android:text="Music Rooftop Session"
         android:textColor="#FFFFFF"
@@ -57,7 +57,7 @@
         android:layout_height="144dp"
         android:layout_below="@id/date_container"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:text="Join us for the Tech Innovators Summit 2024, a premier gathering of industry leaders, innovators, and technology enthusiasts! This event features insightful keynote speeches, hands-on workshops, and networking opportunities focused on emerging technologies such as AI, blockchain, and cloud computing."
         android:textColor="#FFFFFF"
         android:textSize="16sp"
@@ -73,7 +73,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="74dp"
         android:backgroundTint="#FFFFFF"
@@ -84,7 +83,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/join_waitlist_button"
-        app:layout_constraintTop_toBottomOf="@+id/button_signup" />
+        app:layout_constraintTop_toBottomOf="@+id/button_signup"
+        app:layout_constraintVertical_bias="0.1" />
 
     <Button
         android:id="@+id/join_waitlist_button"
@@ -94,7 +94,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="27dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="74dp"
         android:backgroundTint="#FFFFFF"
@@ -105,7 +104,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/leave_waitlist_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_signup" />
+        app:layout_constraintTop_toBottomOf="@+id/button_signup"
+        app:layout_constraintVertical_bias="0.1" />
 
     <Button
         android:id="@+id/button_signup"
@@ -115,7 +115,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="27dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#FFFFFF"
         android:gravity="center"
@@ -131,7 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="March 9, 7:00 PM Mountain time"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
@@ -142,7 +142,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/baseline_calendar_month_24"
         app:layout_constraintEnd_toStartOf="@+id/event_date"
         app:layout_constraintHorizontal_bias="0.0"
@@ -155,7 +155,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/baseline_my_location_24"
         app:layout_constraintEnd_toStartOf="@+id/event_location"
         app:layout_constraintHorizontal_bias="0.0"
@@ -168,7 +168,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Edmonton, Alberta"
         android:textColor="#FFFFFF"
         android:textSize="16sp"

@@ -28,10 +28,13 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +49,9 @@ public class MainActivity extends NavActivity {
     String deviceId;
     private FirebaseFirestore db;
     boolean notificationPreference;
+    private MainEventAdapter adapter;
+    private List<Event> entrantEvents = new ArrayList<>();
+    private ListView eventsListView;
 
     // Request notification permission from user using this
     private final ActivityResultLauncher<String> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
@@ -70,12 +76,10 @@ public class MainActivity extends NavActivity {
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         db = FirebaseFirestore.getInstance();
-
-        profile_img = findViewById(R.id.profile_image);
-        profile_img.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-            startActivity(intent);
-        });
+        adapter = new MainEventAdapter(this, entrantEvents);
+        eventsListView = findViewById(R.id.my_events);
+        eventsListView.setAdapter(adapter);
+        fetchUserEvents();
     }
 
     private void handleNotifications(){
@@ -205,5 +209,67 @@ public class MainActivity extends NavActivity {
             return "Pending Decision";
         }
         return " Aethon Events";
+    }
+
+    private void fetchUserEvents() {
+        db.collection("users").whereEqualTo("deviceId", deviceId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                            QueryDocumentSnapshot document = (QueryDocumentSnapshot) querySnapshot.getDocuments().get(0);
+
+                            List<String> eventIds = (List<String>) document.get("Events");
+
+                            if (eventIds != null && !eventIds.isEmpty()) {
+                                fetchEvents(eventIds);
+                            } else {
+                                Toast.makeText(MainActivity.this, "No events found for this user.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Log.e("MainActivity", "Error getting user document: ", task.getException());
+                        Toast.makeText(MainActivity.this, "Error fetching user data", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void fetchEvents(List<String> eventIds) {
+        List<Long> eventIdsAsLong = new ArrayList<>();
+        for (String id : eventIds) {
+            try {
+                eventIdsAsLong.add(Long.parseLong(id));
+            } catch (NumberFormatException e) {
+                Log.e("MainActivity", "Invalid event ID format: " + id);
+            }
+        }
+
+        db.collection("Events")
+                .whereIn("eventId", eventIdsAsLong)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        entrantEvents.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Event event = new Event(
+                                    document.getLong("eventId").intValue(),
+                                    document.getString("name"),
+                                    document.getString("location"),
+                                    document.getString("organizerId"),
+                                    document.getString("eventDate")
+                            );
+                            event.setImageUrl(document.getString("imageUrl"));
+                            entrantEvents.add(event);
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.e("MainActivity", "Error fetching events: ", task.getException());
+                        Toast.makeText(MainActivity.this, "Error fetching events", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

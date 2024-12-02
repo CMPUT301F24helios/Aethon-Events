@@ -11,9 +11,15 @@ mockitoAndroid = "5.14.2"
 mockitoCore = "4.10.0"
 navigationFragment = "2.8.2"
 navigationUi = "2.8.2"
+
+runner = "1.6.1"
+espressoContrib = "3.6.1"
+espressoCoreVersion = "3.5.1"
+androidxJunit = "1.1.5"
 espressoIdlingResource = "3.6.1"
 robolectric = "4.10.3"
 testng = "6.9.6"
+
 
 [libraries]
 espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espressoCore" }
@@ -29,10 +35,16 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoCore" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
+runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "espressoContrib" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCoreVersion" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
+androidx-espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "espressoContrib" }
 espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoIdlingResource" }
 powermock-api-mockito2 = { module = "org.powermock:powermock-api-mockito2" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 testng = { group = "org.testng", name = "testng", version.ref = "testng" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

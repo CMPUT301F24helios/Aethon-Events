@@ -3,6 +3,7 @@ package com.example.aethoneventsapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -65,16 +66,22 @@ public class mapActivity extends AppCompatActivity {
                     getCoordinates(new CoordinatesCallback() {
                         @Override
                         public void onResult(List<LatLng> coordinatesList) {
-                            mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                                    .target( coordinatesList.get(0)) // Default center: Edmonton
-                                    .zoom(10)
-                                    .build());
+                            if (!coordinatesList.isEmpty()) { // Check if the list is not empty
+                                // Set the camera position to the first coordinate in the list
+                                mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                                        .target(coordinatesList.get(0)) // Default center, e.g., Edmonton
+                                        .zoom(10) // Set the zoom level
+                                        .build());
 
-                            // Add markers for each coordinate
-                            for (LatLng coordinate : coordinatesList) {
-                                mapboxMap.addMarker(new MarkerOptions()
-                                        .position(coordinate)
-                                        .title("User Location"));
+                                // Add markers for each coordinate in the list
+                                for (LatLng coordinate : coordinatesList) {
+                                    mapboxMap.addMarker(new MarkerOptions()
+                                            .position(coordinate)
+                                             .title("User Location"));
+                                }
+                            } else {
+                                // Notify the user when the list is empty
+                                Toast.makeText(mapActivity.this, "No members in the waiting list", Toast.LENGTH_SHORT).show();
                             }
                         }
 

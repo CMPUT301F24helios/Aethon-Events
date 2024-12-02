@@ -51,7 +51,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore:24.4.0") // Make sure this is also added for Firebase
     implementation("com.google.firebase:firebase-database:20.0.5") // Only one Firebase Database version
     // Glide dependency for image loading
-    implementation("com.github.bumptech.glide:glide:4.15.1")  // Check for the latest version on Maven
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     implementation(libs.glide)
     implementation("com.squareup.picasso:picasso:2.71828")
@@ -79,6 +80,7 @@ dependencies {
 
 
     // Test dependencies
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -96,5 +98,6 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+
 
 }

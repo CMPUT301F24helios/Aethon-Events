@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class FacilityAdapter extends RecyclerView.Adapter<FacilityAdapter.FacilityViewHolder> {
-    private List<Facility> facilityList;
+    public static List<Facility> facilityList;
     private Context context;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 

@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     android:layout_height="match_parent"
-    android:background="@drawable/item_background"
+    android:background="@drawable/gradient_background"
     tools:context=".AdminMainActivity">
 
     <LinearLayout
@@ -17,29 +17,46 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:id="@+id/toolbar"
-        android:background="@color/purple"
-        android:theme="@style/Base.Theme.AethonEventsApp"
-        app:popupTheme="@style/Base.Theme.AethonEventsApp"
 
-        />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:popupTheme="@style/Base.Theme.AethonEventsApp"
+            app:title="Dashboard"
+            app:titleTextColor="@color/white" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/aethon_ghoda"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="Admin Mode"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/fragment_container"/>
 
     </LinearLayout>
+
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/nav_view"
         android:layout_gravity="start"
-        app:menu="@menu/admin_nav_menu"
-        app:itemIconTint="@color/purple"
-        app:itemTextColor="@color/purple"/>
+        app:itemIconTint="@color/dark_purple"
+        app:itemTextColor="@color/purple"
+        app:menu="@menu/admin_nav_menu" />
 
 
 

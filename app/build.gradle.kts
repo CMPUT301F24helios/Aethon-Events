@@ -65,6 +65,10 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
 
+    implementation(libs.espresso.idling.resource)
+    testImplementation(libs.espresso.intents)
+    testImplementation(libs.testng)  // Check for the latest version on Maven
+
     // QR code and barcode libraries (keep only one zxing-core)
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
@@ -78,6 +82,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.espresso.intents)
+    //testImplementation(libs.robolectric)
+    androidTestImplementation("androidx.test.espresso.idling:idling-concurrent:3.5.1") // For IdlingResource support (Optional for multi-thr
+
+    // Mockito dependencies
+    //implementation("org.mockito:mockito-core:5.14.2")
+    implementation("org.mockito:mockito-android:5.14.2")
+
+    // For mocking final classes and static methods (inline mock maker)
+    //implementation("org.mockito:mockito-inline:4.10.0")
+    implementation("com.google.android.gms:play-services-tasks:18.2.0")
 
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")

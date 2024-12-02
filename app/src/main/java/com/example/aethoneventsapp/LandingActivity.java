@@ -35,10 +35,10 @@ public class LandingActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         // Check if the device is already recognized in the database
-        checkDeviceRecognition();
+        checkDeviceRecognition(db);
     }
 
-    private void checkDeviceRecognition() {
+    void checkDeviceRecognition(FirebaseFirestore db) {
         db.collection("users")
                 .whereEqualTo("deviceId", deviceId)
                 .get()
@@ -63,18 +63,18 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     // Method to navigate to the main part of the app for recognized devices
-    private void navigateToMainApp() {
+    void navigateToMainApp() {
         startActivity(new Intent(LandingActivity.this, MainActivity.class));
         finish();
     }
 
     // Method to navigate to profile setup or onboarding for new devices
-    private void navigateToProfileSetup() {
+    void navigateToProfileSetup() {
         startActivity(new Intent(LandingActivity.this, SignUpActivity.class));
         finish();
     }
 
-    private void navigateToAdminMode(){
+    void navigateToAdminMode(){
         startActivity(new Intent(LandingActivity.this, AdminMainActivity.class));
         finish();
     }

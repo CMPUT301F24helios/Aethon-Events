@@ -147,7 +147,7 @@ public class DisplayActivity extends NavActivity {
                                                     // Prepare data to write
                                                     Map<String, Object> data = new HashMap<>();
                                                     data.put("coordinates", geoPoint);
-
+                                                    Log.d("DisplayActivity", "GeoPoint: " + geoPoint.toString());
                                                     // Write GeoPoint to Firestore
                                                     db.collection("users").document(docId)
                                                             .set(data, SetOptions.merge())  // Merge to add new field without overwriting

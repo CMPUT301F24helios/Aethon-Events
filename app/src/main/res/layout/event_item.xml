@@ -93,8 +93,8 @@ android:elevation="4dp">
 
     <ImageView
         android:id="@+id/event_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:background="@drawable/circle_background"
         android:scaleType="centerCrop"

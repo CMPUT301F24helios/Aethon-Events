@@ -48,6 +48,7 @@ android:elevation="4dp">
             android:textColor="@color/purple"
             android:textSize="14sp" />
 
+
         <LinearLayout
             android:layout_width="261dp"
             android:layout_height="wrap_content"
@@ -89,15 +90,17 @@ android:elevation="4dp">
                 android:textSize="9sp" />
         </LinearLayout>
 
+
     </LinearLayout>
 
     <ImageView
         android:id="@+id/event_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="top"
         android:background="@drawable/circle_background"
         android:scaleType="centerCrop"
         android:src="@drawable/event_poster" />
+
 
 </LinearLayout>

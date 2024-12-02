@@ -58,5 +58,4 @@ The Event Lottery System Application is a mobile application designed to streaml
 •	Android Studio
 •	Firebase (Firestore, Authentication)
 •	Java
-•	QR Code Libraries (TBD)
-•	Geolocation APIs (TBD)
+

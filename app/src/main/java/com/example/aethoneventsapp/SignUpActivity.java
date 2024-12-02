@@ -25,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * SignUp Activity manages registration of users
  * It gets values from fields, then adds their info to Firebase
  */
-public class SignUpActivity extends NavActivity {
+public class SignUpActivity extends AppCompatActivity {
     private EditText editName;
     private EditText editEmail;
     private EditText editPhone;
@@ -41,7 +41,7 @@ public class SignUpActivity extends NavActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.user_signup, findViewById(R.id.container));
+        setContentView(R.layout.user_signup);
 
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         editName = findViewById(R.id.edit_name);

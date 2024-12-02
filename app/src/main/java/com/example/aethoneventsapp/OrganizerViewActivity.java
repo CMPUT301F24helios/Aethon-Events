@@ -36,6 +36,7 @@ public class OrganizerViewActivity extends NavActivity {
     private List<String> eventList = new ArrayList<>();
     private List<Event> ListOfEvents = new ArrayList<>();
     private Button organizerButton;
+    private Button facility_manage;
     private String deviceId;
     private String eventIdToUpload;
     private int eventIndexToUpload;
@@ -50,11 +51,19 @@ public class OrganizerViewActivity extends NavActivity {
 
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         organizerButton = findViewById(R.id.button_organizer);
+        facility_manage = findViewById(R.id.facility_button);
         organizerButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrganizerViewActivity.this, OrganizerActivity.class);
             intent.putExtra("organizerId", deviceId);
             startActivity(intent);
         });
+        facility_manage.setOnClickListener(v -> {
+            Intent intent = new Intent(OrganizerViewActivity.this, CreateFacilityActivity.class);
+            Log.e("OrganiserViewActivity", "calling facility activity");
+            intent.putExtra("organizerId", deviceId);  // Pass data via Intent if needed
+            startActivity(intent);  // Start the activity
+        });
+
 
         listViewEvents = findViewById(R.id.ListViewEvents);
         adapter = new EventAdapterOrganizer(this, ListOfEvents);
